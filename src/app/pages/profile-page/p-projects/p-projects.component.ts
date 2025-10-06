@@ -40,8 +40,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
         projectManager: 'Walter Frazier',
         budget: '$5,250',
         teamMembers: {
-            img1: 'images/users/user5.jpg',
-            img2: 'images/users/user13.jpg'
+            img1: 'assets/images/users/user5.jpg',
+            img2: 'assets/images/users/user13.jpg'
         },
         progress: 90,
         status: {
@@ -63,9 +63,9 @@ const ELEMENT_DATA: PeriodicElement[] = [
         projectManager: 'Kimberly Anderson',
         budget: '$4,870',
         teamMembers: {
-            img1: 'images/users/user7.jpg',
-            img2: 'images/users/user9.jpg',
-            img3: 'images/users/user12.jpg'
+            img1: 'assets/images/users/user7.jpg',
+            img2: 'assets/images/users/user9.jpg',
+            img3: 'assets/images/users/user12.jpg'
         },
         progress: 85,
         status: {
@@ -87,8 +87,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
         projectManager: 'Roscoe Guerrero',
         budget: '$3,500',
         teamMembers: {
-            img1: 'images/users/user16.jpg',
-            img2: 'images/users/user17.jpg'
+            img1: 'assets/images/users/user16.jpg',
+            img2: 'assets/images/users/user17.jpg'
         },
         progress: 100,
         status: {
@@ -110,9 +110,9 @@ const ELEMENT_DATA: PeriodicElement[] = [
         projectManager: 'Robert Stewart',
         budget: '$7,550',
         teamMembers: {
-            img1: 'images/users/user11.jpg',
-            img2: 'images/users/user3.jpg',
-            img3: 'images/users/user8.jpg'
+            img1: 'assets/images/users/user11.jpg',
+            img2: 'assets/images/users/user3.jpg',
+            img3: 'assets/images/users/user8.jpg'
         },
         progress: 5,
         status: {
@@ -134,8 +134,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
         projectManager: 'Dustin Fritch',
         budget: '$2,500',
         teamMembers: {
-            img1: 'images/users/user15.jpg',
-            img2: 'images/users/user6.jpg'
+            img1: 'assets/images/users/user15.jpg',
+            img2: 'assets/images/users/user6.jpg'
         },
         progress: 85,
         status: {
@@ -157,8 +157,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
         projectManager: 'Carol Camacho',
         budget: '$6,500',
         teamMembers: {
-            img1: 'images/users/user10.jpg',
-            img2: 'images/users/user5.jpg'
+            img1: 'assets/images/users/user10.jpg',
+            img2: 'assets/images/users/user5.jpg'
         },
         progress: 90,
         status: {
@@ -180,9 +180,9 @@ const ELEMENT_DATA: PeriodicElement[] = [
         projectManager: 'Robert Heinemann',
         budget: '$2,950',
         teamMembers: {
-            img1: 'images/users/user7.jpg',
-            img2: 'images/users/user12.jpg',
-            img3: 'images/users/user16.jpg'
+            img1: 'assets/images/users/user7.jpg',
+            img2: 'assets/images/users/user12.jpg',
+            img3: 'assets/images/users/user16.jpg'
         },
         progress: 70,
         status: {
@@ -204,8 +204,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
         projectManager: 'Jonathan Jones',
         budget: '$4,350',
         teamMembers: {
-            img1: 'images/users/user17.jpg',
-            img2: 'images/users/user13.jpg'
+            img1: 'assets/images/users/user17.jpg',
+            img2: 'assets/images/users/user13.jpg'
         },
         progress: 100,
         status: {
@@ -227,8 +227,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
         projectManager: 'David Williams',
         budget: '$3,500',
         teamMembers: {
-            img1: 'images/users/user3.jpg',
-            img2: 'images/users/user8.jpg'
+            img1: 'assets/images/users/user3.jpg',
+            img2: 'assets/images/users/user8.jpg'
         },
         progress: 5,
         status: {
@@ -250,8 +250,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
         projectManager: 'Steve Smith',
         budget: '$8,000',
         teamMembers: {
-            img1: 'images/users/user6.jpg',
-            img2: 'images/users/user13.jpg'
+            img1: 'assets/images/users/user6.jpg',
+            img2: 'assets/images/users/user13.jpg'
         },
         progress: 85,
         status: {
@@ -273,8 +273,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
         projectManager: 'Steve Smith',
         budget: '$8,000',
         teamMembers: {
-            img1: 'images/users/user6.jpg',
-            img2: 'images/users/user13.jpg'
+            img1: 'assets/images/users/user6.jpg',
+            img2: 'assets/images/users/user13.jpg'
         },
         progress: 85,
         status: {
@@ -296,8 +296,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
         projectManager: 'David Williams',
         budget: '$3,500',
         teamMembers: {
-            img1: 'images/users/user3.jpg',
-            img2: 'images/users/user8.jpg'
+            img1: 'assets/images/users/user3.jpg',
+            img2: 'assets/images/users/user8.jpg'
         },
         progress: 5,
         status: {
@@ -319,8 +319,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
         projectManager: 'Jonathan Jones',
         budget: '$4,350',
         teamMembers: {
-            img1: 'images/users/user17.jpg',
-            img2: 'images/users/user13.jpg'
+            img1: 'assets/images/users/user17.jpg',
+            img2: 'assets/images/users/user13.jpg'
         },
         progress: 100,
         status: {
@@ -342,9 +342,9 @@ const ELEMENT_DATA: PeriodicElement[] = [
         projectManager: 'Robert Heinemann',
         budget: '$2,950',
         teamMembers: {
-            img1: 'images/users/user7.jpg',
-            img2: 'images/users/user12.jpg',
-            img3: 'images/users/user16.jpg'
+            img1: 'assets/images/users/user7.jpg',
+            img2: 'assets/images/users/user12.jpg',
+            img3: 'assets/images/users/user16.jpg'
         },
         progress: 70,
         status: {
@@ -366,8 +366,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
         projectManager: 'Carol Camacho',
         budget: '$6,500',
         teamMembers: {
-            img1: 'images/users/user10.jpg',
-            img2: 'images/users/user5.jpg'
+            img1: 'assets/images/users/user10.jpg',
+            img2: 'assets/images/users/user5.jpg'
         },
         progress: 90,
         status: {
@@ -389,8 +389,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
         projectManager: 'Dustin Fritch',
         budget: '$2,500',
         teamMembers: {
-            img1: 'images/users/user15.jpg',
-            img2: 'images/users/user6.jpg'
+            img1: 'assets/images/users/user15.jpg',
+            img2: 'assets/images/users/user6.jpg'
         },
         progress: 85,
         status: {
@@ -412,9 +412,9 @@ const ELEMENT_DATA: PeriodicElement[] = [
         projectManager: 'Robert Stewart',
         budget: '$7,550',
         teamMembers: {
-            img1: 'images/users/user11.jpg',
-            img2: 'images/users/user3.jpg',
-            img3: 'images/users/user8.jpg'
+            img1: 'assets/images/users/user11.jpg',
+            img2: 'assets/images/users/user3.jpg',
+            img3: 'assets/images/users/user8.jpg'
         },
         progress: 5,
         status: {
@@ -436,8 +436,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
         projectManager: 'Roscoe Guerrero',
         budget: '$3,500',
         teamMembers: {
-            img1: 'images/users/user16.jpg',
-            img2: 'images/users/user17.jpg'
+            img1: 'assets/images/users/user16.jpg',
+            img2: 'assets/images/users/user17.jpg'
         },
         progress: 100,
         status: {
@@ -459,9 +459,9 @@ const ELEMENT_DATA: PeriodicElement[] = [
         projectManager: 'Kimberly Anderson',
         budget: '$4,870',
         teamMembers: {
-            img1: 'images/users/user7.jpg',
-            img2: 'images/users/user9.jpg',
-            img3: 'images/users/user12.jpg'
+            img1: 'assets/images/users/user7.jpg',
+            img2: 'assets/images/users/user9.jpg',
+            img3: 'assets/images/users/user12.jpg'
         },
         progress: 85,
         status: {
@@ -483,8 +483,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
         projectManager: 'Walter Frazier',
         budget: '$5,250',
         teamMembers: {
-            img1: 'images/users/user5.jpg',
-            img2: 'images/users/user13.jpg'
+            img1: 'assets/images/users/user5.jpg',
+            img2: 'assets/images/users/user13.jpg'
         },
         progress: 90,
         status: {

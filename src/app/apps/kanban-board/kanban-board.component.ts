@@ -17,10 +17,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CustomizerSettingsService } from '../../customizer-settings/customizer-settings.service';
+import {NgOptimizedImage} from "@angular/common";
 
 @Component({
     selector: 'app-kanban-board',
-    imports: [RouterLink, MatCardModule, MatButtonModule, MatMenuModule, CdkDropList, CdkDrag, CdkDropListGroup, MatSelectModule, MatInputModule, MatDatepickerModule, MatFormFieldModule, MatNativeDateModule],
+    imports: [RouterLink, MatCardModule, MatButtonModule, MatMenuModule, CdkDropList, CdkDrag, CdkDropListGroup, MatSelectModule, MatInputModule, MatDatepickerModule, MatFormFieldModule, MatNativeDateModule, NgOptimizedImage],
     templateUrl: './kanban-board.component.html',
     styleUrl: './kanban-board.component.scss'
 })
