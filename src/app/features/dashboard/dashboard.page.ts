@@ -83,4 +83,4 @@ import { TeamMembersComponent } from './ui/team-members/team-members.component';
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [ProjectsOverviewComponent, ProjectsRoadmapComponent, AllProjectsComponent, ProjectsProgressComponent, WorkingScheduleComponent, ProjectsAnalysisComponent, ChatProjectsUserComponent, ToDoListComponent, ActiveProjectComponent, TeamMembersComponent],
 })
-export class DashboardPageComponent{}
+export class DashboardPage {}

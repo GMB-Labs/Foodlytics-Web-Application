@@ -52,7 +52,7 @@ export const routes: Routes = [
         component: AppShellComponent,
         children: [
             { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
-            { path: 'dashboard', loadComponent: () => import('./features/dashboard/dashboard-page.component').then(m => m.DashboardPageComponent) },
+            { path: 'dashboard', loadComponent: () => import('./features/dashboard/dashboard.page').then(m => m.DashboardPage) },
             { path: 'patients', loadChildren: () => import('./features/patients/routes').then(m => m.PATIENTS_ROUTES) },
             { path: 'calendar', loadComponent: () => import('./apps/calendar/calendar.component').then(m => m.CalendarComponent)},
             { path: 'kanban-board', component: KanbanBoardComponent},
