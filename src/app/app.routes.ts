@@ -5,7 +5,6 @@ import { ComingSoonPageComponent } from './pages/coming-soon-page/coming-soon-pa
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { TestimonialsPageComponent } from './pages/testimonials-page/testimonials-page.component';
 import { GalleryPageComponent } from './pages/gallery-page/gallery-page.component';
-import { TimelinePageComponent } from './pages/timeline-page/timeline-page.component';
 import { TermsConditionsComponent } from './features/settings/terms-conditions/terms-conditions.component';
 import { PrivacyPolicyComponent } from './features/settings/privacy-policy/privacy-policy.component';
 import { ConnectionsComponent } from './features/settings/connections/connections.component';
@@ -65,7 +64,6 @@ export const routes: Routes = [
                     {path: 'terms-conditions', component: TermsConditionsComponent}
                 ]
             },
-            {path: 'timeline', component: TimelinePageComponent},
             {path: 'gallery', component: GalleryPageComponent},
             {path: 'testimonials', component: TestimonialsPageComponent},
             {path: 'search', component: SearchPageComponent},
