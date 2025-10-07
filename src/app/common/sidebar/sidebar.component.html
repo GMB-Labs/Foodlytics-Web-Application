@@ -92,35 +92,6 @@
                             </li>
                         </ul>
                     </mat-expansion-panel>
-                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>
-                                <i class="material-symbols-outlined">
-                                    account_box
-                                </i>
-                                <span class="title">
-                                    Profile
-                                </span>
-                            </mat-panel-title>
-                        </mat-expansion-panel-header>
-                        <ul class="sidebar-sub-menu">
-                            <li class="sidemenu-item">
-                                <a routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    User Profile
-                                </a>
-                            </li>
-                            <li class="sidemenu-item">
-                                <a routerLink="/profile/teams" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    Teams
-                                </a>
-                            </li>
-                            <li class="sidemenu-item">
-                                <a routerLink="/profile/projects" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    Projects
-                                </a>
-                            </li>
-                        </ul>
-                    </mat-expansion-panel>
                     <a routerLink="/starter" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                         <i class="material-symbols-outlined">
                             star_border
@@ -132,65 +103,6 @@
                     <span class="sub-title text-body">
                         MODULES
                     </span>
-                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>
-                                <i class="material-symbols-outlined">
-                                    pie_chart
-                                </i>
-                                <span class="title">
-                                    ApexCharts
-                                </span>
-                            </mat-panel-title>
-                        </mat-expansion-panel-header>
-                        <ul class="sidebar-sub-menu">
-                            <li class="sidemenu-item">
-                                <a routerLink="/charts" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    Line
-                                </a>
-                            </li>
-                            <li class="sidemenu-item">
-                                <a routerLink="/charts/area" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    Area
-                                </a>
-                            </li>
-                            <li class="sidemenu-item">
-                                <a routerLink="/charts/column" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    Column
-                                </a>
-                            </li>
-                            <li class="sidemenu-item">
-                                <a routerLink="/charts/mixed" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    Mixed
-                                </a>
-                            </li>
-                            <li class="sidemenu-item">
-                                <a routerLink="/charts/radialbar" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    RadialBar
-                                </a>
-                            </li>
-                            <li class="sidemenu-item">
-                                <a routerLink="/charts/radar" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    Radar
-                                </a>
-                            </li>
-                            <li class="sidemenu-item">
-                                <a routerLink="/charts/pie" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    Pie
-                                </a>
-                            </li>
-                            <li class="sidemenu-item">
-                                <a routerLink="/charts/polar" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    Polar
-                                </a>
-                            </li>
-                            <li class="sidemenu-item">
-                                <a routerLink="/charts/more" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    More
-                                </a>
-                            </li>
-                        </ul>
-                    </mat-expansion-panel>
                     <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
@@ -287,11 +199,6 @@
                                     Coming Soon
                                 </a>
                             </li>
-                            <li class="sidemenu-item">
-                                <a routerLink="/blank-page" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    Blank Page
-                                </a>
-                            </li>
                         </ul>
                     </mat-expansion-panel>
                     <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
@@ -326,18 +233,10 @@
                             Notifications
                         </span>
                     </a>
-                    <a routerLink="/members" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                        <i class="material-symbols-outlined">
-                            people
-                        </i>
-                        <span class="title">
-                            Members
-                        </span>
-                    </a>
                     <span class="sub-title text-body">
                         OTHERS
                     </span>
-                    <a routerLink="/my-profile" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    <a routerLink="/profile" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                         <i class="material-symbols-outlined">
                             account_circle
                         </i>

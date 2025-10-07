@@ -1,15 +1,5 @@
 import { Routes } from '@angular/router';
 import { NotFoundComponent } from './shared/errors/not-found/not-found.component';
-import { MoreChartsComponent } from './apexcharts/more-charts/more-charts.component';
-import { PolarChartsComponent } from './apexcharts/polar-charts/polar-charts.component';
-import { PieChartsComponent } from './apexcharts/pie-charts/pie-charts.component';
-import { RadarChartsComponent } from './apexcharts/radar-charts/radar-charts.component';
-import { RadialBarChartsComponent } from './apexcharts/radial-bar-charts/radial-bar-charts.component';
-import { MixedChartsComponent } from './apexcharts/mixed-charts/mixed-charts.component';
-import { ColumnChartsComponent } from './apexcharts/column-charts/column-charts.component';
-import { AreaChartsComponent } from './apexcharts/area-charts/area-charts.component';
-import { LineChartsComponent } from './apexcharts/line-charts/line-charts.component';
-import { ApexchartsComponent } from './apexcharts/apexcharts.component';
 import { InternalErrorComponent } from './shared/errors/internal-error/internal-error.component';
 import { ComingSoonPageComponent } from './pages/coming-soon-page/coming-soon-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
@@ -23,11 +13,6 @@ import { ChangePasswordComponent } from './features/settings/change-password/cha
 import { AccountSettingsComponent } from './features/settings/account-settings/account-settings.component';
 import { SettingsComponent } from './features/settings/settings.component';
 import { MyProfileComponent } from './features/profile/my-profile.component';
-import { PProjectsComponent } from './pages/profile-page/p-projects/p-projects.component';
-import { TeamsComponent } from './pages/profile-page/teams/teams.component';
-import { UserProfileComponent } from './pages/profile-page/user-profile/user-profile.component';
-import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
-import { MembersPageComponent } from './pages/members-page/members-page.component';
 import { NotificationsPageComponent } from './pages/notifications-page/notifications-page.component';
 import { PricingPageComponent } from './pages/pricing-page/pricing-page.component';
 import { FaqPageComponent } from './pages/faq-page/faq-page.component';
@@ -68,16 +53,6 @@ export const routes: Routes = [
             {path: 'faq', component: FaqPageComponent},
             {path: 'pricing', component: PricingPageComponent},
             {path: 'notifications', component: NotificationsPageComponent},
-            {path: 'members', component: MembersPageComponent},
-            {
-                path: 'profile',
-                component: ProfilePageComponent,
-                children: [
-                    {path: '', component: UserProfileComponent},
-                    {path: 'teams', component: TeamsComponent},
-                    {path: 'projects', component: PProjectsComponent},
-                ]
-            },
             {path: 'profile', component: MyProfileComponent},
             {
                 path: 'settings',
@@ -95,22 +70,6 @@ export const routes: Routes = [
             {path: 'testimonials', component: TestimonialsPageComponent},
             {path: 'search', component: SearchPageComponent},
             {path: 'coming-soon', component: ComingSoonPageComponent},
-            {
-                path: 'charts',
-                component: ApexchartsComponent,
-                children: [
-                    {path: '', component: LineChartsComponent},
-                    {path: 'area', component: AreaChartsComponent},
-                    {path: 'column', component: ColumnChartsComponent},
-                    {path: 'mixed', component: MixedChartsComponent},
-                    {path: 'radialbar', component: RadialBarChartsComponent},
-                    {path: 'radar', component: RadarChartsComponent},
-                    {path: 'pie', component: PieChartsComponent},
-                    {path: 'polar', component: PolarChartsComponent},
-                    {path: 'more', component: MoreChartsComponent}
-                ]
-            },
-
         ]
     },
 

@@ -5,10 +5,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterLink } from '@angular/router';
 import { CustomizerSettingsService } from '../../customizer-settings/customizer-settings.service';
+import {NgOptimizedImage} from "@angular/common";
 
 @Component({
     selector: 'app-coming-soon-page',
-    imports: [RouterLink, MatButtonModule, MatMenuModule, MatFormFieldModule, MatInputModule],
+    imports: [RouterLink, MatButtonModule, MatMenuModule, MatFormFieldModule, MatInputModule, NgOptimizedImage],
     templateUrl: './coming-soon-page.component.html',
     styleUrl: './coming-soon-page.component.scss'
 })
