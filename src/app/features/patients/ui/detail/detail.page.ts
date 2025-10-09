@@ -18,11 +18,11 @@ import {ComplaintsComponent} from "./widgets/complaints/complaints.component";
     selector: 'app-detail-page',
     template: `
         <div class="row">
-        <div class="col-lg-12 col-xxxl-6">
+        <div class="col-lg-12 col-xxxl-12">
             <!-- Welcome -->
             <app-welcome />
         </div>
-        <div class="col-lg-12 col-xxxl-6">
+        <div class="col-lg-12 col-xxxl-12">
             <div class="row">
                 <div class="col-md-4">
                     <!-- Active Courses -->
@@ -47,28 +47,28 @@ import {ComplaintsComponent} from "./widgets/complaints/complaints.component";
                 <!-- Multiple RadialBar Chart -->
                 <app-multiple-radialbar-chart />
             </div>
+            <div class="col-lg-6 col-xxxl-4">
+                <!-- Basic Pie Chart -->
+                <app-pie-chart />
+            </div>
         </div>
         <div class="row">
             <div class="col-lg-6 col-xxxl-12">
                 <!-- Tasks Stats -->
                 <app-tasks-stats />   
             </div>
-            <div class="col-lg-6 col-xxxl-12">
-                <!-- Basic Pie Chart -->
-                <app-pie-chart />
-            </div>
         </div>
         <app-timeline/>
         <div class="row">
-            <div class="col-md-6 col-xxxl-3">
+            <div class="col-md-6 col-xxxl-6">
                 <!-- First Response Time -->
                 <app-first-response-time />
             </div>
-            <div class="col-md-6 col-xxxl-3">
+            <div class="col-md-6 col-xxxl-6">
                 <!-- Ave Resolution Time -->
                 <app-ave-resolution-time />
             </div>
-            <div class="col-lg-12 col-xxxl-6">
+            <div class="col-lg-6 col-xxxl-12">
                 <!-- Complaints -->
                 <app-complaints />
             </div>
