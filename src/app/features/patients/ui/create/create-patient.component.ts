@@ -12,7 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { RouterLink } from '@angular/router';
 import { FileUploadModule } from '@iplab/ngx-file-upload';
 import { NgxEditorModule, Editor, Toolbar } from 'ngx-editor';
-import {CustomizerSettingsService} from "../../../../customizer-settings/customizer-settings.service";
+import {CustomizerSettingsService} from "../../../../core/customizer-settings/customizer-settings.service";
 
 @Component({
     selector: 'app-create-list',

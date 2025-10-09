@@ -6,7 +6,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class SemiCircularGaugeRadialbarChartService {
 
-    private readonly isBrowser: boolean;
+    private isBrowser: boolean;
 
     constructor(@Inject(PLATFORM_ID) private platformId: any) {
         this.isBrowser = isPlatformBrowser(this.platformId);

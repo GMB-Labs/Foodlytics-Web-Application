@@ -3,10 +3,10 @@ import {SidebarComponent} from "../../common/sidebar/sidebar.component";
 import {HeaderComponent} from "../../common/header/header.component";
 import {Event, NavigationEnd, Router, RouterOutlet} from "@angular/router";
 import {FooterComponent} from "../../common/footer/footer.component";
-import {CustomizerSettingsComponent} from "../../customizer-settings/customizer-settings.component";
+import {CustomizerSettingsComponent} from "../../core/customizer-settings/customizer-settings.component";
 import {ToggleService} from "../../common/sidebar/toggle.service";
 import {NgClass, ViewportScroller} from "@angular/common";
-import {CustomizerSettingsService} from "../../customizer-settings/customizer-settings.service";
+import {CustomizerSettingsService} from "../../core/customizer-settings/customizer-settings.service";
 
 @Component({
     selector: 'app-app-shell',

@@ -9,7 +9,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { CustomizerSettingsService } from '../../../../customizer-settings/customizer-settings.service';
+import { CustomizerSettingsService } from '../../../../core/customizer-settings/customizer-settings.service';
 
 @Component({
     selector: 'app-to-do-list:not(p)',

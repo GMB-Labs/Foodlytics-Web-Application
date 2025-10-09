@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CustomizerSettingsService } from '../../../../customizer-settings/customizer-settings.service';
+import { CustomizerSettingsService } from '../../../../core/customizer-settings/customizer-settings.service';
 
 @Component({
     selector: 'app-sign-in',

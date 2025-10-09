@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { DatePipe } from '@angular/common';
 import { WelcomeService } from './welcome.service';
-import { CustomizerSettingsService } from '../../../customizer-settings/customizer-settings.service';
+import { CustomizerSettingsService } from '../../../core/customizer-settings/customizer-settings.service';
 
 @Component({
     selector: 'app-welcome:not(p)',

@@ -19,7 +19,7 @@ import { StarterComponent } from './shared/starter/starter.component';
 import { InvoiceDetailsComponent } from './pages/invoices-page/invoice-details/invoice-details.component';
 import { InvoicesComponent } from './pages/invoices-page/invoices/invoices.component';
 import { InvoicesPageComponent } from './pages/invoices-page/invoices-page.component';
-import {KanbanBoardComponent} from "./apps/kanban-board/kanban-board.component";
+import {KanbanBoardComponent} from "./features/apps/kanban-board/kanban-board.component";
 import {AuthShellComponent} from "./layouts/auth-shell/auth-shell.component";
 import {AppShellComponent} from "./layouts/app-shell/app-shell.component";
 
@@ -38,7 +38,7 @@ export const routes: Routes = [
             { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
             { path: 'dashboard', loadComponent: () => import('./features/dashboard/dashboard.page').then(m => m.DashboardPage) },
             { path: 'patients', loadChildren: () => import('./features/patients/routes').then(m => m.PATIENTS_ROUTES) },
-            { path: 'calendar', loadComponent: () => import('./apps/calendar/calendar.component').then(m => m.CalendarComponent)},
+            { path: 'calendar', loadComponent: () => import('./features/apps/calendar/calendar.component').then(m => m.CalendarComponent)},
             { path: 'kanban-board', component: KanbanBoardComponent},
             {
                 path: 'invoices',
