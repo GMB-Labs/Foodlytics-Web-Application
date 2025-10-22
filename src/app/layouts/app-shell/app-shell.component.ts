@@ -39,7 +39,6 @@ import {CustomizerSettingsService} from "../../core/customizer-settings/customiz
         </div>
     `,
     styleUrl: './app-shell.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         SidebarComponent,
         HeaderComponent,

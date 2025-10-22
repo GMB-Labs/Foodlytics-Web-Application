@@ -6,7 +6,6 @@ import {RouterOutlet} from "@angular/router";
     template: `
             <router-outlet />        
     `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         RouterOutlet
     ],

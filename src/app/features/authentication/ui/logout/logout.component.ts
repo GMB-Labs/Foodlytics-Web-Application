@@ -7,7 +7,6 @@ import { CustomizerSettingsService } from '../../../../core/customizer-settings/
     selector: 'app-logout',
     imports: [RouterLink, MatButtonModule],
     templateUrl: './logout.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './logout.component.scss'
 })
 export class LogoutComponent {

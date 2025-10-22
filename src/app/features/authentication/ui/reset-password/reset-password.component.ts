@@ -11,7 +11,6 @@ import { CustomizerSettingsService } from '../../../../core/customizer-settings/
     selector: 'app-reset-password',
     imports: [RouterLink, MatFormFieldModule, MatInputModule, MatButtonModule, MatCheckboxModule, ReactiveFormsModule],
     templateUrl: './reset-password.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './reset-password.component.scss'
 })
 export class ResetPasswordComponent {

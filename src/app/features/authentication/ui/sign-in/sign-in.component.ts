@@ -12,7 +12,6 @@ import { CustomizerSettingsService } from '../../../../core/customizer-settings/
     selector: 'app-sign-in',
     imports: [RouterLink, MatFormFieldModule, MatInputModule, MatButtonModule, MatCheckboxModule, ReactiveFormsModule],
     templateUrl: './sign-in.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './sign-in.component.scss'
 })
 export class SignInComponent {

@@ -7,7 +7,6 @@ import { CustomizerSettingsService } from '../../../../core/customizer-settings/
     selector: 'app-confirm-email',
     imports: [RouterLink, MatButtonModule],
     templateUrl: './confirm-email.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './confirm-email.component.scss'
 })
 export class ConfirmEmailComponent {

@@ -11,7 +11,6 @@ import { CustomizerSettingsService } from '../../../../core/customizer-settings/
     selector: 'app-forgot-password',
     imports: [RouterLink, MatFormFieldModule, MatInputModule, MatButtonModule, MatCheckboxModule, ReactiveFormsModule],
     templateUrl: './forgot-password.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './forgot-password.component.scss'
 })
 export class ForgotPasswordComponent {

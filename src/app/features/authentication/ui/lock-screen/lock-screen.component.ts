@@ -11,7 +11,6 @@ import { CustomizerSettingsService } from '../../../../core/customizer-settings/
     selector: 'app-lock-screen',
     imports: [MatFormFieldModule, MatInputModule, MatButtonModule, MatCheckboxModule, ReactiveFormsModule],
     templateUrl: './lock-screen.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './lock-screen.component.scss'
 })
 export class LockScreenComponent {

@@ -69,7 +69,6 @@ import {ComplaintsComponent} from "./widgets/complaints/complaints.component";
             </div>
         </div>
     `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         CompletionStatusComponent,
         EnrolledStudentsComponent,

@@ -121,7 +121,6 @@ import { DashboardApi } from './data-access/dashboard.api';
       @if (status() === 'error') { <p>Error al cargar datos.</p> }
     </section>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardFeature {
   #api = inject(DashboardApi);

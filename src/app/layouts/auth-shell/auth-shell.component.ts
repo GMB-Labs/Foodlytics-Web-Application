@@ -11,7 +11,6 @@ import {RouterOutlet} from "@angular/router";
     imports: [
         RouterOutlet
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
     host: { class: 'block' }
 })
 export class AuthShellComponent {}

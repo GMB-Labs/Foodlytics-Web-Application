@@ -80,7 +80,6 @@ import { TeamMembersComponent } from './ui/team-members/team-members.component';
         </div>
     </div>
     `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [ProjectsOverviewComponent, ProjectsRoadmapComponent, AllProjectsComponent, ProjectsProgressComponent, WorkingScheduleComponent, ProjectsAnalysisComponent, ChatProjectsUserComponent, ToDoListComponent, ActiveProjectComponent, TeamMembersComponent],
 })
 export class DashboardPage {}
