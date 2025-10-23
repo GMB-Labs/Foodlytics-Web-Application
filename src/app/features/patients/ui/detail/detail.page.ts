@@ -1,6 +1,5 @@
-import {ChangeDetectionStrategy, Component} from "@angular/core";
+import {Component} from "@angular/core";
 import {CompletionStatusComponent} from "./widgets/completion-status/completion-status.component";
-import {EnrolledStudentsComponent} from "./widgets/enrolled-students/enrolled-students.component";
 import {ActiveCoursesComponent} from "./widgets/active-courses/active-courses.component";
 import {WelcomeComponent} from "./widgets/welcome/welcome.component";
 import {
@@ -13,6 +12,7 @@ import {TimelineComponent} from "./widgets/timeline/timeline.component";
 import {AveResolutionTimeComponent} from "./widgets/ave-resolution-time/ave-resolution-time.component";
 import {FirstResponseTimeComponent} from "./widgets/first-response-time/first-response-time.component";
 import {ComplaintsComponent} from "./widgets/complaints/complaints.component";
+import {MostLeadsComponent} from "./widgets/most-leads/most-leads.component";
 
 @Component({
     selector: 'app-detail-page',
@@ -29,18 +29,14 @@ import {ComplaintsComponent} from "./widgets/complaints/complaints.component";
                         <app-active-courses />
                     </div>
                     <div class="col-md-4">
-                        <!-- Enrolled Students -->
-                        <app-enrolled-students />
-                    </div>
-                    <div class="col-md-4">
                         <!-- Completion Status -->
                         <app-completion-status />
                     </div>
+                    <div class="col-lg-6 col-xxxl-4">
+                        <!-- Most Leads -->
+                        <app-most-leads />
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-6 col-xxxl-4">
-                <!-- Semi Circular Gauge RadialBar Chart -->
-                <app-semi-circular-gauge-radialbar-chart />
             </div>
             <div class="col-lg-6 col-xxxl-4">
                 <!-- Multiple RadialBar Chart -->
@@ -49,6 +45,10 @@ import {ComplaintsComponent} from "./widgets/complaints/complaints.component";
             <div class="col-lg-6 col-xxxl-4">
                 <!-- Basic Pie Chart -->
                 <app-pie-chart />
+            </div>
+            <div class="col-md-4">
+                <!-- Semi Circular Gauge RadialBar Chart -->
+                <app-semi-circular-gauge-radialbar-chart />
             </div>
             <div class="col-lg-6 col-xxxl-12">
                 <!-- Tasks Stats -->
@@ -71,7 +71,6 @@ import {ComplaintsComponent} from "./widgets/complaints/complaints.component";
     `,
     imports: [
         CompletionStatusComponent,
-        EnrolledStudentsComponent,
         ActiveCoursesComponent,
         WelcomeComponent,
         SemiCircularGaugeRadialbarChartComponent,
@@ -82,6 +81,7 @@ import {ComplaintsComponent} from "./widgets/complaints/complaints.component";
         AveResolutionTimeComponent,
         FirstResponseTimeComponent,
         ComplaintsComponent,
+        MostLeadsComponent,
     ]
 })
 export class DetailPage {}

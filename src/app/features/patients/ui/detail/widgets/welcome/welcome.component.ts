@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {afterNextRender, Component, DestroyRef, inject, signal} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
@@ -8,23 +8,28 @@ import {CustomizerSettingsService} from "../../../../../../core/customizer-setti
 
 @Component({
     selector: 'app-welcome',
-    imports: [MatCardModule, MatMenuModule, MatButtonModule, NgOptimizedImage],
+    imports: [MatCardModule, MatMenuModule, MatButtonModule, NgOptimizedImage, DatePipe],
     templateUrl: './welcome.component.html',
     styleUrl: './welcome.component.scss',
     providers: [DatePipe]
 })
 export class WelcomeComponent {
 
-    currentDate: any;
+    currentDate = signal(new Date());
 
-    constructor(
-        private datePipe: DatePipe,
-        public themeService: CustomizerSettingsService,
-        private welcomeService: WelcomeService
-    ) {}
+    public themeService = inject(CustomizerSettingsService);
+    private welcomeService = inject(WelcomeService);
+    private destroyRef = inject(DestroyRef);
 
-    ngOnInit(): void {
-        this.welcomeService.loadChart();
+    constructor() {
+        afterNextRender(async () => {
+            await this.welcomeService.loadChart()
+        });
+        const id = window.setInterval(() => {
+            this.currentDate.set(new Date());
+        }, 1000);
+
+        this.destroyRef.onDestroy(() => clearInterval(id));
+
     }
-
 }

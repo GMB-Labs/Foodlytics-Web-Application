@@ -7,7 +7,7 @@
             <div class="col-lg-6">
                 <div class="content">
                     <span class="d-block text-white">
-                        {{ currentDate }}
+                        {{ currentDate() | date:'EEEE, d \'de\' MMMM yyyy, h:mm:ss a' }}
                     </span>
                     <h3 class="text-white">
                         Nombre de l'apprenant

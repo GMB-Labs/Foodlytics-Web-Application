@@ -22,12 +22,12 @@ export class TasksStatsService {
                 const options = {
                     series: [
                         {
-                            name: "Tasks Created",
-                            data: [45, 52, 38, 24, 33, 26, 21, 20, 6, 8, 15, 10]
+                            name: "Calorías diarias consumidas",
+                            data: [2100, 2400, 2700, 2800, 2500, 2600, 2400]
                         },
                         {
-                            name: "Tasks Solved",
-                            data: [35, 41, 62, 42, 13, 18, 29, 37, 36, 51, 32, 35]
+                            name: "Calorías diarias",
+                            data: [2800, 2800, 2800, 2800, 2800, 2800, 2800]
                         }
                     ],
                     chart: {
@@ -63,18 +63,13 @@ export class TasksStatsService {
                     },
                     xaxis: {
                         categories: [
-                            "Jan",
-                            "Feb",
+                            "Lun",
                             "Mar",
-                            "Apr",
-                            "May",
-                            "Jun",
-                            "Jul",
-                            "Aug",
-                            "Sep",
-                            "Oct",
-                            "Nov",
-                            "Dec"
+                            "Mie",
+                            "Jue",
+                            "Vie",
+                            "Sab",
+                            "Dom",
                         ],
                         axisBorder: {
                             show: true,
