@@ -30,6 +30,5 @@ export class WelcomeComponent {
         }, 1000);
 
         this.destroyRef.onDestroy(() => clearInterval(id));
-
     }
 }

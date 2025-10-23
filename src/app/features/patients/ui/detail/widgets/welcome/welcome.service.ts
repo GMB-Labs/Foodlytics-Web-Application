@@ -20,7 +20,7 @@ export class WelcomeService {
 
                 // Define chart options
                 const options = {
-                    series: [50],
+                    series: [69],
                     chart: {
                         type: "radialBar",
                         height: 220

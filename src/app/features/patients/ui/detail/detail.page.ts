@@ -2,12 +2,8 @@ import {Component} from "@angular/core";
 import {CompletionStatusComponent} from "./widgets/completion-status/completion-status.component";
 import {ActiveCoursesComponent} from "./widgets/active-courses/active-courses.component";
 import {WelcomeComponent} from "./widgets/welcome/welcome.component";
-import {
-    SemiCircularGaugeRadialbarChartComponent
-} from "./widgets/semi-circular-gauge-radialbar-chart/semi-circular-gauge-radialbar-chart.component";
 import {MultipleRadialbarChartComponent} from "./widgets/multiple-radialbar-chart/multiple-radialbar-chart.component";
 import {TasksStatsComponent} from "./widgets/tasks-stats/tasks-stats.component";
-import {BasicPieChartComponent} from "./widgets/basic-pie-chart/basic-pie-chart.component";
 import {TimelineComponent} from "./widgets/timeline/timeline.component";
 import {AveResolutionTimeComponent} from "./widgets/ave-resolution-time/ave-resolution-time.component";
 import {FirstResponseTimeComponent} from "./widgets/first-response-time/first-response-time.component";
@@ -32,36 +28,36 @@ import {MostLeadsComponent} from "./widgets/most-leads/most-leads.component";
                         <!-- Completion Status -->
                         <app-completion-status />
                     </div>
-                    <div class="col-lg-6 col-xxxl-4">
+                    <div class="col-md-4">
                         <!-- Most Leads -->
                         <app-most-leads />
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-xxxl-4">
-                <!-- Multiple RadialBar Chart -->
-                <app-multiple-radialbar-chart />
-            </div>
-            <div class="col-lg-6 col-xxxl-4">
-                <!-- Basic Pie Chart -->
-                <app-pie-chart />
-            </div>
-            <div class="col-md-4">
-                <!-- Semi Circular Gauge RadialBar Chart -->
-                <app-semi-circular-gauge-radialbar-chart />
-            </div>
-            <div class="col-lg-6 col-xxxl-12">
-                <!-- Tasks Stats -->
-                <app-tasks-stats />   
+            <div class="col-lg-12 col-xxxl-12"> 
+                <div class="row">
+                    <div class="col-md-4">
+                        <!-- Multiple RadialBar Chart -->
+                        <app-multiple-radialbar-chart />
+                    </div>
+                    <div class="col-md-8">
+                        <!-- Tasks Stats -->
+                        <app-tasks-stats />
+                    </div>
+                </div>
             </div>
             <app-timeline/>
-            <div class="col-md-6 col-xxxl-6">
-                <!-- First Response Time -->
-                <app-first-response-time />
-            </div>
-            <div class="col-md-6 col-xxxl-6">
-                <!-- Ave Resolution Time -->
-                <app-ave-resolution-time />
+            <div class="col-md-12 col-xxxl-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- First Response Time -->
+                        <app-first-response-time />
+                    </div>
+                    <div class="col-md-6">
+                        <!-- Ave Resolution Time -->
+                        <app-ave-resolution-time />
+                    </div>
+                </div>
             </div>
             <div class="col-lg-6 col-xxxl-12">
                 <!-- Complaints -->
@@ -73,10 +69,8 @@ import {MostLeadsComponent} from "./widgets/most-leads/most-leads.component";
         CompletionStatusComponent,
         ActiveCoursesComponent,
         WelcomeComponent,
-        SemiCircularGaugeRadialbarChartComponent,
         MultipleRadialbarChartComponent,
         TasksStatsComponent,
-        BasicPieChartComponent,
         TimelineComponent,
         AveResolutionTimeComponent,
         FirstResponseTimeComponent,
