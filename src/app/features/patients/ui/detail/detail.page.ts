@@ -9,6 +9,8 @@ import {AveResolutionTimeComponent} from "./widgets/ave-resolution-time/ave-reso
 import {FirstResponseTimeComponent} from "./widgets/first-response-time/first-response-time.component";
 import {ComplaintsComponent} from "./widgets/complaints/complaints.component";
 import {MostLeadsComponent} from "./widgets/most-leads/most-leads.component";
+import {EnrolledStudentsComponent} from "./widgets/enrolled-students/enrolled-students.component";
+import {HeightCardComponent} from "./widgets/height-card/height-card.component";
 
 @Component({
     selector: 'app-detail-page',
@@ -18,21 +20,29 @@ import {MostLeadsComponent} from "./widgets/most-leads/most-leads.component";
                 <!-- Welcome -->
                 <app-welcome />
             </div>
-            <div class="col-lg-12 col-xxxl-12">
+            <div class="col-lg-8 col-xxxl-8">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-lg-6">
                         <!-- Active Courses -->
                         <app-active-courses />
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-lg-6">
                         <!-- Completion Status -->
                         <app-completion-status />
                     </div>
-                    <div class="col-md-4">
-                        <!-- Most Leads -->
-                        <app-most-leads />
+                    <div class="col-lg-6">
+                        <!-- Enrolled Students -->
+                        <app-enrolled-students />
+                    </div>
+                    <div class="col-lg-6">
+                        <!-- Height Card -->
+                        <app-height-card />
                     </div>
                 </div>
+            </div>
+            <div class="col-md-4">
+                <!-- Most Leads -->
+                <app-most-leads />
             </div>
             <div class="col-lg-12 col-xxxl-12"> 
                 <div class="row">
@@ -76,6 +86,8 @@ import {MostLeadsComponent} from "./widgets/most-leads/most-leads.component";
         FirstResponseTimeComponent,
         ComplaintsComponent,
         MostLeadsComponent,
+        EnrolledStudentsComponent,
+        HeightCardComponent,
     ]
 })
 export class DetailPage {}

@@ -25,10 +25,12 @@ export class WelcomeComponent {
         afterNextRender(async () => {
             await this.welcomeService.loadChart()
         });
-        const id = window.setInterval(() => {
-            this.currentDate.set(new Date());
-        }, 1000);
-
+        let id: any;
+        if (typeof window !== 'undefined') {
+            id = window.setInterval(() => {
+                this.currentDate.set(new Date());
+            }, 1000);
+        }
         this.destroyRef.onDestroy(() => clearInterval(id));
     }
 }
