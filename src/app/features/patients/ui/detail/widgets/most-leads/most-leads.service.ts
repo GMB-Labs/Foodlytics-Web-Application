@@ -1,68 +1,29 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Injectable, computed, signal } from '@angular/core';
+import type { ApexOptions } from 'apexcharts';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class MostLeadsService {
+    private readonly _series = signal<number[]>([55, 30, 10]);
+    readonly series = computed(() => this._series());
 
-    private readonly isBrowser: boolean;
+    readonly labels = ['Email', 'Social', 'Call'] as const;
 
-    constructor(@Inject(PLATFORM_ID) private platformId: any) {
-        this.isBrowser = isPlatformBrowser(this.platformId);
+    readonly options = computed<ApexOptions>(() => ({
+        chart: { type: 'pie', width: 305 },
+        stroke: { width: 2, show: true },
+        labels: this.labels as unknown as string[],
+        legend: { show: false },
+        dataLabels: {
+            enabled: false,
+            style: { fontSize: '14px' },
+            dropShadow: { enabled: false }
+        },
+        colors: ['#00cae3', '#0e7aee', '#796df6'],
+        tooltip: { y: { formatter: (val: number) => `${val}%` } },
+        responsive: [{ breakpoint: 768, options: { chart: { width: '100%' } } }]
+    }));
+
+    setSeries(next: number[]): void {
+        this._series.set(next);
     }
-
-    async loadChart(): Promise<void> {
-        if (this.isBrowser) {
-            try {
-                // Dynamically import ApexCharts
-                const ApexCharts = (await import('apexcharts')).default;
-
-                // Define chart options
-                const options = {
-                    series: [55, 30, 10],
-                    chart: {
-                        width: 305,
-                        type: "pie"
-                    },
-                    stroke: {
-                        width: 2,
-                        show: true
-                    },
-                    labels: [
-                        "Email", "Social", "Call"
-                    ],
-                    legend: {
-                        show: false
-                    },
-                    dataLabels: {
-                        enabled: false,
-                        style: {
-                            fontSize: '14px'
-                        },
-                        dropShadow: {
-                            enabled: false
-                        }
-                    },
-                    colors: [
-                        "#00cae3", "#0e7aee", "#796df6"
-                    ],
-                    tooltip: {
-                        y: {
-                            formatter: function(val:any) {
-                                return val + "%";
-                            }
-                        }
-                    }
-                };
-
-                // Initialize and render the chart
-                const chart = new ApexCharts(document.querySelector('#crm_most_leads_chart'), options);
-                chart.render();
-            } catch (error) {
-                console.error('Error loading ApexCharts:', error);
-            }
-        }
-    }
-
 }

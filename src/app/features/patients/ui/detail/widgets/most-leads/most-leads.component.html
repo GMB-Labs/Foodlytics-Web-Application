@@ -30,7 +30,11 @@
         </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-        <div id="crm_most_leads_chart" ></div>
+        <div apxChart
+             [options]="mostLeadsService.options()"
+             [series]="mostLeadsService.series()"
+             [height]="260"
+        ></div>
         <ul class="leads-list list-unstyled pl-0 mb-0">
             <li class="d-flex align-items-center justify-content-between">
                 <div class="title d-flex align-items-center fw-medium">

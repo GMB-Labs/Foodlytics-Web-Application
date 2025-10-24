@@ -1,4 +1,3 @@
-// src/app/shared/charts/apx-chart.directive.ts
 import {
     DestroyRef, Directive, ElementRef, NgZone,
     afterNextRender, effect, inject, input
@@ -22,8 +21,22 @@ export class ApxChartDirective {
     private readonly zone = inject(NgZone);
 
     constructor() {
+        const host = this.el.nativeElement;
+
+        effect(async () => {
+            const s = this.series();
+            if (!s || !this.manager.has(host)) return;
+            await this.manager.updateSeries(host, s);
+        });
+
+        effect(async () => {
+            const opts = this.options();
+            if (!this.manager.has(host)) return;
+            const merged = this.withHeight(opts, this.height());
+            await this.manager.updateOptions(host, merged, false, true);
+        });
+
         afterNextRender(() => {
-            const host = this.el.nativeElement;
             const h = this.height();
             host.style.minHeight = typeof h === 'number' ? `${h}px` : `${h}`;
 
@@ -32,36 +45,19 @@ export class ApxChartDirective {
 
             this.zone.runOutsideAngular(async () => {
                 const base = this.withHeight(this.options(), this.height());
-                await this.manager.mount(host, base, ctrl.signal);
-            });
-
-            // Actualiza series en tiempo real
-            effect(async () => {
-                const s = this.series();
-                if (!s || !this.manager.has(host)) return;
-                await this.manager.updateSeries(host, s);
-            });
-
-            // Si cambian las options
-            effect(async () => {
-                const opts = this.options();
-                if (!this.manager.has(host)) return;
-                const merged = this.withHeight(opts, this.height());
-                await this.manager.updateOptions(host, merged, false, true);
+                const initial: ApexOptions = {
+                    ...base,
+                    series: this.series() ?? base.series
+                };
+                await this.manager.mount(host, initial, ctrl.signal);
             });
         });
 
-        this.destroyRef.onDestroy(() => {
-            const host = this.el.nativeElement;
-            this.manager.destroy(host);
-        });
+        this.destroyRef.onDestroy(() => this.manager.destroy(host));
     }
 
     private withHeight(opts: ApexOptions, h: number | string | undefined): ApexOptions {
         const height = h ?? 220;
-        return {
-            ...opts,
-            chart: { ...(opts.chart ?? {}), height }
-        };
+        return { ...opts, chart: { ...(opts.chart ?? {}), height } };
     }
 }
