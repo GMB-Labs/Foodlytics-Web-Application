@@ -4,12 +4,12 @@ import {CustomizerSettingsService} from "../../../../../../core/customizer-setti
 import {NgOptimizedImage} from "@angular/common";
 
 @Component({
-    selector: 'app-enrolled-students',
+    selector: 'app-weight-card',
     imports: [MatCardModule, NgOptimizedImage],
-    templateUrl: './enrolled-students.component.html',
-    styleUrl: './enrolled-students.component.scss'
+    templateUrl: './weight-card.component.html',
+    styleUrl: './weight-card.component.scss'
 })
-export class EnrolledStudentsComponent {
+export class WeightCardComponent {
 
     constructor(
         public themeService: CustomizerSettingsService

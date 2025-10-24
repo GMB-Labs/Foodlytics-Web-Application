@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ComplaintsService } from './complaints.service';
+import { WeeklyCaloriesBurnedService } from './weekly-calories-burned.service';
 
 describe('ComplaintsService', () => {
-  let service: ComplaintsService;
+  let service: WeeklyCaloriesBurnedService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ComplaintsService);
+    service = TestBed.inject(WeeklyCaloriesBurnedService);
   });
 
   it('should be created', () => {

@@ -2,7 +2,7 @@ import { Injectable, computed, signal } from '@angular/core';
 import type { ApexOptions } from 'apexcharts';
 
 @Injectable({ providedIn: 'root' })
-export class MostLeadsService {
+export class MacroTargetsService {
     private readonly _series = signal<number[]>([55, 30, 10]);
     readonly series = computed(() => this._series());
 

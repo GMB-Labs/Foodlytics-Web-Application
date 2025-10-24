@@ -2,18 +2,18 @@ import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
-import { ComplaintsService } from './complaints.service';
+import { WeeklyCaloriesBurnedService } from './weekly-calories-burned.service';
 
 @Component({
-    selector: 'app-complaints',
+    selector: 'app-weekly-calories-burned',
     imports: [MatCardModule, MatMenuModule, MatButtonModule],
-    templateUrl: './complaints.component.html',
-    styleUrl: './complaints.component.scss'
+    templateUrl: './weekly-calories-burned.component.html',
+    styleUrl: './weekly-calories-burned.component.scss'
 })
-export class ComplaintsComponent {
+export class WeeklyCaloriesBurnedComponent {
 
     constructor(
-        private complaintsService: ComplaintsService
+        private complaintsService: WeeklyCaloriesBurnedService
     ) {}
 
     ngOnInit(): void {

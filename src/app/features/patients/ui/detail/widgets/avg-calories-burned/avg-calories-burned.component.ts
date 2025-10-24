@@ -2,18 +2,18 @@ import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
-import { FirstResponseTimeService } from './first-response-time.service';
+import { AvgCaloriesBurnedService } from './avg-calories-burned.service';
 
 @Component({
-    selector: 'app-first-response-time',
+    selector: 'app-avg-calories-burned',
     imports: [MatCardModule, MatMenuModule, MatButtonModule],
-    templateUrl: './first-response-time.component.html',
-    styleUrl: './first-response-time.component.scss'
+    templateUrl: './avg-calories-burned.component.html',
+    styleUrl: './avg-calories-burned.component.scss'
 })
-export class FirstResponseTimeComponent {
+export class AvgCaloriesBurnedComponent {
 
     constructor(
-        private firstResponseTimeService: FirstResponseTimeService
+        private firstResponseTimeService: AvgCaloriesBurnedService
     ) {}
 
     ngOnInit(): void {

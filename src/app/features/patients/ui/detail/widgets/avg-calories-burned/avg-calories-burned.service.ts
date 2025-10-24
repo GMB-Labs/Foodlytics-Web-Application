@@ -4,7 +4,7 @@ import { isPlatformBrowser } from '@angular/common';
 @Injectable({
     providedIn: 'root'
 })
-export class AveResolutionTimeService {
+export class AvgCaloriesBurnedService {
 
     private isBrowser: boolean;
 
@@ -24,26 +24,26 @@ export class AveResolutionTimeService {
                         {
                             name: "Response Time",
                             data: [
-                                41,
-                                31,
-                                35,
-                                61,
-                                46,
-                                27,
-                                47,
                                 51,
+                                65,
                                 54,
-                                42,
-                                24,
-                                45,
-                                55,
-                                27,
-                                39,
-                                35,
                                 56,
-                                62,
+                                37,
                                 53,
-                                52
+                                62,
+                                24,
+                                35,
+                                46,
+                                39,
+                                27,
+                                38,
+                                61,
+                                45,
+                                27,
+                                54,
+                                93,
+                                41,
+                                31
                             ]
                         }
                     ],
@@ -65,7 +65,7 @@ export class AveResolutionTimeService {
                         width: 2
                     },
                     colors: [
-                        "#796df6"
+                        "#ffb264"
                     ],
                     labels: [
                         "13 Nov 2024",
@@ -135,7 +135,7 @@ export class AveResolutionTimeService {
                 };
 
                 // Initialize and render the chart
-                const chart = new ApexCharts(document.querySelector('#help_desk_ave_resolution_time_chart'), options);
+                const chart = new ApexCharts(document.querySelector('#help_desk_first_response_time_chart'), options);
                 chart.render();
             } catch (error) {
                 console.error('Error loading ApexCharts:', error);

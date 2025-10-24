@@ -1,15 +1,15 @@
 import {Component} from "@angular/core";
-import {CompletionStatusComponent} from "./widgets/completion-status/completion-status.component";
-import {ActiveCoursesComponent} from "./widgets/active-courses/active-courses.component";
+import {DailyCalorieTargetComponent} from "./widgets/daily-calorie-target/daily-calorie-target.component";
+import {WeightCardComponent} from "./widgets/weight-card/weight-card.component";
 import {WelcomeComponent} from "./widgets/welcome/welcome.component";
-import {MultipleRadialbarChartComponent} from "./widgets/multiple-radialbar-chart/multiple-radialbar-chart.component";
-import {TasksStatsComponent} from "./widgets/tasks-stats/tasks-stats.component";
+import {DailyCalorieDistributionComponent} from "./widgets/daily-calorie-distribution/daily-calorie-distribution.component";
+import {WeeklyCaloricProgressComponent} from "./widgets/weekly-caloric-progress/weekly-caloric-progress.component";
 import {TimelineComponent} from "./widgets/timeline/timeline.component";
-import {AveResolutionTimeComponent} from "./widgets/ave-resolution-time/ave-resolution-time.component";
-import {FirstResponseTimeComponent} from "./widgets/first-response-time/first-response-time.component";
-import {ComplaintsComponent} from "./widgets/complaints/complaints.component";
-import {MostLeadsComponent} from "./widgets/most-leads/most-leads.component";
-import {EnrolledStudentsComponent} from "./widgets/enrolled-students/enrolled-students.component";
+import {AvgExerciseTimeComponent} from "./widgets/avg-exercise-time/avg-exercise-time.component";
+import {AvgCaloriesBurnedComponent} from "./widgets/avg-calories-burned/avg-calories-burned.component";
+import {WeeklyCaloriesBurnedComponent} from "./widgets/weekly-calories-burned/weekly-calories-burned.component";
+import {MacroTargetsComponent} from "./widgets/macro-targets/macro-targets.component";
+import {AgeCardComponent} from "./widgets/age-card/age-card.component";
 import {HeightCardComponent} from "./widgets/height-card/height-card.component";
 
 @Component({
@@ -24,15 +24,15 @@ import {HeightCardComponent} from "./widgets/height-card/height-card.component";
                 <div class="row">
                     <div class="col-lg-6">
                         <!-- Active Courses -->
-                        <app-active-courses />
+                        <app-weight-card />
                     </div>
                     <div class="col-lg-6">
                         <!-- Completion Status -->
-                        <app-completion-status />
+                        <app-daily-calorie-target />
                     </div>
                     <div class="col-lg-6">
                         <!-- Enrolled Students -->
-                        <app-enrolled-students />
+                        <app-age-card />
                     </div>
                     <div class="col-lg-6">
                         <!-- Height Card -->
@@ -42,17 +42,17 @@ import {HeightCardComponent} from "./widgets/height-card/height-card.component";
             </div>
             <div class="col-lg-4 col-xxl-4">
                 <!-- Most Leads -->
-                <app-most-leads />
+                <app-macro-targets />
             </div>
             <div class="col-lg-12 col-xxxl-12"> 
                 <div class="row">
                     <div class="col-md-4">
                         <!-- Multiple RadialBar Chart -->
-                        <app-multiple-radialbar-chart />
+                        <app-daily-calorie-distribution />
                     </div>
                     <div class="col-md-8">
                         <!-- Tasks Stats -->
-                        <app-tasks-stats />
+                        <app-weekly-caloric-progress />
                     </div>
                 </div>
             </div>
@@ -61,32 +61,32 @@ import {HeightCardComponent} from "./widgets/height-card/height-card.component";
                 <div class="row">
                     <div class="col-md-6">
                         <!-- First Response Time -->
-                        <app-first-response-time />
+                        <app-avg-calories-burned />
                     </div>
                     <div class="col-md-6">
                         <!-- Ave Resolution Time -->
-                        <app-ave-resolution-time />
+                        <app-avg-exercise-time />
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-xxxl-12">
+            <div class="col-lg-12 col-xxxl-12">
                 <!-- Complaints -->
-                <app-complaints />
+                <app-weekly-calories-burned />
             </div>
         </div>
     `,
     imports: [
-        CompletionStatusComponent,
-        ActiveCoursesComponent,
+        DailyCalorieTargetComponent,
+        WeightCardComponent,
         WelcomeComponent,
-        MultipleRadialbarChartComponent,
-        TasksStatsComponent,
+        DailyCalorieDistributionComponent,
+        WeeklyCaloricProgressComponent,
         TimelineComponent,
-        AveResolutionTimeComponent,
-        FirstResponseTimeComponent,
-        ComplaintsComponent,
-        MostLeadsComponent,
-        EnrolledStudentsComponent,
+        AvgExerciseTimeComponent,
+        AvgCaloriesBurnedComponent,
+        WeeklyCaloriesBurnedComponent,
+        MacroTargetsComponent,
+        AgeCardComponent,
         HeightCardComponent,
     ]
 })

@@ -4,12 +4,12 @@ import {CustomizerSettingsService} from "../../../../../../core/customizer-setti
 import {NgOptimizedImage} from "@angular/common";
 
 @Component({
-    selector: 'app-active-courses',
+    selector: 'app-daily-calorie-target',
     imports: [MatCardModule, NgOptimizedImage],
-    templateUrl: './active-courses.component.html',
-    styleUrl: './active-courses.component.scss'
+    templateUrl: './daily-calorie-target.component.html',
+    styleUrl: './daily-calorie-target.component.scss'
 })
-export class ActiveCoursesComponent {
+export class DailyCalorieTargetComponent {
 
     constructor(
         public themeService: CustomizerSettingsService

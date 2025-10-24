@@ -4,7 +4,7 @@ import { isPlatformBrowser } from '@angular/common';
 @Injectable({
     providedIn: 'root'
 })
-export class TasksStatsService {
+export class WeeklyCaloricProgressService {
 
     private readonly isBrowser: boolean;
 
@@ -23,7 +23,7 @@ export class TasksStatsService {
                     series: [
                         {
                             name: "Calorías diarias consumidas",
-                            data: [2100, 2400, 2700, 2800, 2500, 2600, 2400]
+                            data: [3100, 2400, 2700, 2800, 2500, 2600, 2400]
                         },
                         {
                             name: "Calorías diarias",

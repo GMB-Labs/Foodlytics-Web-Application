@@ -4,12 +4,12 @@ import {CustomizerSettingsService} from "../../../../../../core/customizer-setti
 import {NgOptimizedImage} from "@angular/common";
 
 @Component({
-    selector: 'app-completion-status',
+    selector: 'app-age-card',
     imports: [MatCardModule, NgOptimizedImage],
-    templateUrl: './completion-status.component.html',
-    styleUrl: './completion-status.component.scss'
+    templateUrl: './age-card.component.html',
+    styleUrl: './age-card.component.scss'
 })
-export class CompletionStatusComponent {
+export class AgeCardComponent {
 
     constructor(
         public themeService: CustomizerSettingsService

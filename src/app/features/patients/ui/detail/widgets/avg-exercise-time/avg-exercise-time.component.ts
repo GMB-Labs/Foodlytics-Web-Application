@@ -2,18 +2,18 @@ import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
-import { AveResolutionTimeService } from './ave-resolution-time.service';
+import { AvgExerciseTimeService } from './avg-exercise-time.service';
 
 @Component({
-    selector: 'app-ave-resolution-time',
+    selector: 'app-avg-exercise-time',
     imports: [MatCardModule, MatMenuModule, MatButtonModule],
-    templateUrl: './ave-resolution-time.component.html',
-    styleUrl: './ave-resolution-time.component.scss'
+    templateUrl: './avg-exercise-time.component.html',
+    styleUrl: './avg-exercise-time.component.scss'
 })
-export class AveResolutionTimeComponent {
+export class AvgExerciseTimeComponent {
 
     constructor(
-        private aveResolutionTimeService: AveResolutionTimeService
+        private aveResolutionTimeService: AvgExerciseTimeService
     ) {}
 
     ngOnInit(): void {

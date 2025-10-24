@@ -4,7 +4,7 @@ import { isPlatformBrowser } from '@angular/common';
 @Injectable({
     providedIn: 'root'
 })
-export class ComplaintsService {
+export class WeeklyCaloriesBurnedService {
 
     private readonly isBrowser: boolean;
 
@@ -47,7 +47,7 @@ export class ComplaintsService {
                         curve: "smooth"
                     },
                     title: {
-                        text: "Most complaints were received on Sunday.",
+                        text: "Most weekly-calories-burned were received on Sunday.",
                         align: "center",
                         style: {
                             fontSize: '14px',

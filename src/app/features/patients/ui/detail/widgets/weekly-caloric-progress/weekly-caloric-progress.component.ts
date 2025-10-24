@@ -2,18 +2,18 @@ import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
-import { TasksStatsService } from './tasks-stats.service';
+import { WeeklyCaloricProgressService } from './weekly-caloric-progress.service';
 
 @Component({
-    selector: 'app-tasks-stats',
+    selector: 'app-weekly-caloric-progress',
     imports: [MatCardModule, MatMenuModule, MatButtonModule],
-    templateUrl: './tasks-stats.component.html',
-    styleUrl: './tasks-stats.component.scss'
+    templateUrl: './weekly-caloric-progress.component.html',
+    styleUrl: './weekly-caloric-progress.component.scss'
 })
-export class TasksStatsComponent {
+export class WeeklyCaloricProgressComponent {
 
     constructor(
-        private tasksStatsService: TasksStatsService
+        private tasksStatsService: WeeklyCaloricProgressService
     ) {}
 
     ngOnInit(): void {

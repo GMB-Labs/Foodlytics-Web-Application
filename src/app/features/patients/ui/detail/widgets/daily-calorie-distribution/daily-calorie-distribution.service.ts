@@ -4,7 +4,7 @@ import { isPlatformBrowser } from '@angular/common';
 @Injectable({
     providedIn: 'root'
 })
-export class MultipleRadialbarChartService {
+export class DailyCalorieDistributionService {
 
     private isBrowser: boolean;
 
@@ -20,7 +20,7 @@ export class MultipleRadialbarChartService {
 
                 // Define chart options
                 const options = {
-                    series: [44, 55, 67, 83],
+                    series: [44, 55, 67],
                     chart: {
                         height: 350,
                         type: "radialBar"
@@ -38,15 +38,15 @@ export class MultipleRadialbarChartService {
                                     show: true,
                                     label: "Total",
                                     formatter: function(w:any) {
-                                        return "249";
+                                        return "2800";
                                     }
                                 }
                             }
                         }
                     },
-                    labels: ["Apples", "Oranges", "Bananas", "Berries"],
+                    labels: ["Prote", "Carbs", "Grasas"],
                     colors: [
-                        "#0f79f3", "#ffb264", "#e74c3c", "#00cae3"
+                        "#0f79f3", "#ffb264", "#e74c3c"
                     ]
                 };
 

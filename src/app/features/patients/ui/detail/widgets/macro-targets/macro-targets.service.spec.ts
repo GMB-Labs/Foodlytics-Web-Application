@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TasksStatsService } from './tasks-stats.service';
+import { MacroTargetsService } from './macro-targets.service';
 
-describe('TasksStatsService', () => {
-  let service: TasksStatsService;
+describe('MacroTargetsService', () => {
+  let service: MacroTargetsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(TasksStatsService);
+    service = TestBed.inject(MacroTargetsService);
   });
 
   it('should be created', () => {
