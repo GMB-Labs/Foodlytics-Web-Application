@@ -1,4 +1,4 @@
-import {afterNextRender, Component, DestroyRef, inject, signal} from '@angular/core';
+import {afterNextRender, Component, DestroyRef, ElementRef, inject, NgZone, signal, viewChild} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
@@ -20,17 +20,28 @@ export class WelcomeComponent {
     public themeService = inject(CustomizerSettingsService);
     private welcomeService = inject(WelcomeService);
     private destroyRef = inject(DestroyRef);
+    protected chartEl = viewChild<ElementRef<HTMLDivElement>>('chartEl');
 
     constructor() {
         afterNextRender(async () => {
-            await this.welcomeService.loadChart()
+            const el = this.chartEl()?.nativeElement;
+            if (el) {
+                await this.welcomeService.renderRadial(el,69);
+            }
         });
-        let id: any;
+        let id: number | undefined;
         if (typeof window !== 'undefined') {
             id = window.setInterval(() => {
                 this.currentDate.set(new Date());
             }, 1000);
         }
-        this.destroyRef.onDestroy(() => clearInterval(id));
+        this.destroyRef.onDestroy(() => {
+            if (id) {
+                clearInterval(id);
+                const el = this.chartEl()?.nativeElement;
+                if (el) this.welcomeService.destroy(el);
+            }
+
+        })
     }
 }

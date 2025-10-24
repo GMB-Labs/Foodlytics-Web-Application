@@ -40,7 +40,7 @@ import {HeightCardComponent} from "./widgets/height-card/height-card.component";
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-lg-4 col-xxl-4">
                 <!-- Most Leads -->
                 <app-most-leads />
             </div>

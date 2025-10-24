@@ -17,7 +17,7 @@ export class TasksStatsComponent {
     ) {}
 
     ngOnInit(): void {
-        this.tasksStatsService.loadChart();
+        this.tasksStatsService.loadChart().then(r => {});
     }
 
 }

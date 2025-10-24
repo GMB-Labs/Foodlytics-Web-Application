@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { NotFoundComponent } from './shared/errors/not-found/not-found.component';
-import { InternalErrorComponent } from './shared/errors/internal-error/internal-error.component';
+import { NotFoundComponent } from './shared/ui/errors/not-found/not-found.component';
+import { InternalErrorComponent } from './shared/ui/errors/internal-error/internal-error.component';
 import { ComingSoonPageComponent } from './pages/coming-soon-page/coming-soon-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { TestimonialsPageComponent } from './pages/testimonials-page/testimonials-page.component';
@@ -15,7 +15,7 @@ import { MyProfileComponent } from './features/profile/my-profile.component';
 import { NotificationsPageComponent } from './pages/notifications-page/notifications-page.component';
 import { PricingPageComponent } from './pages/pricing-page/pricing-page.component';
 import { FaqPageComponent } from './pages/faq-page/faq-page.component';
-import { StarterComponent } from './shared/starter/starter.component';
+import { StarterComponent } from './shared/ui/starter/starter.component';
 import { InvoiceDetailsComponent } from './pages/invoices-page/invoice-details/invoice-details.component';
 import { InvoicesComponent } from './pages/invoices-page/invoices/invoices.component';
 import { InvoicesPageComponent } from './pages/invoices-page/invoices-page.component';
