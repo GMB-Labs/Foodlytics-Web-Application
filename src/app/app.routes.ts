@@ -13,8 +13,8 @@ import { SettingsComponent } from './features/settings/ui/pages/settings.compone
 import { InvoiceDetailsComponent } from './pages/invoices-page/invoice-details/invoice-details.component';
 import { InvoicesComponent } from './pages/invoices-page/invoices/invoices.component';
 import { InvoicesPageComponent } from './pages/invoices-page/invoices-page.component';
-import {AuthShellComponent} from "./layouts/auth-shell/auth-shell.component";
-import {AppShellComponent} from "./layouts/app-shell/app-shell.component";
+import { AuthShellComponent } from "./layouts/auth-shell/auth-shell.component";
+import { AppShellComponent } from "./layouts/app-shell/app-shell.component";
 
 export const routes: Routes = [
     {
