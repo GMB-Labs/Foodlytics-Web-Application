@@ -68,7 +68,7 @@ Este proyecto está construido con **Angular Standalone Components** siguiendo u
 - Cada feature es **autónoma** (domain + data-access + ui + container).
 - **Separación por capas** internas, respetando dependencias unidireccionales.
 - **Signals** para el estado local, **computed()** para estado derivado.
-- **Standalone Components** y **ChangeDetection.OnPush** en toda la app.
+- **Standalone Components** y **provideZonelessChangeDetection** en toda la app.
 - **Lazy loading** por feature y **lazy components** cuando aplica.
 - **Sin NgModules** — Angular Standalone moderno (>= v17).
 - **Control flow nativo**: `@if`, `@for`, `@switch`.
@@ -94,7 +94,7 @@ Este proyecto está construido con **Angular Standalone Components** siguiendo u
 
 - **Estado local:** `signal()`, `computed()`; no se usa `NgRx` salvo casos extremos.
 - **Inputs/Outputs modernos:** `input()`, `output()`.
-- **Detección de cambios:** `ChangeDetectionStrategy.OnPush` en todos los componentes.
+- **Detección de cambios:** `provideZonelessChangeDetection` a nivel global.
 - **Estilos:** SCSS modular; clases con bindings (`[class.active]="…"`) en lugar de `ngClass`.
 - **Control flow:** nativo (`@if`, `@for`, `@switch`).
 - **Testing:**

@@ -1,5 +1,5 @@
 // shared/ui/breadcrumbs/breadcrumbs.component.ts
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BreadcrumbService } from '../../data-access/breadcrumb/breadcrumb.service';
 

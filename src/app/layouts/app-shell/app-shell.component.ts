@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, signal} from '@angular/core';
+import { Component, signal} from '@angular/core';
 import {SidebarComponent} from "../../common/sidebar/sidebar.component";
 import {HeaderComponent} from "../../common/header/header.component";
 import {Event, NavigationEnd, Router, RouterOutlet} from "@angular/router";
