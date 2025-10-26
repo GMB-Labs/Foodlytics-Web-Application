@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MacroTargetsService } from './macro-targets.service';
 import {CustomizerSettingsService} from "../../../../../../../core/customizer-settings/customizer-settings.service";
-import {ApxChartDirective} from "../../../../../../../shared/charts";
+import {ApxChartDirective} from "../../../../../../../shared/data-access/charts";
 
 @Component({
     selector: 'app-macro-targets',

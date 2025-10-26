@@ -1,7 +1,7 @@
 // shared/ui/breadcrumbs/breadcrumbs.component.ts
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { BreadcrumbService } from '../../data-access/breadcrumb.service';
+import { BreadcrumbService } from '../../data-access/breadcrumb/breadcrumb.service';
 
 @Component({
     selector: 'app-breadcrumbs',

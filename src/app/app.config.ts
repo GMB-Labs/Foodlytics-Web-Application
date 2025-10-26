@@ -7,7 +7,7 @@ import { routes } from './app.routes';
 import {provideClientHydration, withEventReplay, withIncrementalHydration} from '@angular/platform-browser';
 import {provideHttpClient, withFetch} from "@angular/common/http";
 import {provideAnimations} from "@angular/platform-browser/animations";
-import {provideBreadcrumbsFromRouter} from "./shared/data-access/breadcrumb.providers";
+import {provideBreadcrumbsFromRouter} from "./shared/data-access/breadcrumb/breadcrumb.providers";
 
 
 export const appConfig: ApplicationConfig = {

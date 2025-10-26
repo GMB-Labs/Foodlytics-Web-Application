@@ -9,4 +9,4 @@ import {BreadcrumbsComponent} from "../../shared/ui/breadcrumbs/breadcrumbs.comp
         <router-outlet />`,
     imports: [RouterOutlet, BreadcrumbsComponent]
 })
-export class AppsComponent {}
+export class KanbanBoardFeature {}

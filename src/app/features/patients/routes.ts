@@ -5,7 +5,8 @@ import {DetailPage} from "./ui/pages/overview/detail.page";
 export const PATIENTS_ROUTES: Routes = [
     {
         path: '',
-        loadComponent: () => import('./feature.component').then(m => m.PatientsFeature),
+        loadComponent: () =>
+            import('./feature.component').then(m => m.PatientsFeature),
         children: [
             {
                 path: '',
