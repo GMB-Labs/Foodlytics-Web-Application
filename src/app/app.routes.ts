@@ -34,6 +34,7 @@ export const routes: Routes = [
             { path: 'calendar', loadChildren: () => import('./features/calendar/routes').then(m => m.CALENDAR_ROUTES)},
             { path: 'kanban-board', loadChildren: () => import('./features/kanban-board/routes').then(m => m.KANBAN_BOARD_ROUTES) },
             {
+                // actualizar
                 path: 'invoices',
                 component: InvoicesPageComponent,
                 children: [
@@ -47,6 +48,7 @@ export const routes: Routes = [
             {path: 'notifications', loadComponent: () => import('./pages/notifications-page/notifications-page.component').then(m => m.NotificationsPageComponent)},
             {path: 'profile', loadComponent: () => import('./features/profile/ui/pages/my-profile.component').then(m => m.MyProfileComponent)},
             {
+                // actualizar
                 path: 'settings',
                 component: SettingsComponent,
                 children: [
@@ -56,14 +58,15 @@ export const routes: Routes = [
                     {path: 'terms-conditions', component: TermsConditionsComponent}
                 ]
             },
-            {path: 'gallery', component: GalleryPageComponent},
-            {path: 'testimonials', component: TestimonialsPageComponent},
-            {path: 'search', component: SearchPageComponent},
-            {path: 'coming-soon', component: ComingSoonPageComponent},
+            {path: 'gallery', loadComponent: () => import('./pages/gallery-page/gallery-page.component').then(m => m.GalleryPageComponent) },
+            {path: 'testimonials', loadComponent: () => import('./pages/testimonials-page/testimonials-page.component').then(m => m.TestimonialsPageComponent) },
+            {path: 'search', loadComponent: () => import('./pages/search-page/search-page.component').then(m => m.SearchPageComponent)},
+            {path: 'coming-soon', loadComponent: () => import('./pages/coming-soon-page/coming-soon-page.component').then(m => m.ComingSoonPageComponent)},
         ]
     },
 
     // Here add new pages component
-    {path: 'internal-error', component: InternalErrorComponent},
-    {path: '**', component: NotFoundComponent} // This line will remain down from the whole pages component list
+    {path: 'internal-error', loadComponent: () => import('./pages/errors/internal-error/internal-error.component').then(m => m.InternalErrorComponent)},
+    {path: '**', loadComponent: () => import('./pages/errors/not-found/not-found.component').then(m => m.NotFoundComponent)},
+    // This line will remain down from the whole pages component list
 ];
