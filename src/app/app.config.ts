@@ -5,16 +5,25 @@ import {
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import {provideClientHydration, withEventReplay, withIncrementalHydration} from '@angular/platform-browser';
-import {provideHttpClient, withFetch} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi} from "@angular/common/http";
 import {provideAnimations} from "@angular/platform-browser/animations";
 import {provideBreadcrumbsFromRouter} from "./shared/data-access/breadcrumb/breadcrumb.providers";
-
+import {AuthHttpInterceptor, provideAuth0} from "@auth0/auth0-angular";
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        provideAuth0({
+            domain: 'DOMINIO',
+            clientId: 'CLIENT_ID',
+            authorizationParams: {
+                redirect_uri: window.location.origin
+            },
+            httpInterceptor: { allowedList: ['/api/*'] }
+        }),
+        { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true},
         provideBrowserGlobalErrorListeners(),
         provideRouter(routes),
-        provideHttpClient(withFetch()),
+        provideHttpClient(withFetch(), withInterceptorsFromDi()),
         provideClientHydration(withEventReplay(),withIncrementalHydration()),
         provideZonelessChangeDetection(),
         provideBreadcrumbsFromRouter(),
