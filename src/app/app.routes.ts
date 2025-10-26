@@ -1,10 +1,4 @@
 import { Routes } from '@angular/router';
-import { NotFoundComponent } from './pages/errors/not-found/not-found.component';
-import { InternalErrorComponent } from './pages/errors/internal-error/internal-error.component';
-import { ComingSoonPageComponent } from './pages/coming-soon-page/coming-soon-page.component';
-import { SearchPageComponent } from './pages/search-page/search-page.component';
-import { TestimonialsPageComponent } from './pages/testimonials-page/testimonials-page.component';
-import { GalleryPageComponent } from './pages/gallery-page/gallery-page.component';
 import { TermsConditionsComponent } from './features/settings/ui/components/terms-conditions/terms-conditions.component';
 import { PrivacyPolicyComponent } from './features/settings/ui/components/privacy-policy/privacy-policy.component';
 import { ChangePasswordComponent } from './features/settings/ui/components/change-password/change-password.component';
