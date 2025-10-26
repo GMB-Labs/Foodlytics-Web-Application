@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, inject, PLATFORM_ID} from '@angular/core';
 import { WorkingScheduleComponent } from '../component/working-schedule/working-schedule.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
@@ -7,6 +7,7 @@ import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CustomizerSettingsService } from '../../../../core/customizer-settings/customizer-settings.service';
+import {isPlatformBrowser} from "@angular/common";
 
 @Component({
     selector: 'app-calendar',
@@ -15,6 +16,8 @@ import { CustomizerSettingsService } from '../../../../core/customizer-settings/
     styleUrl: './calendar.component.scss'
 })
 export class CalendarComponent {
+    protected platformId = inject(PLATFORM_ID);
+    readonly isBrowser = isPlatformBrowser(this.platformId);
 
     // Calendar
     calendarOptions: CalendarOptions = {

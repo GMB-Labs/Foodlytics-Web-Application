@@ -7,7 +7,9 @@
             [class.rtl-enabled]="themeService.isRTLEnabled()"
         >
             <mat-card-content>
-                <full-calendar [options]="calendarOptions"></full-calendar>
+                @if (isBrowser) {
+                    <full-calendar ngSkipHydration [options]="calendarOptions"></full-calendar>
+                }
             </mat-card-content>
         </mat-card>
     </div>

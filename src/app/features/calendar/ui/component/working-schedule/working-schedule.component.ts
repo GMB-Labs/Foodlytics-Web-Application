@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, inject, PLATFORM_ID} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { CustomizerSettingsService } from '../../../../../core/customizer-settings/customizer-settings.service';
+import {isPlatformBrowser} from "@angular/common";
 
 @Component({
     selector: 'app-working-schedule:not(p)',
@@ -16,6 +17,8 @@ import { CustomizerSettingsService } from '../../../../../core/customizer-settin
     styleUrl: './working-schedule.component.scss'
 })
 export class WorkingScheduleComponent {
+    private platformId = inject(PLATFORM_ID);
+    readonly isBrowser = isPlatformBrowser(this.platformId);
 
     // Mat Calendar
     selected: Date | null = null;

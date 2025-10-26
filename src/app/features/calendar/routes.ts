@@ -2,7 +2,7 @@ import {Routes} from "@angular/router";
 
 export const CALENDAR_ROUTES: Routes = [
     {
-        path: '',
+        path: '', //corregir bug de refresh
         loadComponent: () =>
             import('./feature.component').then(m => m.CalendarFeature),
         children: [

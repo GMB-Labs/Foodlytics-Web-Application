@@ -12,7 +12,9 @@
         </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <mat-calendar [(selected)]="selected"></mat-calendar>
+        @if (isBrowser) {
+            <mat-calendar [(selected)]="selected"></mat-calendar>
+        }
         <div class="events-content">
             <h5>
                 EVENTS
