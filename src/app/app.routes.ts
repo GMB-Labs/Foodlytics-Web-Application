@@ -45,7 +45,7 @@ export const routes: Routes = [
             {path: 'faq', loadComponent: () => import('./pages/faq-page/faq-page.component').then(m => m.FaqPageComponent)},
             {path: 'pricing', loadComponent: () => import('./pages/pricing-page/pricing-page.component').then(m => m.PricingPageComponent)},
             {path: 'notifications', loadComponent: () => import('./pages/notifications-page/notifications-page.component').then(m => m.NotificationsPageComponent)},
-            {path: 'profile', loadComponent: () => import('./features/profile/my-profile.component').then(m => m.MyProfileComponent)},
+            {path: 'profile', loadComponent: () => import('./features/profile/pages/my-profile.component').then(m => m.MyProfileComponent)},
             {
                 path: 'settings',
                 component: SettingsComponent,
