@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { WelcomeComponent } from '../components/welcome/welcome.component';
 import { TotalProjectsComponent } from '../components/total-projects/total-projects.component';
 import { TotalRevenueComponent } from '../components/total-revenue/total-revenue.component';
@@ -13,7 +12,7 @@ import { RecentActivityComponent } from '../components/recent-activity/recent-ac
 
 @Component({
     selector: 'app-profile',
-    imports: [RouterLink, WelcomeComponent, TotalProjectsComponent, TotalOrdersComponent, TotalRevenueComponent, ProfileIntroComponent, ProfileInformationComponent, AdditionalInformationComponent, OverviewComponent, ToDoListComponent, RecentActivityComponent],
+    imports: [WelcomeComponent, TotalProjectsComponent, TotalOrdersComponent, TotalRevenueComponent, ProfileIntroComponent, ProfileInformationComponent, AdditionalInformationComponent, OverviewComponent, ToDoListComponent, RecentActivityComponent],
     templateUrl: './my-profile.component.html',
     styleUrl: './my-profile.component.scss'
 })

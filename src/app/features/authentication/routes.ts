@@ -7,7 +7,6 @@ export const AUTH_ROUTES: Routes = [
         loadComponent: () => import('./feature.component').then(m => m.AuthenticationFeature),
         children: [
             { path: '', pathMatch: 'full', redirectTo: 'sign-in' },
-
             { path: 'sign-in',
                 loadComponent: () =>
                     import('./ui/sign-in/sign-in.component').then(m => m.SignInComponent) },

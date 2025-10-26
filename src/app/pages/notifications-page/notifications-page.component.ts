@@ -3,14 +3,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { RouterLink } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-notifications-page',
-    imports: [MatCardModule, MatMenuModule, MatButtonModule, RouterLink, MatTableModule, MatCheckboxModule, MatTooltipModule],
+    imports: [MatCardModule, MatMenuModule, MatButtonModule, MatTableModule, MatCheckboxModule, MatTooltipModule],
     templateUrl: './notifications-page.component.html',
     styleUrl: './notifications-page.component.scss'
 })

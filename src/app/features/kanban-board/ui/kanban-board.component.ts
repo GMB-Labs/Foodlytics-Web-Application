@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
-import { RouterLink } from '@angular/router';
 import {
     CdkDragDrop,
     CdkDrag,
@@ -20,7 +19,7 @@ import { CustomizerSettingsService } from '../../../core/customizer-settings/cus
 
 @Component({
     selector: 'app-kanban-board',
-    imports: [RouterLink, MatCardModule, MatButtonModule, MatMenuModule, CdkDropList, CdkDrag, CdkDropListGroup, MatSelectModule, MatInputModule, MatDatepickerModule, MatFormFieldModule, MatNativeDateModule],
+    imports: [MatCardModule, MatButtonModule, MatMenuModule, CdkDropList, CdkDrag, CdkDropListGroup, MatSelectModule, MatInputModule, MatDatepickerModule, MatFormFieldModule, MatNativeDateModule],
     templateUrl: './kanban-board.component.html',
     styleUrl: './kanban-board.component.scss'
 })

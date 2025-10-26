@@ -1,13 +1,16 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {RouterOutlet} from "@angular/router";
+import {BreadcrumbsComponent} from "../../shared/ui/breadcrumbs/breadcrumbs.component";
 
 @Component({
     selector: 'app-dashboard-feature',
     template: `
-            <router-outlet />        
+        <app-breadcrumbs />       
+        <router-outlet />        
     `,
     imports: [
-        RouterOutlet
+        RouterOutlet,
+        BreadcrumbsComponent
     ],
 })
 export class DashboardFeature {}

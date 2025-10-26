@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { WorkingScheduleComponent } from '../component/working-schedule/working-schedule.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
@@ -11,7 +10,7 @@ import { CustomizerSettingsService } from '../../../../core/customizer-settings/
 
 @Component({
     selector: 'app-calendar',
-    imports: [RouterLink, WorkingScheduleComponent, MatButtonModule, MatMenuModule, MatCardModule, FullCalendarModule],
+    imports: [WorkingScheduleComponent, MatButtonModule, MatMenuModule, MatCardModule, FullCalendarModule],
     templateUrl: './calendar.component.html',
     styleUrl: './calendar.component.scss'
 })
