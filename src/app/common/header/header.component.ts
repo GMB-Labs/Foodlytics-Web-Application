@@ -1,9 +1,9 @@
-import { NgClass } from '@angular/common';
+import {Location, NgClass} from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
-import { Component, HostListener } from '@angular/core';
+import {Component, HostListener, inject} from '@angular/core';
 import { ToggleService } from '../sidebar/toggle.service';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterLink } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import { CustomizerSettingsService } from '../../core/customizer-settings/customizer-settings.service';
 
 @Component({
@@ -13,6 +13,9 @@ import { CustomizerSettingsService } from '../../core/customizer-settings/custom
     styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
+
+    private router = inject(Router);
+    private location = inject(Location);
 
     // isSidebarToggled
     isSidebarToggled = false;
@@ -54,4 +57,11 @@ export class HeaderComponent {
         this.themeService.toggleTheme();
     }
 
+    goBack() {
+        if (window.history.length > 1) {
+            this.location.back();
+        } else {
+            this.router.navigate(['/dashboard']).then(r => console.log('Navigate to dashboard'));
+        }
+    }
 }
