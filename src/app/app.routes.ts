@@ -31,7 +31,7 @@ export const routes: Routes = [
             { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
             { path: 'dashboard', loadChildren: () => import('./features/dashboard/routes').then(m => m.DASHBOARD_ROUTES) },
             { path: 'patients', loadChildren: () => import('./features/patients/routes').then(m => m.PATIENTS_ROUTES) },
-            { path: 'calendar', loadComponent: () => import('./features/calendar/ui/calendar.component').then(m => m.CalendarComponent)},
+            { path: 'calendar', loadChildren: () => import('./features/calendar/routes').then(m => m.CALENDAR_ROUTES)},
             { path: 'kanban-board', loadChildren: () => import('./features/kanban-board/routes').then(m => m.KANBAN_BOARD_ROUTES) },
             {
                 path: 'invoices',

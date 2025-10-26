@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { WorkingScheduleComponent } from './working-schedule/working-schedule.component';
+import { WorkingScheduleComponent } from '../component/working-schedule/working-schedule.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { CustomizerSettingsService } from '../../../core/customizer-settings/customizer-settings.service';
+import { CustomizerSettingsService } from '../../../../core/customizer-settings/customizer-settings.service';
 
 @Component({
     selector: 'app-calendar',
