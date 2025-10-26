@@ -4,7 +4,7 @@ import { AuthenticationFeature } from './feature.component';
 export const AUTH_ROUTES: Routes = [
     {
         path: '',
-        component: AuthenticationFeature,
+        loadComponent: () => import('./feature.component').then(m => m.AuthenticationFeature),
         children: [
             { path: '', pathMatch: 'full', redirectTo: 'sign-in' },
 

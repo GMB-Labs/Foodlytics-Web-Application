@@ -7,19 +7,12 @@ import { TestimonialsPageComponent } from './pages/testimonials-page/testimonial
 import { GalleryPageComponent } from './pages/gallery-page/gallery-page.component';
 import { TermsConditionsComponent } from './features/settings/terms-conditions/terms-conditions.component';
 import { PrivacyPolicyComponent } from './features/settings/privacy-policy/privacy-policy.component';
-import { ConnectionsComponent } from './features/settings/connections/connections.component';
 import { ChangePasswordComponent } from './features/settings/change-password/change-password.component';
 import { AccountSettingsComponent } from './features/settings/account-settings/account-settings.component';
 import { SettingsComponent } from './features/settings/settings.component';
-import { MyProfileComponent } from './features/profile/my-profile.component';
-import { NotificationsPageComponent } from './pages/notifications-page/notifications-page.component';
-import { PricingPageComponent } from './pages/pricing-page/pricing-page.component';
-import { FaqPageComponent } from './pages/faq-page/faq-page.component';
-import { StarterComponent } from './pages/starter/starter.component';
 import { InvoiceDetailsComponent } from './pages/invoices-page/invoice-details/invoice-details.component';
 import { InvoicesComponent } from './pages/invoices-page/invoices/invoices.component';
 import { InvoicesPageComponent } from './pages/invoices-page/invoices-page.component';
-import {KanbanBoardComponent} from "./features/apps/kanban-board/kanban-board.component";
 import {AuthShellComponent} from "./layouts/auth-shell/auth-shell.component";
 import {AppShellComponent} from "./layouts/app-shell/app-shell.component";
 
@@ -36,10 +29,10 @@ export const routes: Routes = [
         component: AppShellComponent,
         children: [
             { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
-            { path: 'dashboard', loadComponent: () => import('./features/dashboard/dashboard.page').then(m => m.DashboardPage) },
+            { path: 'dashboard', loadChildren: () => import('./features/dashboard/routes').then(m => m.DASHBOARD_ROUTES) },
             { path: 'patients', loadChildren: () => import('./features/patients/routes').then(m => m.PATIENTS_ROUTES) },
-            { path: 'calendar', loadComponent: () => import('./features/apps/calendar/calendar.component').then(m => m.CalendarComponent)},
-            { path: 'kanban-board', component: KanbanBoardComponent},
+            { path: 'calendar', loadComponent: () => import('./features/calendar/ui/calendar.component').then(m => m.CalendarComponent)},
+            { path: 'kanban-board', loadChildren: () => import('./features/kanban-board/routes').then(m => m.KANBAN_BOARD_ROUTES) },
             {
                 path: 'invoices',
                 component: InvoicesPageComponent,
@@ -48,18 +41,17 @@ export const routes: Routes = [
                     {path: 'invoice-details', component: InvoiceDetailsComponent},
                 ]
             },
-            {path: 'starter', component: StarterComponent},
-            {path: 'faq', component: FaqPageComponent},
-            {path: 'pricing', component: PricingPageComponent},
-            {path: 'notifications', component: NotificationsPageComponent},
-            {path: 'profile', component: MyProfileComponent},
+            {path: 'starter', loadComponent: () => import('./pages/starter/starter.component').then(m => m.StarterComponent)},
+            {path: 'faq', loadComponent: () => import('./pages/faq-page/faq-page.component').then(m => m.FaqPageComponent)},
+            {path: 'pricing', loadComponent: () => import('./pages/pricing-page/pricing-page.component').then(m => m.PricingPageComponent)},
+            {path: 'notifications', loadComponent: () => import('./pages/notifications-page/notifications-page.component').then(m => m.NotificationsPageComponent)},
+            {path: 'profile', loadComponent: () => import('./features/profile/my-profile.component').then(m => m.MyProfileComponent)},
             {
                 path: 'settings',
                 component: SettingsComponent,
                 children: [
                     {path: '', component: AccountSettingsComponent},
                     {path: 'change-password', component: ChangePasswordComponent},
-                    {path: 'connections', component: ConnectionsComponent},
                     {path: 'privacy-policy', component: PrivacyPolicyComponent},
                     {path: 'terms-conditions', component: TermsConditionsComponent}
                 ]
