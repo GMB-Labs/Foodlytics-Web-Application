@@ -7,7 +7,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { CustomizerSettingsService } from '../../../core/customizer-settings/customizer-settings.service';
+import { CustomizerSettingsService } from '../../../../../core/customizer-settings/customizer-settings.service';
 
 @Component({
     selector: 'app-invoices',
