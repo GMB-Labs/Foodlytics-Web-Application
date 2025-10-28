@@ -10,14 +10,18 @@ import {provideAnimations} from "@angular/platform-browser/animations";
 import {provideBreadcrumbsFromRouter} from "./shared/data-access/breadcrumb/breadcrumb.providers";
 import {AuthHttpInterceptor, provideAuth0} from "@auth0/auth0-angular";
 
+const isBrowser = typeof window !== 'undefined';
+
 export const appConfig: ApplicationConfig = {
     providers: [
         provideAuth0({
             domain: 'DOMINIO',
             clientId: 'CLIENT_ID',
-            authorizationParams: {
-                redirect_uri: window.location.origin
-            },
+            ...(isBrowser && {
+                authorizationParams: {
+                    redirect_uri: window.location.origin
+                },
+            }),
             httpInterceptor: { allowedList: ['/api/*'] }
         }),
         { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true},
