@@ -1,7 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
-    { "source": "/((?!api/|assets/|favicon.ico|robots.txt).*)", "destination": "/api/ssr" }
+    {
+      "source": "/:path*",
+      "has": [{ "type": "header", "key": "accept", "value": ".*text/html.*" }],
+      "destination": "/api/ssr"
+    }
   ],
   "functions": {
     "api/ssr.js": {
