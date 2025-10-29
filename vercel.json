@@ -5,8 +5,8 @@
   ],
   "functions": {
     "api/ssr.ts": {
-      "memory": 2048,
-      "maxDuration": 60
+      "maxDuration": 60,
+      "includeFiles": "dist/foodlytics/server/**"
     }
   }
 }
