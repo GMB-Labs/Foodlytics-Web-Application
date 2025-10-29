@@ -4,7 +4,7 @@
     { "source": "/((?!api/).*)", "destination": "/api/ssr" }
   ],
   "functions": {
-    "api/ssr.cjs": {
+    "api/ssr.js": {
       "maxDuration": 60,
       "includeFiles": "dist/foodlytics/server/**"
     }

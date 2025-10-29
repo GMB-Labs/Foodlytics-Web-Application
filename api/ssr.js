@@ -1,4 +1,4 @@
-// api/ssr.cjs
+// api/ssr.js
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 
@@ -7,7 +7,6 @@ let cached = null;
 module.exports = async function handler(req, res) {
     try {
         if (!cached) {
-            // Import dinámico (ESM) dentro de CJS
             const serverless = (await import('serverless-http')).default;
 
             const bundlePath = path.join(__dirname, '../dist/foodlytics/server/main.server.mjs');
