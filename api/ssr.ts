@@ -1,16 +1,17 @@
 // api/ssr.ts
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import serverless from 'serverless-http';
 import type { Express } from 'express';
-import e = require("express");
+import {join} from "node:path";
+import {pathToFileURL} from "node:url";
 
-let cached: ReturnType<typeof serverless> | null = null;
+let cached: any = null;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     try {
         if (!cached) {
-            const bundleUrl = new URL('../dist/foodlytics/server/main.server.mjs', import.meta.url);
-            const { app: createApp } = await import(bundleUrl.href);
+            const serverless = (await import('serverless-http')).default;
+            const bundlePath = join(__dirname, '../dist/foodlytics/server/main.server.mjs');
+            const { app: createApp } = await import(pathToFileURL(bundlePath).href);
             const expressApp: Express = createApp();
             cached = serverless(expressApp);
         }
