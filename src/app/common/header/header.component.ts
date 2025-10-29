@@ -1,4 +1,4 @@
-import {Location, NgClass} from '@angular/common';
+import {Location, NgClass, NgOptimizedImage} from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import {Component, HostListener, inject} from '@angular/core';
 import { ToggleService } from '../sidebar/toggle.service';
@@ -8,7 +8,7 @@ import { CustomizerSettingsService } from '../../core/customizer-settings/custom
 
 @Component({
     selector: 'app-header',
-    imports: [NgClass, MatMenuModule, MatButtonModule, RouterLink],
+    imports: [NgClass, MatMenuModule, MatButtonModule, RouterLink, NgOptimizedImage],
     templateUrl: './header.component.html',
     styleUrl: './header.component.scss'
 })

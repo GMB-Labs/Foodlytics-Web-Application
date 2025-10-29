@@ -6,10 +6,11 @@ import { MatInputModule } from '@angular/material/input';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CustomizerSettingsService } from '../../../../core/customizer-settings/customizer-settings.service';
+import {NgOptimizedImage} from "@angular/common";
 
 @Component({
     selector: 'app-lock-screen',
-    imports: [MatFormFieldModule, MatInputModule, MatButtonModule, MatCheckboxModule, ReactiveFormsModule],
+    imports: [MatFormFieldModule, MatInputModule, MatButtonModule, MatCheckboxModule, ReactiveFormsModule, NgOptimizedImage],
     templateUrl: './lock-screen.component.html',
     styleUrl: './lock-screen.component.scss'
 })

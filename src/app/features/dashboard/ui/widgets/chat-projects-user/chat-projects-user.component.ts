@@ -6,10 +6,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
 import { CustomizerSettingsService } from '../../../../../core/customizer-settings/customizer-settings.service';
+import {NgOptimizedImage} from "@angular/common";
 
 @Component({
     selector: 'app-chat-projects-user',
-    imports: [MatCardModule, MatMenuModule, MatButtonModule, FormsModule, MatFormFieldModule, MatInputModule],
+    imports: [MatCardModule, MatMenuModule, MatButtonModule, FormsModule, MatFormFieldModule, MatInputModule, NgOptimizedImage],
     templateUrl: './chat-projects-user.component.html',
     styleUrl: './chat-projects-user.component.scss'
 })
