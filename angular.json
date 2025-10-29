@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "daxa": {
+        "foodlytics": {
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
@@ -69,10 +69,10 @@
                     "builder": "@angular/build:dev-server",
                     "configurations": {
                         "production": {
-                            "buildTarget": "daxa:build:production"
+                            "buildTarget": "foodlytics:build:production"
                         },
                         "development": {
-                            "buildTarget": "daxa:build:development"
+                            "buildTarget": "foodlytics:build:development"
                         }
                     },
                     "defaultConfiguration": "development"

@@ -4,6 +4,8 @@ dist/
 out/
 tmp/
 .cache/
+*.cache/
+*.lock
 
 # Node dependencies
 node_modules/
@@ -33,3 +35,19 @@ Thumbs.db
 *.tgz
 *.zip
 *.tar.gz
+
+# Public build outputs
+public/
+
+# SSR build outputs
+dist/foodlytics
+**/*.mjs
+**/*.js.map
+
+# Vercel location folder
+.vercel/
+
+# Logs
+*.log
+logs/
+

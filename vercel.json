@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/api/ssr" }
+  ],
+  "functions": {
+    "api/ssr.ts": {
+      "runtime": "nodejs20.x",
+      "memory": 2048,
+      "maxDuration": 60
+    }
+  }
+}

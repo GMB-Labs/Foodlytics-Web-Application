@@ -23,6 +23,11 @@
         "strictTemplates": true
     },
     "files": [],
+    "include": [
+      "src/**/*.ts",
+      "api/**/*.ts",
+      "types/**/*.d.ts"
+    ],
     "references": [
         {
             "path": "./tsconfig.app.json"
