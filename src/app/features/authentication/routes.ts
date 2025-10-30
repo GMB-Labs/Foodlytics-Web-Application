@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { AuthenticationFeature } from './feature.component';
 
 export const AUTH_ROUTES: Routes = [
     {
@@ -7,6 +6,11 @@ export const AUTH_ROUTES: Routes = [
         loadComponent: () => import('./feature.component').then(m => m.AuthenticationFeature),
         children: [
             { path: '', pathMatch: 'full', redirectTo: 'sign-in' },
+            { path: 'test',
+                title: 'Test',
+                loadComponent: () =>
+                    import('./ui/pages/auth/auth.component').then(m => m.AuthComponent)
+            },
             { path: 'sign-in',
                 title: 'Sign In',
                 loadComponent: () =>
@@ -37,7 +41,7 @@ export const AUTH_ROUTES: Routes = [
             { path: 'logout',
                 title: 'Logout',
                 loadComponent: () =>
-                    import('./ui/pages/logout/logout.component').then(m => m.LogoutComponent) },
+                    import('./ui/pages/auth/auth.component').then(m => m.AuthComponent) },
         ],
     },
 ];

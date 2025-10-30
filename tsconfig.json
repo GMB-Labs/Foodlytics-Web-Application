@@ -25,7 +25,6 @@
     "files": [],
     "include": [
       "src/**/*.ts",
-      "api/**/*.ts",
       "types/**/*.d.ts"
     ],
     "references": [

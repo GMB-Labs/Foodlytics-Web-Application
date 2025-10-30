@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthShellComponent } from "./layouts/auth-shell/auth-shell.component";
 import { AppShellComponent } from "./layouts/app-shell/app-shell.component";
+import {RenderMode} from "@angular/ssr";
 
 export const routes: Routes = [
     {

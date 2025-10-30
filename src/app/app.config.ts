@@ -1,40 +1,30 @@
 import {
     ApplicationConfig, provideBrowserGlobalErrorListeners,
-    provideZonelessChangeDetection, isDevMode
+    provideZonelessChangeDetection, isDevMode, inject, PLATFORM_ID, provideAppInitializer, ENVIRONMENT_INITIALIZER,
+    provideEnvironmentInitializer
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
-import {provideClientHydration, withEventReplay, withIncrementalHydration} from '@angular/platform-browser';
-import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi} from "@angular/common/http";
+import {provideClientHydration, withIncrementalHydration} from '@angular/platform-browser';
+import {provideHttpClient, withFetch, withInterceptorsFromDi} from "@angular/common/http";
 import {provideAnimations} from "@angular/platform-browser/animations";
 import {provideBreadcrumbsFromRouter} from "./shared/data-access/breadcrumb/breadcrumb.providers";
-import {AuthHttpInterceptor, provideAuth0} from "@auth0/auth0-angular";
 import { provideServiceWorker } from '@angular/service-worker';
-
-const isBrowser = typeof window !== 'undefined';
+import {provideAuthWithRuntime} from "./core/auth/auth.providers";
 
 export const appConfig: ApplicationConfig = {
     providers: [
-        provideAuth0({
-            domain: 'DOMINIO',
-            clientId: 'CLIENT_ID',
-            ...(isBrowser && {
-                authorizationParams: {
-                    redirect_uri: window.location.origin
-                },
-            }),
-            httpInterceptor: { allowedList: ['/api/*'] }
-        }),
-        { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true},
+        ...provideAuthWithRuntime(),
         provideBrowserGlobalErrorListeners(),
+        provideZonelessChangeDetection(),
         provideRouter(routes),
         provideHttpClient(withFetch(), withInterceptorsFromDi()),
         provideClientHydration(withIncrementalHydration()),
-        provideZonelessChangeDetection(),
+        provideAnimations(),
         provideBreadcrumbsFromRouter(),
-        provideAnimations(), provideServiceWorker('ngsw-worker.js', {
+        provideServiceWorker('ngsw-worker.js', {
             enabled: !isDevMode(),
             registrationStrategy: 'registerWhenStable:30000'
-          })
+        })
     ]
 };
