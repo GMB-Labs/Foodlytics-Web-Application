@@ -33,9 +33,9 @@ export class KanbanBoardComponent {
             daysLeft: `3 days left`,
             category: `Design`,
             createdDate: `Created 20 Nov`,
-            img1: `images/users/user2.jpg`,
-            img2: `images/users/user4.jpg`,
-            img3: `images/users/user5.jpg`
+            img1: `images/users/user2.webp`,
+            img2: `images/users/user4.webp`,
+            img3: `images/users/user5.webp`
         },
         {
             title: `Social media campaign`,
@@ -43,9 +43,9 @@ export class KanbanBoardComponent {
             daysLeft: `2 days left`,
             category: `Marketing`,
             createdDate: `Created 19 Nov`,
-            img1: `images/users/user6.jpg`,
-            img2: `images/users/user7.jpg`,
-            img3: `images/users/user8.jpg`
+            img1: `images/users/user6.webp`,
+            img2: `images/users/user7.webp`,
+            img3: `images/users/user8.webp`
         },
         {
             title: `Project`,
@@ -53,8 +53,8 @@ export class KanbanBoardComponent {
             daysLeft: `4 days left`,
             category: `Daxa`,
             createdDate: `Created 18 Nov`,
-            img1: `images/users/user9.jpg`,
-            img3: `images/users/user10.jpg`
+            img1: `images/users/user9.webp`,
+            img3: `images/users/user10.webp`
         },
         {
             title: `Project`,
@@ -62,7 +62,7 @@ export class KanbanBoardComponent {
             daysLeft: `2 days left`,
             category: `Development`,
             createdDate: `Created 17 Nov`,
-            img1: `images/users/user11.jpg`
+            img1: `images/users/user11.webp`
         }
     ];
 
@@ -74,8 +74,8 @@ export class KanbanBoardComponent {
             daysLeft: `3 days left`,
             category: `Marketing`,
             createdDate: `Created 20 Nov`,
-            img1: `images/users/user17.jpg`,
-            img2: `images/users/user16.jpg`
+            img1: `images/users/user17.webp`,
+            img2: `images/users/user16.webp`
         },
         {
             title: `WordPress development`,
@@ -83,7 +83,7 @@ export class KanbanBoardComponent {
             daysLeft: `2 days left`,
             category: `Design`,
             createdDate: `Created 19 Nov`,
-            img1: `images/users/user15.jpg`
+            img1: `images/users/user15.webp`
         },
         {
             title: `Web development`,
@@ -91,9 +91,9 @@ export class KanbanBoardComponent {
             daysLeft: `4 days left`,
             category: `Development`,
             createdDate: `Created 18 Nov`,
-            img1: `images/users/user14.jpg`,
-            img2: `images/users/user13.jpg`,
-            img3: `images/users/user12.jpg`
+            img1: `images/users/user14.webp`,
+            img2: `images/users/user13.webp`,
+            img3: `images/users/user12.webp`
         },
         {
             title: `Digital marketing`,
@@ -101,9 +101,9 @@ export class KanbanBoardComponent {
             daysLeft: `5 days left`,
             category: `Daxa`,
             createdDate: `Created 17 Nov`,
-            img1: `images/users/user15.jpg`,
-            img2: `images/users/user17.jpg`,
-            img3: `images/users/user9.jpg`
+            img1: `images/users/user15.webp`,
+            img2: `images/users/user17.webp`,
+            img3: `images/users/user9.webp`
         },
         {
             title: `Frontend design update`,
@@ -111,8 +111,8 @@ export class KanbanBoardComponent {
             daysLeft: `2 days left`,
             category: `Design`,
             createdDate: `Created 16 Nov`,
-            img1: `images/users/user7.jpg`,
-            img2: `images/users/user8.jpg`
+            img1: `images/users/user7.webp`,
+            img2: `images/users/user8.webp`
         },
         {
             title: `Daxa dashboard design`,
@@ -120,8 +120,8 @@ export class KanbanBoardComponent {
             daysLeft: `3 days left`,
             category: `Dashboard`,
             createdDate: `Created 15 Nov`,
-            img1: `images/users/user5.jpg`,
-            img2: `images/users/user6.jpg`
+            img1: `images/users/user5.webp`,
+            img2: `images/users/user6.webp`
         },
         {
             title: `Mobile app development`,
@@ -129,8 +129,8 @@ export class KanbanBoardComponent {
             daysLeft: `1 day left`,
             category: `Mobile`,
             createdDate: `Created 14 Nov`,
-            img1: `images/users/user2.jpg`,
-            img2: `images/users/user4.jpg`
+            img1: `images/users/user2.webp`,
+            img2: `images/users/user4.webp`
         }
     ];
 
@@ -142,8 +142,8 @@ export class KanbanBoardComponent {
             daysLeft: `10 days left`,
             category: `IT`,
             createdDate: `Created 10 Nov`,
-            img1: `images/users/user2.jpg`,
-            img2: `images/users/user4.jpg`
+            img1: `images/users/user2.webp`,
+            img2: `images/users/user4.webp`
         },
         {
             title: `Social media campaign`,
@@ -151,8 +151,8 @@ export class KanbanBoardComponent {
             daysLeft: `5 days left`,
             category: `Social`,
             createdDate: `Created 11 Nov`,
-            img1: `images/users/user5.jpg`,
-            img2: `images/users/user6.jpg`
+            img1: `images/users/user5.webp`,
+            img2: `images/users/user6.webp`
         },
         {
             title: `Mobile app development`,
@@ -160,8 +160,8 @@ export class KanbanBoardComponent {
             daysLeft: `6 days left`,
             category: `App`,
             createdDate: `Created 12 Nov`,
-            img1: `images/users/user7.jpg`,
-            img2: `images/users/user8.jpg`
+            img1: `images/users/user7.webp`,
+            img2: `images/users/user8.webp`
         },
         {
             title: `Website development`,
@@ -169,8 +169,8 @@ export class KanbanBoardComponent {
             daysLeft: `8 days left`,
             category: `Website`,
             createdDate: `Created 13 Nov`,
-            img1: `images/users/user9.jpg`,
-            img2: `images/users/user10.jpg`
+            img1: `images/users/user9.webp`,
+            img2: `images/users/user10.webp`
         },
         {
             title: `Digital marketing`,
@@ -178,9 +178,9 @@ export class KanbanBoardComponent {
             daysLeft: `4 days left`,
             category: `Digital`,
             createdDate: `Created 14 Nov`,
-            img1: `images/users/user11.jpg`,
-            img2: `images/users/user12.jpg`,
-            img3: `images/users/user13.jpg`
+            img1: `images/users/user11.webp`,
+            img2: `images/users/user12.webp`,
+            img3: `images/users/user13.webp`
         },
         {
             title: `WordPress development`,
@@ -188,8 +188,8 @@ export class KanbanBoardComponent {
             daysLeft: `6 days left`,
             category: `WordPress`,
             createdDate: `Created 15 Nov`,
-            img1: `images/users/user14.jpg`,
-            img2: `images/users/user15.jpg`
+            img1: `images/users/user14.webp`,
+            img2: `images/users/user15.webp`
         }
     ];
 
@@ -201,9 +201,9 @@ export class KanbanBoardComponent {
             daysLeft: `Done`,
             category: `App`,
             createdDate: `Created 25 Nov`,
-            img1: `images/users/user17.jpg`,
-            img2: `images/users/user16.jpg`,
-            img3: `images/users/user15.jpg`
+            img1: `images/users/user17.webp`,
+            img2: `images/users/user16.webp`,
+            img3: `images/users/user15.webp`
         },
         {
             title: `E-commerce site`,
@@ -211,9 +211,9 @@ export class KanbanBoardComponent {
             daysLeft: `Done`,
             category: `Site`,
             createdDate: `Created 24 Nov`,
-            img1: `images/users/user14.jpg`,
-            img2: `images/users/user13.jpg`,
-            img3: `images/users/user12.jpg`
+            img1: `images/users/user14.webp`,
+            img2: `images/users/user13.webp`,
+            img3: `images/users/user12.webp`
         },
         {
             title: `LMS & education site design`,
@@ -221,8 +221,8 @@ export class KanbanBoardComponent {
             daysLeft: `Done`,
             category: `Education`,
             createdDate: `Created 23 Nov`,
-            img1: `images/users/user11.jpg`,
-            img2: `images/users/user10.jpg`
+            img1: `images/users/user11.webp`,
+            img2: `images/users/user10.webp`
         },
         {
             title: `Creative portfolio design`,
@@ -230,8 +230,8 @@ export class KanbanBoardComponent {
             daysLeft: `Done`,
             category: `Portfolio`,
             createdDate: `Created 22 Nov`,
-            img1: `images/users/user9.jpg`,
-            img2: `images/users/user8.jpg`
+            img1: `images/users/user9.webp`,
+            img2: `images/users/user8.webp`
         },
         {
             title: `Vaxo admin dashboard`,
@@ -239,7 +239,7 @@ export class KanbanBoardComponent {
             daysLeft: `Done`,
             category: `Admin`,
             createdDate: `Created 21 Nov`,
-            img1: `images/users/user7.jpg`
+            img1: `images/users/user7.webp`
         }
     ];
 

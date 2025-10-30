@@ -40,7 +40,7 @@
                         <ul class="menu-body pl-0 mb-0 mt-0 list-unstyled">
                             <li>
                                 <button mat-button>
-                                    <img ngSrc="assets/images/flags/usa.png" alt="flag" height="30" width="30">
+                                    <img ngSrc="assets/images/flags/usa.webp" alt="flag" height="30" width="30">
                                     English
                                 </button>
                             </li>
@@ -144,7 +144,7 @@
             </li>
             <li>
                 <button mat-button [matMenuTriggerFor]="profileMenu" class="profile-menu-btn">
-                    <img ngSrc="assets/images/admin.png" alt="profile-image" height="160" width="160">
+                    <img ngSrc="assets/images/admin.webp" alt="profile-image" height="160" width="160">
                     <span class="status d-inline-block rounded-circle position-absolute"></span>
                 </button>
                 <mat-menu class="profile-menu-dropdown" #profileMenu="matMenu" xPosition="before">
@@ -152,7 +152,7 @@
                         [class.dark-menu]="themeService.isDark() || themeService.isHeaderDark()"
                     >
                         <div class="menu-header d-flex align-items-center">
-                            <img ngSrc="assets/images/admin.png" alt="profile-image" height="160" width="160">
+                            <img ngSrc="assets/images/admin.webp" alt="profile-image" height="160" width="160">
                             <div class="title">
                                 <a routerLink="/profile" class="d-inline-block fw-medium">
                                     Mateo Luca

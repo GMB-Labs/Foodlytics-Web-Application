@@ -43,7 +43,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     {
         invoiceID: '#158',
         customer: {
-            img: 'assets/images/users/user15.jpg',
+            img: 'assets/images/users/user15.webp',
             name: 'Marcia Baker'
         },
         email: 'marcia@example.com',
@@ -60,7 +60,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     {
         invoiceID: '#325',
         customer: {
-            img: 'assets/images/users/user7.jpg',
+            img: 'assets/images/users/user7.webp',
             name: 'Carolyn Barnes'
         },
         email: 'barnes@example.com',
@@ -77,7 +77,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     {
         invoiceID: '#286',
         customer: {
-            img: 'assets/images/users/user12.jpg',
+            img: 'assets/images/users/user12.webp',
             name: 'Donna Miller'
         },
         email: 'donna@example.com',
@@ -94,7 +94,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     {
         invoiceID: '#463',
         customer: {
-            img: 'assets/images/users/user5.jpg',
+            img: 'assets/images/users/user5.webp',
             name: 'Barbara Cross'
         },
         email: 'cross@example.com',
@@ -111,7 +111,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     {
         invoiceID: '#998',
         customer: {
-            img: 'assets/images/users/user16.jpg',
+            img: 'assets/images/users/user16.webp',
             name: 'Rebecca Block'
         },
         email: 'block@example.com',
@@ -128,7 +128,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     {
         invoiceID: '#436',
         customer: {
-            img: 'assets/images/users/user9.jpg',
+            img: 'assets/images/users/user9.webp',
             name: 'Ramiro McCarty'
         },
         email: 'ramiro@example.com',
@@ -145,7 +145,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     {
         invoiceID: '#860',
         customer: {
-            img: 'assets/images/users/user1.jpg',
+            img: 'assets/images/users/user1.webp',
             name: 'Robert Fairweather'
         },
         email: 'robert@example.com',
@@ -162,7 +162,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     {
         invoiceID: '#491',
         customer: {
-            img: 'assets/images/users/user6.jpg',
+            img: 'assets/images/users/user6.webp',
             name: 'Marcelino Haddock'
         },
         email: 'haddock@example.com',
@@ -179,7 +179,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     {
         invoiceID: '#125',
         customer: {
-            img: 'assets/images/users/user13.jpg',
+            img: 'assets/images/users/user13.webp',
             name: 'Thomas Wilson'
         },
         email: 'wildon@example.com',
@@ -196,7 +196,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     {
         invoiceID: '#579',
         customer: {
-            img: 'assets/images/users/user14.jpg',
+            img: 'assets/images/users/user14.webp',
             name: 'Nathaniel Hulsey'
         },
         email: 'hulsey@example.com',
@@ -213,7 +213,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     {
         invoiceID: '#579',
         customer: {
-            img: 'assets/images/users/user14.jpg',
+            img: 'assets/images/users/user14.webp',
             name: 'Nathaniel Hulsey'
         },
         email: 'hulsey@example.com',
@@ -230,7 +230,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     {
         invoiceID: '#125',
         customer: {
-            img: 'assets/images/users/user13.jpg',
+            img: 'assets/images/users/user13.webp',
             name: 'Thomas Wilson'
         },
         email: 'wildon@example.com',
@@ -247,7 +247,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     {
         invoiceID: '#491',
         customer: {
-            img: 'assets/images/users/user6.jpg',
+            img: 'assets/images/users/user6.webp',
             name: 'Marcelino Haddock'
         },
         email: 'haddock@example.com',
@@ -264,7 +264,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     {
         invoiceID: '#860',
         customer: {
-            img: 'assets/images/users/user1.jpg',
+            img: 'assets/images/users/user1.webp',
             name: 'Robert Fairweather'
         },
         email: 'robert@example.com',
@@ -281,7 +281,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     {
         invoiceID: '#436',
         customer: {
-            img: 'assets/images/users/user9.jpg',
+            img: 'assets/images/users/user9.webp',
             name: 'Ramiro McCarty'
         },
         email: 'ramiro@example.com',
@@ -298,7 +298,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     {
         invoiceID: '#998',
         customer: {
-            img: 'assets/images/users/user16.jpg',
+            img: 'assets/images/users/user16.webp',
             name: 'Rebecca Block'
         },
         email: 'block@example.com',
@@ -315,7 +315,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     {
         invoiceID: '#463',
         customer: {
-            img: 'assets/images/users/user5.jpg',
+            img: 'assets/images/users/user5.webp',
             name: 'Barbara Cross'
         },
         email: 'cross@example.com',
@@ -332,7 +332,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     {
         invoiceID: '#286',
         customer: {
-            img: 'assets/images/users/user12.jpg',
+            img: 'assets/images/users/user12.webp',
             name: 'Donna Miller'
         },
         email: 'donna@example.com',
@@ -349,7 +349,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     {
         invoiceID: '#325',
         customer: {
-            img: 'assets/images/users/user7.jpg',
+            img: 'assets/images/users/user7.webp',
             name: 'Carolyn Barnes'
         },
         email: 'barnes@example.com',
@@ -366,7 +366,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     {
         invoiceID: '#158',
         customer: {
-            img: 'assets/images/users/user15.jpg',
+            img: 'assets/images/users/user15.webp',
             name: 'Marcia Baker'
         },
         email: 'marcia@example.com',
