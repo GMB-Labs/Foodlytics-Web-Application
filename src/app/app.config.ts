@@ -3,7 +3,7 @@ import {
     provideZonelessChangeDetection, isDevMode, inject, PLATFORM_ID, provideAppInitializer, ENVIRONMENT_INITIALIZER,
     provideEnvironmentInitializer
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import {provideRouter, withDebugTracing} from '@angular/router';
 import { routes } from './app.routes';
 import {provideClientHydration, withIncrementalHydration} from '@angular/platform-browser';
 import {provideHttpClient, withFetch, withInterceptorsFromDi} from "@angular/common/http";
@@ -17,7 +17,7 @@ export const appConfig: ApplicationConfig = {
         ...provideAuthWithRuntime(),
         provideBrowserGlobalErrorListeners(),
         provideZonelessChangeDetection(),
-        provideRouter(routes),
+        provideRouter(routes, withDebugTracing()),
         provideHttpClient(withFetch(), withInterceptorsFromDi()),
         provideClientHydration(withIncrementalHydration()),
         provideAnimations(),

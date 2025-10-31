@@ -49,10 +49,15 @@ export function provideAuthWithRuntime() {
                 domain,
                 clientId,
                 ...(isBrowser && {
-                    authorizationParams: { redirect_uri: window.location.origin },
+                    authorizationParams: { redirect_uri: window.location.origin + '/auth/callback'}
                 }),
                 httpInterceptor: { allowedList: ['/api/*'] },
             });
+            if (isBrowser) { // quitar, prueba, test
+                const redirectUri = `${window.location.origin}/auth/callback`;
+                console.log('[Auth0 redirect_uri usado]', redirectUri);
+                console.log('[Auth0]', { domain, clientId, redirect: window.location.origin + '/auth/callback' });
+            }
         }),
 
         ...(BROWSER

@@ -1,0 +1,44 @@
+<div class="callback-area">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div
+                class="daxa-form ml-auto mr-auto border-radius bg-white"
+                [class.card-borderd-theme]="themeService.isCardBorder()"
+                [class.component-dark-theme]="themeService.isDark()"
+            >
+                <div class="title text-center">
+                    <h3>
+                        Bienvenido a Foodlytics
+                    </h3>
+                    <p class="ml-auto mr-auto">
+                        Your account is verified! Your account is now safe from unwanted activities.
+                    </p>
+                </div>
+                <div class="admin text-center">
+                    <div class="logo position-relative text-success rounded-circle">
+                        <i class="material-symbols-outlined">
+                            done
+                        </i>
+                    </div>
+                    <span class="d-block fw-medium">
+                        Cuenta Verificada <span class="text-success">Successfully!</span>
+                    </span>
+                </div>
+                <div class="spinner-wrapper">
+                    @if (isLoading()) {
+                        <mat-spinner diameter="40"></mat-spinner>
+                    } @else {
+                        <div class="admin text-center">
+                            <div class="logo position-relative text-success rounded-circle">
+                                <i class="material-symbols-outlined">done</i>
+                            </div>
+                            <span class="d-block fw-medium">
+                                Cuenta Verificada<span class="text-success">Successfully!</span>
+                            </span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

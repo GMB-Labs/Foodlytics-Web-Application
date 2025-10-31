@@ -1,4 +1,4 @@
-.confirm-email-area {
+.callback-area {
     height: 100vh;
     overflow-x: hidden;
     padding: {
@@ -7,70 +7,82 @@
     };
 }
 .daxa-form {
-    max-width: 930px;
-    padding: 100px;
+  max-width: 930px;
+  padding: 100px;
 
-    .title {
-        margin-bottom: 25px;
+  .title {
+    margin-bottom: 25px;
 
-        h3 {
-            margin-bottom: 5px;
-        }
+    h3 {
+      margin-bottom: 5px;
     }
+  }
+
+  .admin {
+    margin-bottom: 30px;
+
+    .logo {
+      width: 200px;
+      height: 200px;
+      background-color: #f4f6fc;
+      margin: {
+        left: auto;
+        right: auto;
+      };
+
+      i {
+        left: 0;
+        right: 0;
+        top: 50%;
+        font-size: 55px;
+        position: absolute;
+        transform: translateY(-50%);
+      }
+    }
+
+    span {
+      font-size: 18px;
+      margin-top: 20px;
+    }
+  }
+
+  .btn {
+    &.mat-mdc-button {
+      border: 0;
+      width: 100%;
+      height: auto;
+      display: block;
+      min-width: auto;
+      min-height: auto;
+      padding: 17px 30px;
+      text-align: center;
+      font-weight: normal;
+      color: var(--whiteColor);
+      background-color: var(--daxaColor);
+
+      &[disabled] {
+        background-color: #eff3f9;
+      }
+    }
+  }
+
+  &.card-borderd-theme {
+    box-shadow: var(--borderBoxShadow) !important;
+  }
+
+  &.component-dark-theme {
     .admin {
-        margin-bottom: 30px;
+      .logo {
+        background-color: #28333f;
+      }
+    }
+  }
 
-        .logo {
-            width: 200px;
-            height: 200px;
-            background-color: #f4f6fc;
-            margin: {
-                left: auto;
-                right: auto;
-            };
-            i {
-                left: 0;
-                right: 0;
-                top: 50%;
-                font-size: 55px;
-                position: absolute;
-                transform: translateY(-50%);
-            }
-        }
-        span {
-            font-size: 18px;
-            margin-top: 20px;
-        }
-    }
-    .btn {
-        &.mat-mdc-button {
-            border: 0;
-            width: 100%;
-            height: auto;
-            display: block;
-            min-width: auto;
-            min-height: auto;
-            padding: 17px 30px;
-            text-align: center;
-            font-weight: normal;
-            color: var(--whiteColor);
-            background-color: var(--daxaColor);
-
-            &[disabled] {
-                background-color: #eff3f9;
-            }
-        }
-    }
-    &.card-borderd-theme {
-        box-shadow: var(--borderBoxShadow) !important;
-    }
-    &.component-dark-theme {
-        .admin {
-            .logo {
-                background-color: #28333f;
-            }
-        }
-    }
+  .spinner-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
 }
 
 /* Max width 767px */

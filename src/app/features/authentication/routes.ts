@@ -21,27 +21,14 @@ export const AUTH_ROUTES: Routes = [
                 loadComponent: () =>
                     import('./ui/pages/sign-up/sign-up.component').then(m => m.SignUpComponent) },
 
-            { path: 'forgot-password',
-                title: 'Forgot Password',
+            { path: 'callback',
                 loadComponent: () =>
-                    import('./ui/pages/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent) },
-
-            { path: 'reset-password', //nop
-                loadComponent: () =>
-                    import('./ui/reset-password/reset-password.component').then(m => m.ResetPasswordComponent) },
-
-            { path: 'confirm-email', //nop
-                loadComponent: () =>
-                    import('./ui/confirm-email/confirm-email.component').then(m => m.ConfirmEmailComponent) },
-
-            { path: 'lock-screen', //nop
-                loadComponent: () =>
-                    import('./ui/lock-screen/lock-screen.component').then(m => m.LockScreenComponent) },
+                    import('./ui/pages/callback/callback.component').then(m => m.CallbackComponent) },
 
             { path: 'logout',
                 title: 'Logout',
                 loadComponent: () =>
-                    import('./ui/pages/auth/auth.component').then(m => m.AuthComponent) },
+                    import('./ui/pages/logout/logout.component').then(m => m.LogoutComponent) },
         ],
     },
 ];

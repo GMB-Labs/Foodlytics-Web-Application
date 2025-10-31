@@ -1,11 +1,13 @@
 import { Routes } from '@angular/router';
 import { AuthShellComponent } from "./layouts/auth-shell/auth-shell.component";
 import { AppShellComponent } from "./layouts/app-shell/app-shell.component";
-import {RenderMode} from "@angular/ssr";
+import {authRedirectGuard} from "./core/auth/auth.redirect.guard";
+import {authGuard} from "./core/auth/auth.guard";
 
 export const routes: Routes = [
     {
         path: 'auth',
+        canActivate: [authRedirectGuard],
         component: AuthShellComponent,
         children: [
             { path: 'starter', loadComponent: () => import('./pages/starter/starter.component').then(m => m.StarterComponent)},
@@ -14,6 +16,7 @@ export const routes: Routes = [
     },
     {
         path: '',
+        canActivate: [authGuard],
         component: AppShellComponent,
         children: [
             { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
