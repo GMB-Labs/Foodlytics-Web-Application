@@ -28,7 +28,7 @@ export class WelcomeService {
                     startAngle: -90,
                     endAngle: 90,
                     track: {
-                        background: '#958df4',
+                        background: '#2FCCAC',
                         strokeWidth: '100%',
                         margin: 3,
                         dropShadow: { enabled: false }

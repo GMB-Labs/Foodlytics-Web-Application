@@ -100,7 +100,7 @@ export class WeeklyCaloricProgressService {
                     },
                     grid: {
                         strokeDashArray: 5,
-                        borderColor: "#7a70eb",
+                        borderColor: "#ffffff",
                     }
                 };
 
