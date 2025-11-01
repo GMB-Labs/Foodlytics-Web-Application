@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
-import { CustomizerSettingsService } from '../../core/customizer-settings/customizer-settings.service';
+import { CustomizerSettingsService } from '../../../../core/customizer-settings/customizer-settings.service';
 
 @Component({
     selector: 'app-pricing-page',
@@ -12,8 +12,6 @@ import { CustomizerSettingsService } from '../../core/customizer-settings/custom
 })
 export class PricingPageComponent {
 
-    constructor(
-        public themeService: CustomizerSettingsService
-    ) {}
+    public themeService = inject(CustomizerSettingsService);
 
 }

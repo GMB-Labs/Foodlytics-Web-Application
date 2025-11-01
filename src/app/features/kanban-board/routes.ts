@@ -11,7 +11,7 @@ export const KANBAN_BOARD_ROUTES: Routes = [
                 title: 'Kanban Board',
                 data: { breadcrumb: 'Kanban Board' },
                 loadComponent: () =>
-                    import('./ui/kanban-board.component').then(m => m.KanbanBoardComponent)
+                    import('./ui/pages/kanban-board.component').then(m => m.KanbanBoardComponent)
             }
         ]
     }

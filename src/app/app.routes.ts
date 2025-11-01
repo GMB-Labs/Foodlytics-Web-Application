@@ -16,7 +16,6 @@ export const routes: Routes = [
     },
     {
         path: '',
-        canActivate: [authGuard],
         component: AppShellComponent,
         children: [
             { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -27,9 +26,9 @@ export const routes: Routes = [
             { path: 'settings', loadChildren: () => import('./features/settings/routes').then(m => m.SETTINGS_ROUTES) },
             { path: 'invoices', loadChildren: () => import('./features/invoice/routes').then(m => m.INVOICE_ROUTES) },
             { path: 'profile', loadChildren: () => import('./features/profile/routes').then(m => m.PROFILE_ROUTES) },
+            { path: 'pricing', loadChildren: () => import('./features/pricing/routes').then(m => m.PRICING_ROUTES) },
             // Pages
             { path: 'faq', loadComponent: () => import('./pages/faq-page/faq-page.component').then(m => m.FaqPageComponent)},
-            { path: 'pricing', loadComponent: () => import('./pages/pricing-page/pricing-page.component').then(m => m.PricingPageComponent)},
             { path: 'notifications', loadComponent: () => import('./pages/notifications-page/notifications-page.component').then(m => m.NotificationsPageComponent)},
             { path: 'gallery', loadComponent: () => import('./pages/gallery-page/gallery-page.component').then(m => m.GalleryPageComponent) },
             { path: 'testimonials', loadComponent: () => import('./pages/testimonials-page/testimonials-page.component').then(m => m.TestimonialsPageComponent) },

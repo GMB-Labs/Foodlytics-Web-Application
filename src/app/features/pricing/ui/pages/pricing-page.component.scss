@@ -4,7 +4,7 @@
             .mat-mdc-card-header {
                 padding: 20px;
                 margin-bottom: 25px;
-                background: linear-gradient(180deg, #5C4EDB 0%, #796DF6 100%) !important;
+                background: var(--daxaColor);
 
                 h5 {
                     color: var(--whiteColor);
