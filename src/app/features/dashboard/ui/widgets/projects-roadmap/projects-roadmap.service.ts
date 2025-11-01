@@ -34,7 +34,7 @@ export class ProjectsRoadmapService {
                         }
                     },
                     colors: [
-                        "#796df6"
+                        "var(--daxaColor)"
                     ],
                     plotOptions: {
                         bar: {

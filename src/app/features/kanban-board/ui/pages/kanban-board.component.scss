@@ -2,6 +2,7 @@
 .mat-mdc-card {
     &.daxa-card {
         &.kanban-board-card {
+
             .mat-mdc-card-content {
                 .head {
                     margin-bottom: 9px;
@@ -54,6 +55,9 @@
             }
         }
     }
+}
+.bg-gradient-kanban {
+  background: var(--daxaColor);
 }
 ::ng-deep {
     .mat-mdc-card {

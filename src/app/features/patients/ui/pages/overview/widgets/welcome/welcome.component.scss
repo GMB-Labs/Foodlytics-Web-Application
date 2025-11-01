@@ -41,7 +41,7 @@
                 height: 215.821px;
                 position: absolute;
                 border-radius: 50%;
-                background: linear-gradient(180deg, #2FCCAC 0%, #24B999 100%) ;
+                background: var(--whiteColor);
             }
             &.rtl-enabled {
                 .content {
@@ -61,7 +61,9 @@
         }
     }
 }
-
+.bg-gradient-welcome {
+  background: var(--daxaColor);
+}
 /* Max width 767px */
 @media only screen and (max-width : 767px) {
 

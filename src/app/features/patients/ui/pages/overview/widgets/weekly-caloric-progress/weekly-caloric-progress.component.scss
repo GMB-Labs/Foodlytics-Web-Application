@@ -10,6 +10,9 @@
         }
     }
 }
+.bg-gradient-progress {
+  background: var(--whiteColor);
+}
 ::ng-deep {
     .mat-mdc-card {
         &.daxa-card {

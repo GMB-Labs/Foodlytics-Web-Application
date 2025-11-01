@@ -34,14 +34,14 @@ export class WeeklyCaloricProgressService {
                         height: 225,
                         type: "line",
                         toolbar: {
-                            show: false
+                            show: true
                         }
                     },
                     colors: [
-                        "#00cae3", "#ffb264"
+                        "var(--daxaColor)", "var(--dangerColor)"
                     ],
                     dataLabels: {
-                        enabled: false
+                        enabled: true,
                     },
                     stroke: {
                         width: 2,
@@ -49,10 +49,10 @@ export class WeeklyCaloricProgressService {
                         dashArray: [0, 8, 5]
                     },
                     legend: {
-                        show: false,
+                        show: true,
                         fontSize: '14px',
                         labels: {
-                            colors: "#ffffff"
+                            colors: "#475569"
                         }
                     },
                     markers: {
@@ -73,17 +73,17 @@ export class WeeklyCaloricProgressService {
                         ],
                         axisBorder: {
                             show: true,
-                            color: '#f1f1f1'
+                            color: '#475569'
                         },
                         axisTicks: {
                             show: true,
-                            color: '#f1f1f1'
+                            color: '#475569'
                         },
                         labels: {
-                            trim: false,
+                            trim: true,
                             show: true,
                             style: {
-                                colors: "#ffffff",
+                                colors: "#475569",
                                 fontSize: "14px"
                             }
                         }
@@ -93,14 +93,14 @@ export class WeeklyCaloricProgressService {
                         labels: {
                             show: true,
                             style: {
-                                colors: "#ffffff",
+                                colors: "#475569",
                                 fontSize: "14px"
                             }
                         }
                     },
                     grid: {
                         strokeDashArray: 5,
-                        borderColor: "#ffffff",
+                        borderColor: "#475569",
                     }
                 };
 
