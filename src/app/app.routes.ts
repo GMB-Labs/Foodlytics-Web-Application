@@ -30,9 +30,6 @@ export const routes: Routes = [
             // Pages
             { path: 'faq', loadComponent: () => import('./pages/faq-page/faq-page.component').then(m => m.FaqPageComponent)},
             { path: 'notifications', loadComponent: () => import('./pages/notifications-page/notifications-page.component').then(m => m.NotificationsPageComponent)},
-            { path: 'gallery', loadComponent: () => import('./pages/gallery-page/gallery-page.component').then(m => m.GalleryPageComponent) },
-            { path: 'testimonials', loadComponent: () => import('./pages/testimonials-page/testimonials-page.component').then(m => m.TestimonialsPageComponent) },
-            { path: 'search', loadComponent: () => import('./pages/search-page/search-page.component').then(m => m.SearchPageComponent)},
             { path: 'coming-soon', loadComponent: () => import('./pages/coming-soon-page/coming-soon-page.component').then(m => m.ComingSoonPageComponent)},
         ]
     },

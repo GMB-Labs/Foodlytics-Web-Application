@@ -7,7 +7,6 @@ import { WorkingScheduleComponent } from './widgets/working-schedule/working-sch
 import { ProjectsAnalysisComponent } from './widgets/projects-analysis/projects-analysis.component';
 import { ChatProjectsUserComponent } from './widgets/chat-projects-user/chat-projects-user.component';
 import { ToDoListComponent } from './widgets/to-do-list/to-do-list.component';
-import { ActiveProjectComponent } from './widgets/active-project/active-project.component';
 import { TeamMembersComponent } from './widgets/team-members/team-members.component';
 
 @Component({
@@ -50,16 +49,12 @@ import { TeamMembersComponent } from './widgets/team-members/team-members.compon
                 </div>
             </div>
         </div>
-        <div class="col-lg-8">
-            <!-- Active Project -->
-            <app-active-project />
-        </div>
         <div class="col-lg-4">
             <!-- Team Members -->
             <app-team-members />
         </div>
     </div>
     `,
-    imports: [ProjectsOverviewComponent, ProjectsRoadmapComponent, AllProjectsComponent, ProjectsProgressComponent, WorkingScheduleComponent, ProjectsAnalysisComponent, ChatProjectsUserComponent, ToDoListComponent, ActiveProjectComponent, TeamMembersComponent],
+    imports: [ProjectsOverviewComponent, ProjectsRoadmapComponent, AllProjectsComponent, ProjectsProgressComponent, WorkingScheduleComponent, ProjectsAnalysisComponent, ChatProjectsUserComponent, ToDoListComponent, TeamMembersComponent],
 })
 export class DashboardPage {}
