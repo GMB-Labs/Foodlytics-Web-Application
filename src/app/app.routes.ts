@@ -7,15 +7,16 @@ import {authGuard} from "./core/auth/auth.guard";
 export const routes: Routes = [
     {
         path: 'auth',
-        canActivate: [authRedirectGuard],
+        canMatch: [authRedirectGuard],
         component: AuthShellComponent,
         children: [
-            { path: 'starter', loadComponent: () => import('./pages/starter/starter.component').then(m => m.StarterComponent)},
-            { path: '', loadChildren: () => import('./features/authentication/routes').then(m => m.AUTH_ROUTES) }
+            { path: '', loadChildren: () => import('./features/authentication/routes').then(m => m.AUTH_ROUTES) },
+            { path: 'starter', loadComponent: () => import('./pages/starter/starter.component').then(m => m.StarterComponent)}
         ]
     },
     {
         path: '',
+        canMatch: [authGuard],
         component: AppShellComponent,
         children: [
             { path: '', pathMatch: 'full', redirectTo: 'dashboard' },

@@ -35,4 +35,5 @@ export class AuthComponent {
         if(!this.isBrowser || !this.auth) return;
         this.auth.loginWithRedirect();
     }
+
 }

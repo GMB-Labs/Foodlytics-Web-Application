@@ -1,12 +1,14 @@
-import { Component, signal} from '@angular/core';
+import {Component, DestroyRef, inject, PLATFORM_ID, signal} from '@angular/core';
 import {SidebarComponent} from "../../common/sidebar/sidebar.component";
 import {HeaderComponent} from "../../common/header/header.component";
 import {Event, NavigationEnd, Router, RouterOutlet} from "@angular/router";
 import {FooterComponent} from "../../common/footer/footer.component";
 import {CustomizerSettingsComponent} from "../../core/customizer-settings/customizer-settings.component";
 import {ToggleService} from "../../common/sidebar/toggle.service";
-import {NgClass, ViewportScroller} from "@angular/common";
+import {isPlatformBrowser, NgClass, ViewportScroller} from "@angular/common";
 import {CustomizerSettingsService} from "../../core/customizer-settings/customizer-settings.service";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {filter} from "rxjs";
 
 @Component({
     selector: 'app-app-shell',
@@ -50,31 +52,36 @@ import {CustomizerSettingsService} from "../../core/customizer-settings/customiz
     host: {class: 'block'}
 })
 export class AppShellComponent {
-    protected readonly title = signal('Daxa - Angular 20 Material Design Admin Dashboard Template');
+    protected readonly title = signal('Foodlytics - Web Application');
+    readonly themeService = inject(CustomizerSettingsService);
 
     // isSidebarToggled
-    isSidebarToggled = false;
+     isSidebarToggled = false;
+
+    private readonly router = inject(Router);
+    private readonly viewport = inject(ViewportScroller);
+    private readonly toggleService = inject(ToggleService);
+    private readonly destroyRef = inject(DestroyRef);
+    private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
     private previousUrl: string | null = null;
 
-    constructor(
-        public router: Router,
-        private toggleService: ToggleService,
-        private viewportScroller: ViewportScroller,
-        public themeService: CustomizerSettingsService
-    ) {
-        this.router.events.subscribe((event: Event) => {
-            if (event instanceof NavigationEnd) {
-                const currentUrl = event.urlAfterRedirects;
-                // Scroll to top ONLY if navigating to a different route (not on refresh)
+    constructor() {
+        this.toggleService.isSidebarToggled$
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(v => this.isSidebarToggled = v);
+        this.router.events
+            .pipe(
+                takeUntilDestroyed(this.destroyRef),
+                filter((e): e is NavigationEnd => e instanceof NavigationEnd)
+            )
+            .subscribe(e => {
+                if (!this.isBrowser) return;
+                const currentUrl = e.urlAfterRedirects;
                 if (this.previousUrl && this.previousUrl !== currentUrl) {
-                    this.viewportScroller.scrollToPosition([0, 0]);
+                    this.viewport.scrollToPosition([0, 0]);
                 }
                 this.previousUrl = currentUrl;
-            }
-        });
-        this.toggleService.isSidebarToggled$.subscribe(isSidebarToggled => {
-            this.isSidebarToggled = isSidebarToggled;
-        });
+            });
     }
 }
