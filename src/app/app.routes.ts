@@ -11,7 +11,6 @@ export const routes: Routes = [
         component: AuthShellComponent,
         children: [
             { path: '', loadChildren: () => import('./features/authentication/routes').then(m => m.AUTH_ROUTES) },
-            { path: 'starter', loadComponent: () => import('./pages/starter/starter.component').then(m => m.StarterComponent)}
         ]
     },
     {
@@ -36,6 +35,7 @@ export const routes: Routes = [
     },
 
     // Here add new pages component
+    { path: 'starter', loadComponent: () => import('./pages/starter/starter.component').then(m => m.StarterComponent)},
     { path: 'internal-error', loadComponent: () => import('./pages/errors/internal-error/internal-error.component').then(m => m.InternalErrorComponent)},
     { path: '**', loadComponent: () => import('./pages/errors/not-found/not-found.component').then(m => m.NotFoundComponent)},
     // This line will remain down from the whole pages component list
