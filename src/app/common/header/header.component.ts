@@ -5,6 +5,7 @@ import { ToggleService } from '../sidebar/toggle.service';
 import { MatButtonModule } from '@angular/material/button';
 import {Router, RouterLink} from '@angular/router';
 import { CustomizerSettingsService } from '../../core/customizer-settings/customizer-settings.service';
+import {AuthFacade} from "../../core/auth/auth.facade";
 
 @Component({
     selector: 'app-header',
@@ -13,9 +14,14 @@ import { CustomizerSettingsService } from '../../core/customizer-settings/custom
     styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-
+    public themeService = inject(CustomizerSettingsService);
+    private auth = inject(AuthFacade);
     private router = inject(Router);
     private location = inject(Location);
+
+    logout() {
+        this.auth.logout();
+    }
 
     // isSidebarToggled
     isSidebarToggled = false;
@@ -24,8 +30,7 @@ export class HeaderComponent {
     isToggled = false;
 
     constructor(
-        private toggleService: ToggleService,
-        public themeService: CustomizerSettingsService
+        private toggleService: ToggleService
     ) {
         this.toggleService.isSidebarToggled$.subscribe(isSidebarToggled => {
             this.isSidebarToggled = isSidebarToggled;

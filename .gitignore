@@ -44,9 +44,6 @@ dist/foodlytics
 **/*.mjs
 **/*.js.map
 
-# Vercel location folder
-.vercel/
-
 # Logs
 *.log
 logs/

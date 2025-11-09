@@ -2,7 +2,7 @@ import { Injectable, computed, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { AuthService } from '@auth0/auth0-angular';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { map, Observable } from 'rxjs';
+import { map, EMPTY } from 'rxjs';
 import { ADMIN_ROLE, ROLES_CLAIM } from './auth.tokens';
 
 type UserProfile = Record<string, unknown> & {
@@ -14,16 +14,21 @@ type UserProfile = Record<string, unknown> & {
 
 @Injectable({ providedIn: 'root' })
 export class AuthFacade {
-    private readonly auth0 = inject(AuthService);
     private readonly platformId = inject(PLATFORM_ID);
+    private readonly auth0?: AuthService;
 
-    readonly isLoading = toSignal(this.auth0.isLoading$, {initialValue: true})
+    constructor() {
+        if (isPlatformBrowser(this.platformId)) {
+            this.auth0 = inject(AuthService);
+        }
+    }
 
-    private get isBrowser() { return isPlatformBrowser(this.platformId); }
+    private get isBrowser() {
+        return isPlatformBrowser(this.platformId);
+    }
 
     private baseUrl(): string {
         if (!this.isBrowser) return '';
-        // Si expusiste __RUNTIME_CONFIG__ con baseUrl, úsalo:
         const g = globalThis as any;
         return g.__RUNTIME_CONFIG__?.baseUrl ?? window.location.origin;
     }
@@ -33,8 +38,20 @@ export class AuthFacade {
     }
 
     // ------- Signals del SDK -------
-    readonly isAuthenticated = toSignal(this.auth0.isAuthenticated$, { initialValue: false });
-    readonly user = toSignal<UserProfile | null>(this.auth0.user$.pipe(map(u => u ?? null)), { initialValue: null });
+    readonly isLoading = toSignal(
+        this.auth0?.isLoading$ ?? EMPTY,
+        { initialValue: true }
+    );
+
+    readonly isAuthenticated = toSignal(
+        this.auth0?.isAuthenticated$ ?? EMPTY,
+        { initialValue: false }
+    );
+
+    readonly user = toSignal<UserProfile | null>(
+        (this.auth0?.user$ ?? EMPTY).pipe(map(u => u ?? null)),
+        { initialValue: null }
+    );
 
     // ------- Derivados -------
     readonly roles = computed<string[]>(() => this.user()?.[ROLES_CLAIM] ?? []);
@@ -43,42 +60,49 @@ export class AuthFacade {
     readonly email = computed(() => this.user()?.email ?? '');
     readonly avatar = computed(() => this.user()?.picture ?? '');
 
-    // ------- Auth actions -------
-    login(): Observable<void> {
-        if (!this.isBrowser) return new Observable<void>(s => { s.complete(); });
-        return this.auth0.loginWithRedirect({
-            authorizationParams: { redirect_uri: this.baseUrl() + '/auth/callback' }
+    // ------- Acciones -------
+    login(redirectTo: string = '/dashboard'): void {
+        if (!this.isBrowser || !this.auth0) return;
+        this.auth0.loginWithRedirect({
+            authorizationParams: {
+                redirect_uri: this.baseUrl() + '/auth/callback'
+            },
+            appState: { target: redirectTo }
         });
     }
 
-    signup(): Observable<void> {
-        if (!this.isBrowser) return new Observable<void>(s => { s.complete(); });
-        return this.auth0.loginWithRedirect({
+    signup(redirectTo: string = '/dashboard'): void {
+        if (!this.isBrowser || !this.auth0) return;
+        this.auth0.loginWithRedirect({
             authorizationParams: {
                 screen_hint: 'signup',
                 redirect_uri: this.baseUrl() + '/auth/callback'
+            },
+            appState: { target: redirectTo }
+        });
+    }
+
+    forgotPassword(redirectTo: string = '/auth/callback'): void {
+        if (!this.isBrowser || !this.auth0) return;
+        this.auth0.loginWithRedirect({
+            authorizationParams: {
+                redirect_uri: this.baseUrl() + redirectTo
             }
         });
     }
 
-    /**
-     * Logout: limpia tokens del SDK y cierra sesión en Auth0.
-     * Opcionalmente returnTo.
-     */
-    logout(returnTo?: string): void {
-        if (!this.isBrowser) return;
+
+    logout(redirectPath = '/auth/logout'): void {
+        if (!this.isBrowser || !this.auth0) return;
         this.defensiveLocalCleanup();
+        const returnTo = this.baseUrl() + redirectPath;
         this.auth0.logout({
-            logoutParams: { returnTo: returnTo ?? this.buildReturnTo() }
+            logoutParams: { returnTo }
         });
     }
 
-    /**
-     * Logout federated: intenta cerrar también la sesión del IdP (Google, etc.).
-     * No todos los IdPs garantizan SLO.
-     */
     logoutAll(returnTo?: string): void {
-        if (!this.isBrowser) return;
+        if (!this.isBrowser || !this.auth0) return;
         this.defensiveLocalCleanup();
         this.auth0.logout({
             logoutParams: {
@@ -101,6 +125,7 @@ export class AuthFacade {
     getAccessTokenSilently(
         options?: Parameters<AuthService['getAccessTokenSilently']>[0]
     ) {
+        if (!this.auth0) return EMPTY;
         return this.auth0.getAccessTokenSilently(options);
     }
 }

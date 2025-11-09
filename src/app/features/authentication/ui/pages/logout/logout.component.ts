@@ -1,8 +1,8 @@
-import { Component} from '@angular/core';
+import {Component, inject, PLATFORM_ID} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { CustomizerSettingsService } from '../../../../../core/customizer-settings/customizer-settings.service';
-import {NgOptimizedImage} from "@angular/common";
+import { NgOptimizedImage} from "@angular/common";
 
 @Component({
     selector: 'app-logout',
@@ -11,9 +11,5 @@ import {NgOptimizedImage} from "@angular/common";
     styleUrl: './logout.component.scss'
 })
 export class LogoutComponent {
-
-    constructor(
-        public themeService: CustomizerSettingsService
-    ) {}
-
+    public themeService = inject(CustomizerSettingsService);
 }
