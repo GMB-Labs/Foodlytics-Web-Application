@@ -103,30 +103,6 @@
                     <span class="sub-title text-body">
                         MODULES
                     </span>
-                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>
-                                <i class="material-symbols-outlined">
-                                    content_copy
-                                </i>
-                                <span class="title">
-                                    Extra Pages
-                                </span>
-                            </mat-panel-title>
-                        </mat-expansion-panel-header>
-                        <ul class="sidebar-sub-menu">
-                            <li class="sidemenu-item">
-                                <a routerLink="/faq" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    FAQ
-                                </a>
-                            </li>
-                            <li class="sidemenu-item">
-                                <a routerLink="/coming-soon" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    Coming Soon
-                                </a>
-                            </li>
-                        </ul>
-                    </mat-expansion-panel>
                     <a routerLink="/notifications" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                         <i class="material-symbols-outlined">
                             notifications
@@ -188,6 +164,14 @@
                             </li>
                         </ul>
                     </mat-expansion-panel>
+                    <a routerLink="/faq" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <i class="material-symbols-outlined">
+                            info
+                        </i>
+                        <span class="title">
+                            FAQ
+                        </span>
+                    </a>
                     <a (click)="logout()" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                         <i class="material-symbols-outlined">
                             logout

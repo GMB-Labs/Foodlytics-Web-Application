@@ -19,6 +19,7 @@ export const AUTH_ROUTES: Routes = [
                 title: 'Logout',
                 loadComponent: () =>
                     import('./ui/pages/logout/logout.component').then(m => m.LogoutComponent) },
+
         ],
     },
 ];

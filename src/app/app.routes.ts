@@ -38,5 +38,6 @@ export const routes: Routes = [
     { path: 'starter', loadComponent: () => import('./pages/starter/starter.component').then(m => m.StarterComponent)},
     { path: 'internal-error', loadComponent: () => import('./pages/errors/internal-error/internal-error.component').then(m => m.InternalErrorComponent)},
     { path: '**', loadComponent: () => import('./pages/errors/not-found/not-found.component').then(m => m.NotFoundComponent)},
+    { path: 'onboarding', loadComponent: () => import('./features/authentication/ui/pages/onboarding/onboarding.component').then(m => m.OnboardingComponent)},
     // This line will remain down from the whole pages component list
 ];
