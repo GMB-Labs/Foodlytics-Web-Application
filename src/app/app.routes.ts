@@ -28,7 +28,7 @@ export const routes: Routes = [
             { path: 'profile', loadChildren: () => import('./features/profile/routes').then(m => m.PROFILE_ROUTES) },
             { path: 'pricing', loadChildren: () => import('./features/pricing/routes').then(m => m.PRICING_ROUTES) },
             // Pages
-            { path: 'faq', loadComponent: () => import('./pages/faq-page/faq-page.component').then(m => m.FaqPageComponent)},
+            { path: 'faq', loadComponent: () => import('./pages/faq-page/ui/pages/faq-page.component').then(m => m.FaqPageComponent)},
             { path: 'notifications', loadComponent: () => import('./pages/notifications-page/notifications-page.component').then(m => m.NotificationsPageComponent)},
             { path: 'coming-soon', loadComponent: () => import('./pages/coming-soon-page/coming-soon-page.component').then(m => m.ComingSoonPageComponent)},
         ]

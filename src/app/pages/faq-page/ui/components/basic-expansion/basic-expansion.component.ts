@@ -2,15 +2,15 @@ import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { CustomizerSettingsService } from '../../../core/customizer-settings/customizer-settings.service';
+import { CustomizerSettingsService } from '../../../../../core/customizer-settings/customizer-settings.service';
 
 @Component({
-    selector: 'app-advance-expansion',
+    selector: 'app-basic-expansion',
     imports: [MatCardModule, MatButtonModule, MatExpansionModule],
-    templateUrl: './advance-expansion.component.html',
-    styleUrl: './advance-expansion.component.scss'
+    templateUrl: './basic-expansion.component.html',
+    styleUrl: './basic-expansion.component.scss'
 })
-export class AdvanceExpansionComponent {
+export class BasicExpansionComponent {
 
     // Expansion Panel
     panelOpenState = false;
