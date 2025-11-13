@@ -31,13 +31,15 @@ export const routes: Routes = [
             { path: 'faq', loadComponent: () => import('./pages/faq-page/ui/pages/faq-page.component').then(m => m.FaqPageComponent)},
             { path: 'notifications', loadComponent: () => import('./pages/notifications-page/notifications-page.component').then(m => m.NotificationsPageComponent)},
             { path: 'coming-soon', loadComponent: () => import('./pages/coming-soon-page/coming-soon-page.component').then(m => m.ComingSoonPageComponent)},
+            // test
+            { path: 'onboarding', loadComponent: () => import('./features/authentication/ui/pages/onboarding/onboarding.component').then(m => m.OnboardingComponent)},
         ]
     },
 
     // Here add new pages component
     { path: 'starter', loadComponent: () => import('./pages/starter/starter.component').then(m => m.StarterComponent)},
     { path: 'internal-error', loadComponent: () => import('./pages/errors/internal-error/internal-error.component').then(m => m.InternalErrorComponent)},
+    // not found
     { path: '**', loadComponent: () => import('./pages/errors/not-found/not-found.component').then(m => m.NotFoundComponent)},
-    { path: 'onboarding', loadComponent: () => import('./features/authentication/ui/pages/onboarding/onboarding.component').then(m => m.OnboardingComponent)},
     // This line will remain down from the whole pages component list
 ];
