@@ -2,42 +2,65 @@
 const eslint = require("@eslint/js");
 const tseslint = require("typescript-eslint");
 const angular = require("angular-eslint");
+const prettierPlugin = require("eslint-plugin-prettier");
+const prettierConfig = require("eslint-config-prettier");
 
 module.exports = tseslint.config(
-  {
-    files: ["**/*.ts"],
-    extends: [
-      eslint.configs.recommended,
-      ...tseslint.configs.recommended,
-      ...tseslint.configs.stylistic,
-      ...angular.configs.tsRecommended,
-    ],
-    processor: angular.processInlineTemplates,
-    rules: {
-      "@angular-eslint/directive-selector": [
-        "error",
-        {
-          type: "attribute",
-          prefix: "app",
-          style: "camelCase",
+    {
+        files: ["**/*.ts"],
+        extends: [
+            eslint.configs.recommended,
+            ...tseslint.configs.recommended,
+            ...tseslint.configs.stylistic,
+            ...angular.configs.tsRecommended,
+            prettierConfig,
+        ],
+        plugins: {
+            prettier: prettierPlugin,
         },
-      ],
-      "@angular-eslint/component-selector": [
-        "error",
-        {
-          type: "element",
-          prefix: "app",
-          style: "kebab-case",
+        processor: angular.processInlineTemplates,
+        rules: {
+            "no-console": ["error", { allow: ["warn", "error"] }],
+
+            "prettier/prettier": "error",
+
+            "@angular-eslint/directive-selector": [
+                "error",
+                {
+                    type: "attribute",
+                    prefix: "app",
+                    style: "camelCase",
+                },
+            ],
+            "@angular-eslint/component-selector": [
+                "error",
+                {
+                    type: "element",
+                    prefix: "app",
+                    style: "kebab-case",
+                },
+            ],
         },
-      ],
     },
-  },
-  {
-    files: ["**/*.html"],
-    extends: [
-      ...angular.configs.templateRecommended,
-      ...angular.configs.templateAccessibility,
-    ],
-    rules: {},
-  }
+
+    {
+        files: ["src/server.ts"],
+        rules: {
+            "no-console": "off",
+        },
+    },
+
+    {
+        files: ["**/*.html"],
+        extends: [
+            ...angular.configs.templateRecommended,
+            ...angular.configs.templateAccessibility,
+        ],
+        plugins: {
+            prettier: prettierPlugin,
+        },
+        rules: {
+            "prettier/prettier": "error",
+        },
+    }
 );

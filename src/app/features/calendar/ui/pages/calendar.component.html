@@ -1,19 +1,22 @@
 <!-- Calendar -->
 <div class="row">
-    <div class="col-xxxl-8">
-        <mat-card
-            class="daxa-card calendar-card mb-25 border-radius bg-white border-none d-block"
-            [class.component-dark-theme]="themeService.isDark()"
-            [class.rtl-enabled]="themeService.isRTLEnabled()"
-        >
-            <mat-card-content>
-                @if (isBrowser) {
-                    <full-calendar ngSkipHydration [options]="calendarOptions"></full-calendar>
-                }
-            </mat-card-content>
-        </mat-card>
-    </div>
-    <div class="col-lg-5 col-xxxl-4">
-        <app-working-schedule />
-    </div>
+  <div class="col-xxxl-8">
+    <mat-card
+      class="daxa-card calendar-card mb-25 border-radius bg-white border-none d-block"
+      [class.component-dark-theme]="themeService.isDark()"
+      [class.rtl-enabled]="themeService.isRTLEnabled()"
+    >
+      <mat-card-content>
+        @if (isBrowser) {
+          <full-calendar
+            ngSkipHydration
+            [options]="calendarOptions"
+          ></full-calendar>
+        }
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="col-lg-5 col-xxxl-4">
+    <app-working-schedule />
+  </div>
 </div>

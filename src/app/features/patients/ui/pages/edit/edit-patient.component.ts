@@ -1,60 +1,75 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatSelectModule } from '@angular/material/select';
-import { FileUploadModule } from '@iplab/ngx-file-upload';
-import { NgxEditorModule, Editor, Toolbar } from 'ngx-editor';
+import {
+  Component,
+  Inject,
+  PLATFORM_ID,
+  OnInit,
+  OnDestroy,
+} from "@angular/core";
+import { isPlatformBrowser } from "@angular/common";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatNativeDateModule } from "@angular/material/core";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatSelectModule } from "@angular/material/select";
+import { FileUploadModule } from "@iplab/ngx-file-upload";
+import { NgxEditorModule, Editor, Toolbar } from "ngx-editor";
 
 @Component({
-    selector: 'app-edit-list',
-    imports: [MatCardModule, MatMenuModule, MatButtonModule, FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, ReactiveFormsModule, FileUploadModule, NgxEditorModule],
-    templateUrl: './edit-patient.component.html',
-    styleUrl: './edit-patient.component.scss'
+  selector: "app-edit-list",
+  imports: [
+    MatCardModule,
+    MatMenuModule,
+    MatButtonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    ReactiveFormsModule,
+    FileUploadModule,
+    NgxEditorModule,
+  ],
+  templateUrl: "./edit-patient.component.html",
+  styleUrl: "./edit-patient.component.scss",
 })
-export class EditPatientComponent {
+export class EditPatientComponent implements OnInit, OnDestroy {
+  // Text Editor
+  editor!: Editor | null; // Make it nullable
+  toolbar: Toolbar = [
+    ["bold", "italic"],
+    ["underline", "strike"],
+    ["code", "blockquote"],
+    ["ordered_list", "bullet_list"],
+    [{ heading: ["h1", "h2", "h3", "h4", "h5", "h6"] }],
+    ["link", "image"],
+    ["text_color", "background_color"],
+    ["align_left", "align_center", "align_right", "align_justify"],
+  ];
 
-    // Text Editor
-    editor!: Editor | null;  // Make it nullable
-    toolbar: Toolbar = [
-        ['bold', 'italic'],
-        ['underline', 'strike'],
-        ['code', 'blockquote'],
-        ['ordered_list', 'bullet_list'],
-        [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
-        ['link', 'image'],
-        ['text_color', 'background_color'],
-        ['align_left', 'align_center', 'align_right', 'align_justify'],
-    ];
-
-    ngOnInit(): void {
-        if (isPlatformBrowser(this.platformId)) {
-            // Initialize the editor only in the browser
-            this.editor = new Editor();
-        }
+  ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      // Initialize the editor only in the browser
+      this.editor = new Editor();
     }
+  }
 
-    ngOnDestroy(): void {
-        if (isPlatformBrowser(this.platformId) && this.editor) {
-            this.editor.destroy();
-        }
+  ngOnDestroy(): void {
+    if (isPlatformBrowser(this.platformId) && this.editor) {
+      this.editor.destroy();
     }
+  }
 
-    constructor(
-        @Inject(PLATFORM_ID) private platformId: Object
-    ) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: object) {}
 
-    // File Uploader
-    public multiple: boolean = false;
+  // File Uploader
+  public multiple = false;
 
-    // Select Value
-    statusSelected = 'option1';
-    roleSelected = 'option1';
-
+  // Select Value
+  statusSelected = "option1";
+  roleSelected = "option1";
 }

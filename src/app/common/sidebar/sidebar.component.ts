@@ -1,49 +1,54 @@
-import {Component, inject} from '@angular/core';
-import { NgScrollbarModule } from 'ngx-scrollbar';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
-import { ToggleService } from './toggle.service';
-import { NgClass, NgOptimizedImage} from '@angular/common';
-import { CustomizerSettingsService } from '../../core/customizer-settings/customizer-settings.service';
-import {AuthFacade} from "../../core/auth/auth.facade";
+import { Component, inject } from "@angular/core";
+import { NgScrollbarModule } from "ngx-scrollbar";
+import { MatExpansionModule } from "@angular/material/expansion";
+import { RouterLink, RouterLinkActive, RouterModule } from "@angular/router";
+import { ToggleService } from "./toggle.service";
+import { NgClass, NgOptimizedImage } from "@angular/common";
+import { CustomizerSettingsService } from "../../core/customizer-settings/customizer-settings.service";
+import { AuthFacade } from "../../core/auth/auth.facade";
 
 @Component({
-    selector: 'app-sidebar',
-    imports: [NgScrollbarModule, MatExpansionModule, RouterLinkActive, RouterModule, RouterLink, NgClass, NgOptimizedImage],
-    templateUrl: './sidebar.component.html',
-    styleUrl: './sidebar.component.scss'
+  selector: "app-sidebar",
+  imports: [
+    NgScrollbarModule,
+    MatExpansionModule,
+    RouterLinkActive,
+    RouterModule,
+    RouterLink,
+    NgClass,
+    NgOptimizedImage,
+  ],
+  templateUrl: "./sidebar.component.html",
+  styleUrl: "./sidebar.component.scss",
 })
 export class SidebarComponent {
-    public themeService = inject(CustomizerSettingsService);
-    private auth = inject(AuthFacade);
+  public themeService = inject(CustomizerSettingsService);
+  private auth = inject(AuthFacade);
 
-    logout() {
-        this.auth.logout();
-    }
+  logout() {
+    this.auth.logout();
+  }
 
-    // isSidebarToggled
-    isSidebarToggled = false;
+  // isSidebarToggled
+  isSidebarToggled = false;
 
-    // isToggled
-    isToggled = false;
+  // isToggled
+  isToggled = false;
 
-    constructor(
-        private toggleService: ToggleService,
-    ) {
-        this.toggleService.isSidebarToggled$.subscribe(isSidebarToggled => {
-            this.isSidebarToggled = isSidebarToggled;
-        });
-        this.themeService.isToggled$.subscribe(isToggled => {
-            this.isToggled = isToggled;
-        });
-    }
+  constructor(private toggleService: ToggleService) {
+    this.toggleService.isSidebarToggled$.subscribe((isSidebarToggled) => {
+      this.isSidebarToggled = isSidebarToggled;
+    });
+    this.themeService.isToggled$.subscribe((isToggled) => {
+      this.isToggled = isToggled;
+    });
+  }
 
-    // Burger Menu Toggle
-    toggle() {
-        this.toggleService.toggle();
-    }
+  // Burger Menu Toggle
+  toggle() {
+    this.toggleService.toggle();
+  }
 
-    // Mat Expansion
-    panelOpenState = false;
-
+  // Mat Expansion
+  panelOpenState = false;
 }

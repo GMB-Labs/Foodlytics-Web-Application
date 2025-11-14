@@ -1,23 +1,19 @@
-import { Component } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatMenuModule } from '@angular/material/menu';
-import { WeeklyCaloriesBurnedService } from './weekly-calories-burned.service';
+import { Component, OnInit } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatMenuModule } from "@angular/material/menu";
+import { WeeklyCaloriesBurnedService } from "./weekly-calories-burned.service";
 
 @Component({
-    selector: 'app-weekly-calories-burned',
-    imports: [MatCardModule, MatMenuModule, MatButtonModule],
-    templateUrl: './weekly-calories-burned.component.html',
-    styleUrl: './weekly-calories-burned.component.scss'
+  selector: "app-weekly-calories-burned",
+  imports: [MatCardModule, MatMenuModule, MatButtonModule],
+  templateUrl: "./weekly-calories-burned.component.html",
+  styleUrl: "./weekly-calories-burned.component.scss",
 })
-export class WeeklyCaloriesBurnedComponent {
+export class WeeklyCaloriesBurnedComponent implements OnInit {
+  constructor(private complaintsService: WeeklyCaloriesBurnedService) {}
 
-    constructor(
-        private complaintsService: WeeklyCaloriesBurnedService
-    ) {}
-
-    ngOnInit(): void {
-        this.complaintsService.loadChart();
-    }
-
+  ngOnInit(): void {
+    this.complaintsService.loadChart();
+  }
 }

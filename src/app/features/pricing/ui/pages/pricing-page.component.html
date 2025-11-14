@@ -1,72 +1,72 @@
 <!-- Pricing -->
-<div class="row justify-content-center"
-     [class.component-dark-theme]="themeService.isDark()"
+<div
+  class="row justify-content-center"
+  [class.component-dark-theme]="themeService.isDark()"
 >
-    @for (plan of plans(); track trackById($index, plan)) {
-        <div class="col-lg-4 col-xxxl-3 col-sm-6">
-            <mat-card
-                    class="daxa-card pricing-card mb-25 border-radius p-0 bg-white border-none d-block"
-                    [class.recommended]="plan.recommended"
-            >
-                <mat-card-header class="border-top-radius">
-                    <mat-card-title>
-                        <h5 class="mb-0">{{ plan.name }}</h5>
-                        <span class="d-block">{{ plan.tagline }}</span>
-                    </mat-card-title>
-                </mat-card-header>
+  @for (plan of plans(); track trackById($index, plan)) {
+    <div class="col-lg-4 col-xxxl-3 col-sm-6">
+      <mat-card
+        class="daxa-card pricing-card mb-25 border-radius p-0 bg-white border-none d-block"
+        [class.recommended]="plan.recommended"
+      >
+        <mat-card-header class="border-top-radius">
+          <mat-card-title>
+            <h5 class="mb-0">{{ plan.name }}</h5>
+            <span class="d-block">{{ plan.tagline }}</span>
+          </mat-card-title>
+        </mat-card-header>
 
-                <mat-card-content>
-                    <!-- Precio -->
-                    <div class="price lh-1 text-primary fw-medium">
-                        {{ priceLabel(plan.priceCents) }}
-                        <span class="fw-normal text-body">/ Per month</span>
-                    </div>
+        <mat-card-content>
+          <!-- Precio -->
+          <div class="price lh-1 text-primary fw-medium">
+            {{ priceLabel(plan.priceCents) }}
+            <span class="fw-normal text-body">/ Per month</span>
+          </div>
 
-                    <!-- Lista de features fijos por plan (check/close) -->
-                    <ul class="features-list mb-0 mt-0 list-unstyled">
+          <!-- Lista de features fijos por plan (check/close) -->
+          <ul class="features-list mb-0 mt-0 list-unstyled">
+            <!-- Opcionales por plan (kanban / calendar) -->
+            <li class="position-relative text-body">
+              Kanban board
+              <i class="material-symbols-outlined text-daxa">
+                {{ plan.limits.features.kanban ? "done" : "close" }}
+              </i>
+            </li>
+            <li class="position-relative text-body">
+              Calendar con alertas
+              <i class="material-symbols-outlined text-daxa">
+                {{ plan.limits.features.calendar ? "done" : "close" }}
+              </i>
+            </li>
 
-                        <!-- Opcionales por plan (kanban / calendar) -->
-                        <li class="position-relative text-body">
-                            Kanban board
-                            <i class="material-symbols-outlined text-daxa">
-                                {{ plan.limits.features.kanban ? 'done' : 'close' }}
-                            </i>
-                        </li>
-                        <li class="position-relative text-body">
-                            Calendar con alertas
-                            <i class="material-symbols-outlined text-daxa">
-                                {{ plan.limits.features.calendar ? 'done' : 'close' }}
-                            </i>
-                        </li>
+            <!-- Features declarados en el modelo -->
+            @for (f of getFeatures(plan); track f.label) {
+              <li class="position-relative text-body">
+                {{ f.label }}
+                <i class="material-symbols-outlined text-daxa">
+                  {{ f.included ? "done" : "close" }}
+                </i>
+              </li>
+            }
 
-                        <!-- Features declarados en el modelo -->
-                        @for (f of getFeatures(plan); track f.label) {
-                            <li class="position-relative text-body">
-                                {{ f.label }}
-                                <i class="material-symbols-outlined text-daxa">
-                                    {{ f.included ? 'done' : 'close' }}
-                                </i>
-                            </li>
-                        }
+            <!-- Comunes a todos los planes -->
+            <li class="position-relative text-daxa">
+              Todos los planes incluyen:
+            </li>
+            @for (c of commons; track c) {
+              <li class="position-relative text-body">
+                {{ c }}
+                <i class="material-symbols-outlined text-daxa">done</i>
+              </li>
+            }
+          </ul>
 
-                        <!-- Comunes a todos los planes -->
-                        <li class="position-relative text-daxa">
-                            Todos los planes incluyen:
-                        </li>
-                        @for (c of commons; track c) {
-                            <li class="position-relative text-body">
-                                {{ c }}
-                                <i class="material-symbols-outlined text-daxa">done</i>
-                            </li>
-                        }
-                    </ul>
-
-                    <!-- CTA -->
-                    <button mat-button (click)="selectPlan(plan)">
-                        {{ plan.cta }}
-                    </button>
-                </mat-card-content>
-            </mat-card>
-        </div>
-    }
+          <!-- CTA -->
+          <button mat-button (click)="selectPlan(plan)">
+            {{ plan.cta }}
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  }
 </div>

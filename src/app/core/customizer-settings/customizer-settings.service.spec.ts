@@ -1,16 +1,16 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { CustomizerSettingsService } from './customizer-settings.service';
+import { CustomizerSettingsService } from "./customizer-settings.service";
 
-describe('CustomizerSettingsService', () => {
-    let service: CustomizerSettingsService;
+describe("CustomizerSettingsService", () => {
+  let service: CustomizerSettingsService;
 
-    beforeEach(() => {
-        TestBed.configureTestingModule({});
-        service = TestBed.inject(CustomizerSettingsService);
-    });
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(CustomizerSettingsService);
+  });
 
-    it('should be created', () => {
-        expect(service).toBeTruthy();
-    });
+  it("should be created", () => {
+    expect(service).toBeTruthy();
+  });
 });

@@ -1,30 +1,43 @@
 import {
-    ApplicationConfig, provideBrowserGlobalErrorListeners,
-    provideZonelessChangeDetection, isDevMode, inject, PLATFORM_ID, provideAppInitializer, ENVIRONMENT_INITIALIZER,
-    provideEnvironmentInitializer
-} from '@angular/core';
-import {provideRouter, withDebugTracing} from '@angular/router';
-import { routes } from './app.routes';
-import {provideClientHydration, withIncrementalHydration} from '@angular/platform-browser';
-import {provideHttpClient, withFetch, withInterceptorsFromDi} from "@angular/common/http";
-import {provideAnimations} from "@angular/platform-browser/animations";
-import {provideBreadcrumbsFromRouter} from "./shared/data-access/breadcrumb/breadcrumb.providers";
-import { provideServiceWorker } from '@angular/service-worker';
-import {provideAuthWithRuntime} from "./core/auth/auth.providers";
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+  provideZonelessChangeDetection,
+  isDevMode,
+  inject,
+  PLATFORM_ID,
+  provideAppInitializer,
+  ENVIRONMENT_INITIALIZER,
+  provideEnvironmentInitializer,
+} from "@angular/core";
+import { provideRouter, withDebugTracing } from "@angular/router";
+import { routes } from "./app.routes";
+import {
+  provideClientHydration,
+  withIncrementalHydration,
+} from "@angular/platform-browser";
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
+import { provideAnimations } from "@angular/platform-browser/animations";
+import { provideBreadcrumbsFromRouter } from "./shared/data-access/breadcrumb/breadcrumb.providers";
+import { provideServiceWorker } from "@angular/service-worker";
+import { provideAuthWithRuntime } from "./core/auth/auth.providers";
 
 export const appConfig: ApplicationConfig = {
-    providers: [
-        ...provideAuthWithRuntime(),
-        provideBrowserGlobalErrorListeners(),
-        provideZonelessChangeDetection(),
-        provideRouter(routes, withDebugTracing()),
-        provideHttpClient(withFetch(), withInterceptorsFromDi()),
-        provideClientHydration(withIncrementalHydration()),
-        provideAnimations(),
-        provideBreadcrumbsFromRouter(),
-        provideServiceWorker('ngsw-worker.js', {
-            enabled: !isDevMode(),
-            registrationStrategy: 'registerWhenStable:30000'
-        })
-    ]
+  providers: [
+    ...provideAuthWithRuntime(),
+    provideBrowserGlobalErrorListeners(),
+    provideZonelessChangeDetection(),
+    provideRouter(routes, withDebugTracing()),
+    provideHttpClient(withFetch(), withInterceptorsFromDi()),
+    provideClientHydration(withIncrementalHydration()),
+    provideAnimations(),
+    provideBreadcrumbsFromRouter(),
+    provideServiceWorker("ngsw-worker.js", {
+      enabled: !isDevMode(),
+      registrationStrategy: "registerWhenStable:30000",
+    }),
+  ],
 };

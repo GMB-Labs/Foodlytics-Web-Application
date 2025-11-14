@@ -1,8 +1,8 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { WeeklyCaloricProgressService } from './weekly-caloric-progress.service';
+import { WeeklyCaloricProgressService } from "./weekly-caloric-progress.service";
 
-describe('WeeklyCaloricProgressService', () => {
+describe("WeeklyCaloricProgressService", () => {
   let service: WeeklyCaloricProgressService;
 
   beforeEach(() => {
@@ -10,7 +10,7 @@ describe('WeeklyCaloricProgressService', () => {
     service = TestBed.inject(WeeklyCaloricProgressService);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(service).toBeTruthy();
   });
 });

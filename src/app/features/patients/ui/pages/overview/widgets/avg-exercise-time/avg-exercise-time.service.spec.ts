@@ -1,8 +1,8 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { AvgExerciseTimeService } from './avg-exercise-time.service';
+import { AvgExerciseTimeService } from "./avg-exercise-time.service";
 
-describe('AvgExerciseTimeService', () => {
+describe("AvgExerciseTimeService", () => {
   let service: AvgExerciseTimeService;
 
   beforeEach(() => {
@@ -10,7 +10,7 @@ describe('AvgExerciseTimeService', () => {
     service = TestBed.inject(AvgExerciseTimeService);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(service).toBeTruthy();
   });
 });

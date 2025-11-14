@@ -1,61 +1,35 @@
 <mat-card
-    class="daxa-card basic-timeline-card mb-10 border-radius bg-white border-none d-block"
-    [class.component-dark-theme]="themeService.isDark()"
-    [class.rtl-enabled]="themeService.isRTLEnabled()"
+  class="daxa-card basic-timeline-card mb-10 border-radius bg-white border-none d-block"
+  [class.component-dark-theme]="themeService.isDark()"
+  [class.rtl-enabled]="themeService.isRTLEnabled()"
 >
-    <mat-card-header>
-        <mat-card-title>
-            <h5 class="mb-0">
-                Cronología de Actividades Diaria
-            </h5>
-        </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-        <ul class="timeline pl-0 mb-0 mt-0 list-unstyled">
-            <li class="position-relative">
-                <h5>
-                    Lunch
-                </h5>
-                <span class="time d-block text-body">
-                    13:47 H Wednesday
-                </span>
-                <p class="text-black">
-                    Arroz con Ceviche.
-                </p>
-            </li>
-            <li class="position-relative">
-                <h5>
-                    Exercise
-                </h5>
-                <span class="time d-block text-body">
-                    15:21 H Wednesday
-                </span>
-                <p class="text-black">
-                    Upper Body Gym Exercise.
-                </p>
-            </li>
-            <li class="position-relative">
-                <h5>
-                    Dessert
-                </h5>
-                <span class="time d-block text-body">
-                    12:59 PM Wednesday
-                </span>
-                <p class="text-black">
-                    Patitas y Monster.
-                </p>
-            </li>
-            <li class="position-relative">
-                <h5>
-                    Dinner
-                </h5>
-                <span class="time d-block text-body">
-                    11:47 PM Wednesday
-                </span>
-                <p class="text-black">
-                    Chaqueta Masiva Twin Turbo.
-                </p>
-            </li>
-        </ul>
-    </mat-card-content>
+  <mat-card-header>
+    <mat-card-title>
+      <h5 class="mb-0">Cronología de Actividades Diaria</h5>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <ul class="timeline pl-0 mb-0 mt-0 list-unstyled">
+      <li class="position-relative">
+        <h5>Lunch</h5>
+        <span class="time d-block text-body"> 13:47 H Wednesday </span>
+        <p class="text-black">Arroz con Ceviche.</p>
+      </li>
+      <li class="position-relative">
+        <h5>Exercise</h5>
+        <span class="time d-block text-body"> 15:21 H Wednesday </span>
+        <p class="text-black">Upper Body Gym Exercise.</p>
+      </li>
+      <li class="position-relative">
+        <h5>Dessert</h5>
+        <span class="time d-block text-body"> 12:59 PM Wednesday </span>
+        <p class="text-black">Patitas y Monster.</p>
+      </li>
+      <li class="position-relative">
+        <h5>Dinner</h5>
+        <span class="time d-block text-body"> 11:47 PM Wednesday </span>
+        <p class="text-black">Chaqueta Masiva Twin Turbo.</p>
+      </li>
+    </ul>
+  </mat-card-content>
 </mat-card>

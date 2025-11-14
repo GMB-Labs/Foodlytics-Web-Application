@@ -1,8 +1,8 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { AvgCaloriesBurnedService } from './avg-calories-burned.service';
+import { AvgCaloriesBurnedService } from "./avg-calories-burned.service";
 
-describe('AvgCaloriesBurnedService', () => {
+describe("AvgCaloriesBurnedService", () => {
   let service: AvgCaloriesBurnedService;
 
   beforeEach(() => {
@@ -10,7 +10,7 @@ describe('AvgCaloriesBurnedService', () => {
     service = TestBed.inject(AvgCaloriesBurnedService);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(service).toBeTruthy();
   });
 });
