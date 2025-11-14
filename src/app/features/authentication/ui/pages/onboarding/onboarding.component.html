@@ -1,286 +1,297 @@
-<mat-stepper #stepper>
-    <mat-step>
-        <ng-template matStepLabel>
-            Step 1
-        </ng-template>
-        <form>
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="mb-20">
-                        <label class="main-label d-block lh-1 text-black">
-                            First Name
-                        </label>
-                        <mat-form-field>
-                            <mat-label>
-                                Enter first name
-                            </mat-label>
-                            <input matInput placeholder="E.g. Mateo">
-                        </mat-form-field>
+<mat-card class="daxa-card mb-25 border-radius bg-white border-none d-block">
+    <mat-card-header>
+        <mat-card-title>
+            <h5 class="mb-0">
+                Horizontal Wizard
+            </h5>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-stepper #stepper>
+            <mat-step>
+                <ng-template matStepLabel>
+                    Step 1
+                </ng-template>
+                <form>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="mb-20">
+                                <label class="main-label d-block lh-1 text-black">
+                                    First Name
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter first name
+                                    </mat-label>
+                                    <input matInput placeholder="E.g. Mateo">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="mb-20">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Last Name
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter last name
+                                    </mat-label>
+                                    <input matInput placeholder="E.g. Luca">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="mb-20">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Email Address
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter email address
+                                    </mat-label>
+                                    <input matInput placeholder="E.g. hello@daxa.com">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="mb-20">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Phone Number
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter phone number
+                                    </mat-label>
+                                    <input matInput placeholder="E.g. +123 452183">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="mb-20">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Address
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter address
+                                    </mat-label>
+                                    <input matInput placeholder="E.g. Amsterdam">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="mb-20">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Country
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter country
+                                    </mat-label>
+                                    <input matInput placeholder="E.g. Netherlands">
+                                </mat-form-field>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="mb-20">
-                        <label class="main-label d-block lh-1 text-black">
-                            Last Name
-                        </label>
-                        <mat-form-field>
-                            <mat-label>
-                                Enter last name
-                            </mat-label>
-                            <input matInput placeholder="E.g. Luca">
-                        </mat-form-field>
+                    <div>
+                        <button mat-flat-button matStepperNext class="daxa">Next</button>
                     </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="mb-20">
-                        <label class="main-label d-block lh-1 text-black">
-                            Email Address
-                        </label>
-                        <mat-form-field>
-                            <mat-label>
-                                Enter email address
-                            </mat-label>
-                            <input matInput placeholder="E.g. hello@daxa.com">
-                        </mat-form-field>
+                </form>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>
+                    Step 2
+                </ng-template>
+                <form>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="mb-20">
+                                <label class="main-label d-block lh-1 text-black">
+                                    First Name
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter first name
+                                    </mat-label>
+                                    <input matInput placeholder="E.g. Mateo">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="mb-20">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Last Name
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter last name
+                                    </mat-label>
+                                    <input matInput placeholder="E.g. Luca">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="mb-20">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Email Address
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter email address
+                                    </mat-label>
+                                    <input matInput placeholder="E.g. hello@daxa.com">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="mb-20">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Phone Number
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter phone number
+                                    </mat-label>
+                                    <input matInput placeholder="E.g. +123 452183">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="mb-20">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Address
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter address
+                                    </mat-label>
+                                    <input matInput placeholder="E.g. Amsterdam">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="mb-20">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Country
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter country
+                                    </mat-label>
+                                    <input matInput placeholder="E.g. Netherlands">
+                                </mat-form-field>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="mb-20">
-                        <label class="main-label d-block lh-1 text-black">
-                            Phone Number
-                        </label>
-                        <mat-form-field>
-                            <mat-label>
-                                Enter phone number
-                            </mat-label>
-                            <input matInput placeholder="E.g. +123 452183">
-                        </mat-form-field>
+                    <div>
+                        <button mat-flat-button matStepperPrevious class="mr-15">Back</button>
+                        <button mat-flat-button matStepperNext class="daxa">Next</button>
                     </div>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="mb-20">
-                        <label class="main-label d-block lh-1 text-black">
-                            Address
-                        </label>
-                        <mat-form-field>
-                            <mat-label>
-                                Enter address
-                            </mat-label>
-                            <input matInput placeholder="E.g. Amsterdam">
-                        </mat-form-field>
+                </form>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>
+                    Step 3
+                </ng-template>
+                <form>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="mb-20">
+                                <label class="main-label d-block lh-1 text-black">
+                                    First Name
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter first name
+                                    </mat-label>
+                                    <input matInput placeholder="E.g. Mateo">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="mb-20">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Last Name
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter last name
+                                    </mat-label>
+                                    <input matInput placeholder="E.g. Luca">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="mb-20">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Email Address
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter email address
+                                    </mat-label>
+                                    <input matInput placeholder="E.g. hello@daxa.com">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="mb-20">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Phone Number
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter phone number
+                                    </mat-label>
+                                    <input matInput placeholder="E.g. +123 452183">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="mb-20">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Address
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter address
+                                    </mat-label>
+                                    <input matInput placeholder="E.g. Amsterdam">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="mb-20">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Country
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter country
+                                    </mat-label>
+                                    <input matInput placeholder="E.g. Netherlands">
+                                </mat-form-field>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="mb-20">
-                        <label class="main-label d-block lh-1 text-black">
-                            Country
-                        </label>
-                        <mat-form-field>
-                            <mat-label>
-                                Enter country
-                            </mat-label>
-                            <input matInput placeholder="E.g. Netherlands">
-                        </mat-form-field>
+                    <div>
+                        <button mat-flat-button matStepperPrevious class="mr-15">Back</button>
+                        <button mat-flat-button matStepperNext class="daxa">Next</button>
                     </div>
+                </form>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>
+                    Step 4
+                </ng-template>
+                <p>
+                    You are now done.
+                </p>
+                <div>
+                    <button mat-flat-button class="daxa mr-15" matStepperPrevious>Back</button>
+                    <button mat-flat-button color="warn" (click)="stepper.reset()">Reset</button>
                 </div>
-            </div>
-            <div>
-                <button mat-flat-button matStepperNext class="daxa">Next</button>
-            </div>
-        </form>
-    </mat-step>
-    <mat-step>
-        <ng-template matStepLabel>
-            Step 2
-        </ng-template>
-        <form>
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="mb-20">
-                        <label class="main-label d-block lh-1 text-black">
-                            First Name
-                        </label>
-                        <mat-form-field>
-                            <mat-label>
-                                Enter first name
-                            </mat-label>
-                            <input matInput placeholder="E.g. Mateo">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="mb-20">
-                        <label class="main-label d-block lh-1 text-black">
-                            Last Name
-                        </label>
-                        <mat-form-field>
-                            <mat-label>
-                                Enter last name
-                            </mat-label>
-                            <input matInput placeholder="E.g. Luca">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="mb-20">
-                        <label class="main-label d-block lh-1 text-black">
-                            Email Address
-                        </label>
-                        <mat-form-field>
-                            <mat-label>
-                                Enter email address
-                            </mat-label>
-                            <input matInput placeholder="E.g. hello@daxa.com">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="mb-20">
-                        <label class="main-label d-block lh-1 text-black">
-                            Phone Number
-                        </label>
-                        <mat-form-field>
-                            <mat-label>
-                                Enter phone number
-                            </mat-label>
-                            <input matInput placeholder="E.g. +123 452183">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="mb-20">
-                        <label class="main-label d-block lh-1 text-black">
-                            Address
-                        </label>
-                        <mat-form-field>
-                            <mat-label>
-                                Enter address
-                            </mat-label>
-                            <input matInput placeholder="E.g. Amsterdam">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="mb-20">
-                        <label class="main-label d-block lh-1 text-black">
-                            Country
-                        </label>
-                        <mat-form-field>
-                            <mat-label>
-                                Enter country
-                            </mat-label>
-                            <input matInput placeholder="E.g. Netherlands">
-                        </mat-form-field>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <button mat-flat-button matStepperPrevious class="mr-15">Back</button>
-                <button mat-flat-button matStepperNext class="daxa">Next</button>
-            </div>
-        </form>
-    </mat-step>
-    <mat-step>
-        <ng-template matStepLabel>
-            Step 3
-        </ng-template>
-        <form>
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="mb-20">
-                        <label class="main-label d-block lh-1 text-black">
-                            First Name
-                        </label>
-                        <mat-form-field>
-                            <mat-label>
-                                Enter first name
-                            </mat-label>
-                            <input matInput placeholder="E.g. Mateo">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="mb-20">
-                        <label class="main-label d-block lh-1 text-black">
-                            Last Name
-                        </label>
-                        <mat-form-field>
-                            <mat-label>
-                                Enter last name
-                            </mat-label>
-                            <input matInput placeholder="E.g. Luca">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="mb-20">
-                        <label class="main-label d-block lh-1 text-black">
-                            Email Address
-                        </label>
-                        <mat-form-field>
-                            <mat-label>
-                                Enter email address
-                            </mat-label>
-                            <input matInput placeholder="E.g. hello@daxa.com">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="mb-20">
-                        <label class="main-label d-block lh-1 text-black">
-                            Phone Number
-                        </label>
-                        <mat-form-field>
-                            <mat-label>
-                                Enter phone number
-                            </mat-label>
-                            <input matInput placeholder="E.g. +123 452183">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="mb-20">
-                        <label class="main-label d-block lh-1 text-black">
-                            Address
-                        </label>
-                        <mat-form-field>
-                            <mat-label>
-                                Enter address
-                            </mat-label>
-                            <input matInput placeholder="E.g. Amsterdam">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="mb-20">
-                        <label class="main-label d-block lh-1 text-black">
-                            Country
-                        </label>
-                        <mat-form-field>
-                            <mat-label>
-                                Enter country
-                            </mat-label>
-                            <input matInput placeholder="E.g. Netherlands">
-                        </mat-form-field>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <button mat-flat-button matStepperPrevious class="mr-15">Back</button>
-                <button mat-flat-button matStepperNext class="daxa">Next</button>
-            </div>
-        </form>
-    </mat-step>
-    <mat-step>
-        <ng-template matStepLabel>
-            Step 4
-        </ng-template>
-        <p>
-            You are now done.
-        </p>
-        <div>
-            <button mat-flat-button class="daxa mr-15" matStepperPrevious>Back</button>
-            <button mat-flat-button color="warn" (click)="stepper.reset()">Reset</button>
-        </div>
-    </mat-step>
-</mat-stepper>
+            </mat-step>
+        </mat-stepper>
+    </mat-card-content>
+</mat-card>

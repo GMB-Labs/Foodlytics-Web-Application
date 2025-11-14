@@ -4,6 +4,7 @@ import { MatFormFieldModule} from "@angular/material/form-field";
 import { MatLabel} from "@angular/material/form-field";
 import { MatInputModule} from "@angular/material/input";
 import { MatButtonModule} from "@angular/material/button";
+import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 
 @Component({
   selector: 'app-onboarding',
@@ -13,6 +14,10 @@ import { MatButtonModule} from "@angular/material/button";
         MatLabel,
         MatInputModule,
         MatButtonModule,
+        MatCardContent,
+        MatCardTitle,
+        MatCard,
+        MatCardHeader,
     ],
   templateUrl: './onboarding.component.html',
   styleUrl: './onboarding.component.scss',

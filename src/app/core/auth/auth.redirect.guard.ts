@@ -8,9 +8,10 @@ export const authRedirectGuard: CanMatchFn = (route, segments) => {
     const platformId = inject(PLATFORM_ID);
     if (!isPlatformBrowser(platformId)) return true;
 
-    const path = '/' + segments.map(s => s.path).join('/');
-    if (path === '/callback' || path == '/logout') return true;
-
+    const path = segments[segments.length - 1]?.path ?? '';
+    if (['callback', 'logout', 'silent'].includes(path)) {
+        return true;
+    }
     const auth = inject(AuthService);
     const router = inject(Router);
     return auth.isAuthenticated$.pipe(

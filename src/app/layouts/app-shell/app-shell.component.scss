@@ -21,6 +21,22 @@
   }
 }
 
+.spinner-wrapper {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+.app-loading {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bs-body-bg);
+  margin: 0;
+  padding: 0;
+}
+
 // Blank Page
 .blank-page {
   app-sidebar, app-footer, app-header {

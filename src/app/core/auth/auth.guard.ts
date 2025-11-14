@@ -6,12 +6,12 @@ import {combineLatestWith, filter, map, take} from "rxjs";
 
 export const authGuard: CanMatchFn = (): ReturnType<CanMatchFn> => {
     const platformId = inject(PLATFORM_ID);
-    const router = inject(Router);
 
     if (!isPlatformBrowser(platformId)) {
-        return router.createUrlTree(['/auth']);
+        return true;
     }
 
+    const router = inject(Router);
     const auth = inject(AuthService);
     return auth.isLoading$.pipe(
         combineLatestWith(auth.isAuthenticated$),

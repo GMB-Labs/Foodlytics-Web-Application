@@ -11,7 +11,7 @@
                         Bienvenido a Foodlytics
                     </h3>
                     <p class="ml-auto mr-auto">
-                        Your account is verified! Your account is now safe from unwanted activities.
+                        Estamos verificando tu cuenta, por favor espera un momento.
                     </p>
                 </div>
                 <div class="admin text-center">
@@ -27,15 +27,6 @@
                 <div class="spinner-wrapper">
                     @if (isLoading()) {
                         <mat-spinner diameter="40"></mat-spinner>
-                    } @else {
-                        <div class="admin text-center">
-                            <div class="logo position-relative text-success rounded-circle">
-                                <i class="material-symbols-outlined">done</i>
-                            </div>
-                            <span class="d-block fw-medium">
-                                Cuenta Verificada<span class="text-success">Successfully!</span>
-                            </span>
-                        </div>
                     }
                 </div>
             </div>
