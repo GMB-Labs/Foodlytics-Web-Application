@@ -7,6 +7,7 @@ import { isPlatformBrowser } from "@angular/common";
 import { combineLatest, take } from "rxjs";
 import { filter, map } from "rxjs/operators";
 import { CustomizerSettingsService } from "../../../../../core/customizer-settings/customizer-settings.service";
+import {LoggerService} from "../../../../../core/logger/logger.service";
 
 @Component({
     selector: 'app-confirm-email',
@@ -16,6 +17,7 @@ import { CustomizerSettingsService } from "../../../../../core/customizer-settin
 })
 export class CallbackComponent implements OnInit {
 
+    private readonly logger = inject(LoggerService)
     public themeService = inject(CustomizerSettingsService);
     private readonly router = inject(Router);
     private readonly platformId = inject(PLATFORM_ID);
@@ -37,7 +39,7 @@ export class CallbackComponent implements OnInit {
                 next: (isAuth) => {
                     if (!isAuth) {
                         this.isLoading.set(false);
-                        this.router.navigateByUrl('/auth').then(r => console.log('Navigate to auth'));
+                        this.router.navigateByUrl('/auth').then(r => this.logger.log('Navigate to auth'));
                         return;
                     }
 
@@ -48,7 +50,7 @@ export class CallbackComponent implements OnInit {
                             .pipe(take(1))
                             .subscribe((state: any) => {
                                 const target = state?.target ?? '/dashboard';
-                                this.router.navigateByUrl(target).then(r => console.log(`Navigate to ${target}`),
+                                this.router.navigateByUrl(target).then(r => this.logger.log(`Navigate to ${target}`),
                                     () => console.error(`Failed to navigate to ${target}`));
                             });
 
@@ -57,7 +59,7 @@ export class CallbackComponent implements OnInit {
 
                 error: () => {
                     this.isLoading.set(false);
-                    this.router.navigateByUrl('/auth').then(r => console.log('Navigate to auth'));
+                    this.router.navigateByUrl('/auth').then(r => this.logger.log('Navigate to auth'));
                 }
             });
     }

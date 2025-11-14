@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import {Router, RouterLink} from '@angular/router';
 import { CustomizerSettingsService } from '../../core/customizer-settings/customizer-settings.service';
 import {AuthFacade} from "../../core/auth/auth.facade";
+import {LoggerService} from "../../core/logger/logger.service";
 
 @Component({
     selector: 'app-header',
@@ -14,6 +15,7 @@ import {AuthFacade} from "../../core/auth/auth.facade";
     styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
+    private readonly logger = inject(LoggerService)
     public themeService = inject(CustomizerSettingsService);
     private auth = inject(AuthFacade);
     private router = inject(Router);
@@ -66,7 +68,7 @@ export class HeaderComponent {
         if (window.history.length > 1) {
             this.location.back();
         } else {
-            this.router.navigate(['/dashboard']).then(r => console.log('Navigate to dashboard'));
+            this.router.navigate(['/dashboard']).then(r => this.logger.log('Navigate to dashboard'));
         }
     }
 }

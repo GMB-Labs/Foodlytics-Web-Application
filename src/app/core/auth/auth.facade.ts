@@ -28,9 +28,11 @@ export class AuthFacade {
     }
 
     private baseUrl(): string {
-        if (!this.isBrowser) return '';
-        const g = globalThis as any;
-        return g.__RUNTIME_CONFIG__?.baseUrl ?? window.location.origin;
+        if (!this.isBrowser) {
+            return 'https://foodlytics.onrender.com';
+        }
+
+        return window.location.origin;
     }
 
     private buildReturnTo(fallbackPath = '/auth/logged-out'): string {
