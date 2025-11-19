@@ -15,13 +15,10 @@ type UserProfile = Record<string, unknown> & {
 @Injectable({ providedIn: "root" })
 export class AuthFacade {
   private readonly platformId = inject(PLATFORM_ID);
-  private readonly auth0?: AuthService;
 
-  constructor() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.auth0 = inject(AuthService);
-    }
-  }
+  private readonly auth0: AuthService | null = isPlatformBrowser(this.platformId)
+        ? inject(AuthService)
+        : null;
 
   private get isBrowser() {
     return isPlatformBrowser(this.platformId);
