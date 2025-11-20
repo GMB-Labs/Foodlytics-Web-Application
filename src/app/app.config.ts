@@ -19,7 +19,7 @@ import { provideAnimations } from "@angular/platform-browser/animations";
 import { provideBreadcrumbsFromRouter } from "./shared/data-access/breadcrumb/breadcrumb.providers";
 import { provideServiceWorker } from "@angular/service-worker";
 import { provideAuthWithRuntime } from "./core/auth/auth.providers";
-import {provideNativeDateAdapter} from "@angular/material/core";
+import { provideNativeDateAdapter } from "@angular/material/core";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -31,7 +31,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withIncrementalHydration()),
     provideAnimations(),
     provideBreadcrumbsFromRouter(),
-      provideNativeDateAdapter(),
+    provideNativeDateAdapter(),
     provideServiceWorker("ngsw-worker.js", {
       enabled: !isDevMode(),
       registrationStrategy: "registerWhenStable:30000",

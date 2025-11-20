@@ -18,9 +18,11 @@ export class AuthFacade {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly userStore = inject(UserStore);
 
-  private readonly auth0: AuthService | null = isPlatformBrowser(this.platformId)
-        ? inject(AuthService)
-        : null;
+  private readonly auth0: AuthService | null = isPlatformBrowser(
+    this.platformId,
+  )
+    ? inject(AuthService)
+    : null;
 
   private get isBrowser() {
     return isPlatformBrowser(this.platformId);

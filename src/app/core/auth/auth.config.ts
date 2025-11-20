@@ -12,8 +12,8 @@ export const AUTH0_CONFIG: AuthConfig = {
   clientId: environment.auth0ClientId,
   authorizationParams: {
     redirect_uri: redirectUri,
-      audience: environment.audience,
-    scope: "openid profile email offline_access"
+    audience: environment.audience,
+    scope: "openid profile email offline_access",
   },
   cacheLocation: "localstorage",
   useRefreshTokens: true,

@@ -153,23 +153,23 @@
               themeService.isDark() || themeService.isHeaderDark()
             "
           >
-              <div class="menu-header d-flex align-items-center">
-                <img
-                  [ngSrc]="profileAvatar()"
-                  alt="profile-image"
-                  height="160"
-                  width="160"
-                  class="avatar-img"
-                />
-                <div class="title">
-                  <a routerLink="/profile" class="d-inline-block fw-medium">
-                    {{ profileName() || "Profile" }}
-                  </a>
-                  <span class="designation d-block text-body">
-                    {{ profileRole() }}
-                  </span>
-                </div>
+            <div class="menu-header d-flex align-items-center">
+              <img
+                [ngSrc]="profileAvatar()"
+                alt="profile-image"
+                height="160"
+                width="160"
+                class="avatar-img"
+              />
+              <div class="title">
+                <a routerLink="/profile" class="d-inline-block fw-medium">
+                  {{ profileName() || "Profile" }}
+                </a>
+                <span class="designation d-block text-body">
+                  {{ profileRole() }}
+                </span>
               </div>
+            </div>
             <ul class="menu-body pl-0 mb-0 mt-0 list-unstyled">
               <li class="position-relative transition fw-medium">
                 <i class="material-symbols-outlined"> person </i>

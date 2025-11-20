@@ -46,7 +46,7 @@ export class UserSyncService {
             switchMap((profile) =>
               this.handleProfileResponse(profile, headers),
             ),
-        );
+          );
       }),
       catchError((error) => {
         this.logger.error("User sync failed", error);
@@ -73,9 +73,12 @@ export class UserSyncService {
         });
 
         return this.http
-          .get<UserProfileResponse>(`${this.apiUrl}/api/v1/profiles/${encodedId}`, {
-            headers,
-          })
+          .get<UserProfileResponse>(
+            `${this.apiUrl}/api/v1/profiles/${encodedId}`,
+            {
+              headers,
+            },
+          )
           .pipe(
             tap((profile) => {
               this.userStore.setProfile(profile ?? null);
@@ -224,9 +227,12 @@ export class UserSyncService {
     if (needsFullProfile && userId) {
       const encodedId = encodeURIComponent(userId);
       return this.http
-        .get<UserProfileResponse>(`${this.apiUrl}/api/v1/profiles/${encodedId}`, {
-          headers,
-        })
+        .get<UserProfileResponse>(
+          `${this.apiUrl}/api/v1/profiles/${encodedId}`,
+          {
+            headers,
+          },
+        )
         .pipe(
           tap((fullProfile) => {
             this.userStore.setProfile(fullProfile ?? null);

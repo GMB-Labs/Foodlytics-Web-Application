@@ -3,7 +3,7 @@ import { AuthShellComponent } from "./layouts/auth-shell/auth-shell.component";
 import { AppShellComponent } from "./layouts/app-shell/app-shell.component";
 import { authRedirectGuard } from "./core/auth/auth.redirect.guard";
 import { authGuard } from "./core/auth/auth.guard";
-import {adminGuard} from "./core/auth/role.guard";
+import { adminGuard } from "./core/auth/role.guard";
 
 export const routes: Routes = [
   {
@@ -20,7 +20,7 @@ export const routes: Routes = [
   },
   {
     path: "",
-      //adminGuard
+    //adminGuard
     canMatch: [authGuard],
     component: AppShellComponent,
     children: [
@@ -88,7 +88,7 @@ export const routes: Routes = [
           import("./pages/coming-soon-page/coming-soon-page.component").then(
             (m) => m.ComingSoonPageComponent,
           ),
-      }
+      },
     ],
   },
 
