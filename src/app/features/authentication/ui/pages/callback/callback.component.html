@@ -23,6 +23,33 @@
         <div class="spinner-wrapper">
           @if (isLoading()) {
             <mat-spinner diameter="40"></mat-spinner>
+          } @else if (syncError()) {
+            <div class="text-center">
+              <p class="text-danger mb-10">
+                No pudimos sincronizar tu perfil en este momento.
+              </p>
+              <p class="text-body mb-15">
+                Tu sesión sigue activa, pero algunos datos pueden tardar en cargarse.
+              </p>
+              <div class="d-flex justify-content-center gap-15 flex-wrap">
+                <button
+                  mat-flat-button
+                  color="primary"
+                  type="button"
+                  (click)="retrySync()"
+                >
+                  Reintentar
+                </button>
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  type="button"
+                  (click)="continueWithoutSync()"
+                >
+                  Continuar
+                </button>
+              </div>
+            </div>
           }
         </div>
       </div>
