@@ -206,11 +206,13 @@
                     position: relative;
                     padding: 0 18px 0 0;
 
-                    img {
+                    .avatar-img {
                         width: 48px;
                         height: 48px;
                         border-radius: 50%;
                         object-fit: cover;
+                        display: block;
+                        flex-shrink: 0;
                     }
                     &::after {
                         top: 50%;
@@ -764,11 +766,13 @@
                     right: 20px;
                     bottom: 20px;
                 };
-                img {
-                    width: 56px;
-                    height: 56px;
+                .avatar-img {
+                    width: 48px;
+                    height: 48px;
                     border-radius: 50%;
                     object-fit: cover;
+                    display: block;
+                    flex-shrink: 0;
                 }
                 .title {
                     margin-left: 12px;
