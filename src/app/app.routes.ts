@@ -20,7 +20,8 @@ export const routes: Routes = [
   },
   {
     path: "",
-    canMatch: [authGuard, adminGuard],
+      //adminGuard
+    canMatch: [authGuard],
     component: AppShellComponent,
     children: [
       { path: "", pathMatch: "full", redirectTo: "dashboard" },
