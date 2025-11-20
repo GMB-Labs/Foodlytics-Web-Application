@@ -1,25 +1,22 @@
+// core/auth/admin.guard.ts
 import { inject } from "@angular/core";
-import { CanActivateFn, Router, UrlTree } from "@angular/router";
-import { AuthService } from "@auth0/auth0-angular";
-import { map, filter, take, combineLatest } from "rxjs";
+import { CanMatchFn, Router, UrlSegment, Route } from "@angular/router";
+import { AuthFacade } from "./auth.facade";
 
-export const adminGuard: CanActivateFn = () => {
-  const auth = inject(AuthService);
-  const router = inject(Router);
+export const adminGuard: CanMatchFn = (
+    route: Route,
+    segments: UrlSegment[],
+) => {
+    const auth = inject(AuthFacade);
+    const router = inject(Router);
 
-  return combineLatest([
-    auth.isLoading$,
-    auth.user$,
-    auth.isAuthenticated$,
-  ]).pipe(
-    filter(([loading]) => !loading),
-    take(1),
-    map(([, user, authed]) => {
-      if (!authed) return router.createUrlTree(["/auth"]);
-      const roles = (user as any)?.["https://foodlytics.app/roles"] ?? [];
-      return roles.includes("nutritionist")
-        ? true
-        : router.createUrlTree(["/unauthorized"]);
-    }),
-  );
+    if (!auth.isAuthenticated()) {
+        return router.createUrlTree(["/auth"]);
+    }
+
+    if (!auth.isAdmin()) {
+        return router.createUrlTree(["/starter"]); // o "/not-authorized" si creas esa vista
+    }
+
+    return true;
 };
