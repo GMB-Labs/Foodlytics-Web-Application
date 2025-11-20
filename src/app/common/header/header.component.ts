@@ -119,11 +119,7 @@ export class HeaderComponent {
       document.documentElement.scrollTop ||
       document.body.scrollTop ||
       0;
-    if (scrollPosition >= 50) {
-      this.isSticky = true;
-    } else {
-      this.isSticky = false;
-    }
+    this.isSticky = scrollPosition >= 50;
   }
 
   // Dark Mode
