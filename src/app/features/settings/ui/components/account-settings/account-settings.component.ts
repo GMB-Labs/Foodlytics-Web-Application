@@ -5,16 +5,18 @@ import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
 import { FileUploadModule } from "@iplab/ngx-file-upload";
 import { CustomizerSettingsService } from "../../../../../core/customizer-settings/customizer-settings.service";
+import { MatDatepickerModule } from "@angular/material/datepicker";
 
 @Component({
   selector: "app-account-settings",
-  imports: [
-    MatButtonModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    FileUploadModule,
-  ],
+    imports: [
+        MatButtonModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        FileUploadModule,
+        MatDatepickerModule
+    ],
   templateUrl: "./account-settings.component.html",
   styleUrl: "./account-settings.component.scss",
 })
