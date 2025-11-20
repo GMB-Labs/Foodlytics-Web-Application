@@ -4,6 +4,7 @@ import { AuthService } from "@auth0/auth0-angular";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { map, EMPTY } from "rxjs";
 import { ADMIN_ROLE, ROLES_CLAIM } from "./auth.tokens";
+import { UserStore } from "../user/user.store";
 
 type UserProfile = Record<string, unknown> & {
   name?: string;
@@ -16,6 +17,7 @@ type UserProfile = Record<string, unknown> & {
 export class AuthFacade {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly auth0?: AuthService;
+  private readonly userStore = inject(UserStore);
 
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
@@ -92,6 +94,7 @@ export class AuthFacade {
   }
 
   logout(redirectPath = "/auth/logout"): void {
+    this.userStore.clear();
     if (!this.isBrowser || !this.auth0) return;
     this.defensiveLocalCleanup();
     const returnTo = this.baseUrl() + redirectPath;
@@ -101,6 +104,7 @@ export class AuthFacade {
   }
 
   logoutAll(returnTo?: string): void {
+    this.userStore.clear();
     if (!this.isBrowser || !this.auth0) return;
     this.defensiveLocalCleanup();
     this.auth0.logout({
