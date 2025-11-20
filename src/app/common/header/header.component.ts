@@ -1,12 +1,22 @@
 import { Location, NgClass, NgOptimizedImage } from "@angular/common";
 import { MatMenuModule } from "@angular/material/menu";
-import { Component, HostListener, inject } from "@angular/core";
+import {
+  Component,
+  HostListener,
+  Injector,
+  computed,
+  effect,
+  inject,
+} from "@angular/core";
 import { ToggleService } from "../sidebar/toggle.service";
 import { MatButtonModule } from "@angular/material/button";
 import { Router, RouterLink } from "@angular/router";
 import { CustomizerSettingsService } from "../../core/customizer-settings/customizer-settings.service";
 import { AuthFacade } from "../../core/auth/auth.facade";
 import { LoggerService } from "../../core/logger/logger.service";
+import { UserStore } from "../../core/user/user.store";
+import { UserSyncService } from "../../core/user/user-sync.service";
+import { take } from "rxjs";
 
 @Component({
   selector: "app-header",
@@ -26,6 +36,41 @@ export class HeaderComponent {
   private auth = inject(AuthFacade);
   private router = inject(Router);
   private location = inject(Location);
+  private readonly userStore = inject(UserStore);
+  private readonly userSync = inject(UserSyncService);
+  private readonly injector = inject(Injector);
+
+  readonly hasIncompleteProfile = computed<boolean>(() => {
+    const profile = this.userStore.profile();
+    if (!profile || typeof profile !== "object") return false;
+    return profile.user_profile_completed === false;
+  });
+
+  readonly profileName = computed(() => {
+    const profile = this.userStore.profile();
+    if (profile && typeof profile === "object") {
+      const name = `${profile.first_name ?? ""} ${profile.last_name ?? ""}`
+        .trim()
+        .replace(/\s+/g, " ");
+      if (name) return name;
+    }
+    return this.auth.displayName();
+  });
+
+  readonly profileEmail = computed(() => this.auth.email());
+
+  readonly profileRole = computed(() => {
+    const roles = this.auth.roles();
+    return roles[0] ?? "User";
+  });
+
+  readonly profileAvatar = computed(() => {
+    return (
+      this.userStore.photoUrl() ||
+      this.auth.avatar() ||
+      "assets/images/admin.webp"
+    );
+  });
 
   logout() {
     this.auth.logout();
@@ -44,6 +89,20 @@ export class HeaderComponent {
     this.themeService.isToggled$.subscribe((isToggled) => {
       this.isToggled = isToggled;
     });
+
+    effect(
+      () => {
+        const userId = this.userStore.userId();
+        const currentPhoto = this.userStore.photoUrl();
+        if (userId && !currentPhoto) {
+          this.userSync
+            .getProfilePicture(userId)
+            .pipe(take(1))
+            .subscribe({ error: () => {} });
+        }
+      },
+      { injector: this.injector },
+    );
   }
 
   // Burger Menu Toggle

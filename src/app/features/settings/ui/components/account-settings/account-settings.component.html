@@ -4,70 +4,84 @@
 >
   <h4>Profile</h4>
   <p>Update your photo and personal details here.</p>
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="mb-25">
-        <label class="main-label d-block lh-1 text-black"> First Name </label>
-        <mat-form-field>
-          <mat-label> First name </mat-label>
-          <input matInput value="Mateo" />
-        </mat-form-field>
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="mb-25">
+          <label class="main-label d-block lh-1 text-black"> First Name </label>
+          <mat-form-field>
+            <mat-label> First name </mat-label>
+            <input
+              matInput
+              formControlName="first_name"
+              autocomplete="given-name"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="mb-25">
+          <label class="main-label d-block lh-1 text-black"> Last Name </label>
+          <mat-form-field>
+            <mat-label> Last name </mat-label>
+            <input
+              matInput
+              formControlName="last_name"
+              autocomplete="family-name"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="mb-25">
+          <label class="main-label d-block lh-1 text-black">
+            Date of Birth
+          </label>
+          <mat-form-field>
+            <mat-label>Date of birth</mat-label>
+            <input matInput [matDatepicker]="dobPicker" formControlName="age" />
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="dobPicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #dobPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="mb-25">
+          <label class="main-label d-block lh-1 text-black"> Gender </label>
+          <mat-form-field>
+            <mat-label> Select </mat-label>
+            <mat-select formControlName="gender">
+              <mat-option value="male"> Male </mat-option>
+              <mat-option value="female"> Female </mat-option>
+              <mat-option value="other"> Other </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
     </div>
-    <div class="col-sm-6">
-      <div class="mb-25">
-        <label class="main-label d-block lh-1 text-black"> Last Name </label>
-        <mat-form-field>
-          <mat-label> Last name </mat-label>
-          <input matInput value="Luca" />
-        </mat-form-field>
-      </div>
+    <h4>Your Photo</h4>
+    <p>This will be displayed on your profile.</p>
+    <div class="mb-25">
+      <file-upload
+        class="file-uploader"
+        [multiple]="multiple"
+        [control]="photoControl"
+      ></file-upload>
     </div>
-    <div class="col-sm-6">
-      <div class="mb-25">
-        <label class="main-label d-block lh-1 text-black">
-          Email Address
-        </label>
-        <mat-form-field>
-          <mat-label> Email address </mat-label>
-          <input matInput disabled value="mateo@daxa.com" />
-        </mat-form-field>
-      </div>
+    <div class="btn-box">
+      <button
+        mat-button
+        color="primary"
+        type="submit"
+        [disabled]="isSubmitting() || !hasUserId()"
+      >
+        {{ profileActionLabel() }}
+      </button>
+      <button mat-button type="button">Cancel</button>
     </div>
-    <div class="col-sm-6">
-      <div class="mb-25">
-        <label class="main-label d-block lh-1 text-black">
-          Date Of Birth
-        </label>
-        <mat-form-field>
-          <mat-label>12/15/2004</mat-label>
-            <input matInput [matDatepicker]="dp3" disabled>
-            <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>
-            <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-        </mat-form-field>
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="mb-25">
-        <label class="main-label d-block lh-1 text-black"> Gender </label>
-        <mat-form-field>
-          <mat-label> Select </mat-label>
-          <mat-select [(value)]="genderSelected">
-            <mat-option value="option1"> Male </mat-option>
-            <mat-option value="option2"> Female </mat-option>
-            <mat-option value="option3"> Other </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </div>
-  </div>
-  <h4>Your Photo</h4>
-  <p>This will be displayed on your profile.</p>
-  <div class="mb-25">
-    <file-upload class="file-uploader" [multiple]="multiple"></file-upload>
-  </div>
-  <div class="btn-box">
-    <button mat-button>Update Profile</button>
-    <button mat-button>Cancel</button>
-  </div>
+  </form>
 </div>
