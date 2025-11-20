@@ -19,9 +19,14 @@ export type UserProfileResponse = UserProfile | string | null;
 
 @Injectable({ providedIn: "root" })
 export class UserStore {
+  private static readonly STORAGE_KEY = "foodlytics.user-store";
   private readonly profileSig = signal<UserProfileResponse>(null);
   private readonly syncErrorSig = signal<string | null>(null);
   private readonly photoUrlSig = signal<string | null>(null);
+
+  constructor() {
+    this.restoreFromStorage();
+  }
 
   readonly profile = computed(() => this.profileSig());
   readonly syncError = computed(() => this.syncErrorSig());
@@ -47,6 +52,7 @@ export class UserStore {
 
   setProfile(profile: UserProfileResponse): void {
     this.profileSig.set(profile);
+    this.persist();
   }
 
   setSyncError(error: string | null): void {
@@ -59,11 +65,68 @@ export class UserStore {
       URL.revokeObjectURL(current);
     }
     this.photoUrlSig.set(url);
+    this.persist();
+  }
+
+  setUserId(userId: string | null | undefined): void {
+    if (!userId) return;
+    const profile = this.profileSig();
+    if (profile && typeof profile === "object") {
+      if (profile.user_id === userId) return;
+      this.profileSig.set({ ...profile, user_id: userId });
+    } else {
+      this.profileSig.set(userId);
+    }
+    this.persist();
   }
 
   clear(): void {
     this.profileSig.set(null);
     this.syncErrorSig.set(null);
     this.setPhotoUrl(null);
+    this.removePersisted();
+  }
+
+  private restoreFromStorage(): void {
+    if (typeof localStorage === "undefined") return;
+    try {
+      const raw = localStorage.getItem(UserStore.STORAGE_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw) as {
+        profile?: UserProfileResponse;
+        photoUrl?: string | null;
+      };
+      if (parsed.profile !== undefined) {
+        this.profileSig.set(parsed.profile ?? null);
+      }
+      if (parsed.photoUrl && !parsed.photoUrl.startsWith("blob:")) {
+        this.photoUrlSig.set(parsed.photoUrl);
+      }
+    } catch {
+      /* ignore corrupted storage */
+    }
+  }
+
+  private persist(): void {
+    if (typeof localStorage === "undefined") return;
+    try {
+      const photoUrl = this.photoUrlSig();
+      const payload = JSON.stringify({
+        profile: this.profileSig(),
+        photoUrl: photoUrl?.startsWith("blob:") ? null : photoUrl,
+      });
+      localStorage.setItem(UserStore.STORAGE_KEY, payload);
+    } catch {
+      /* no-op */
+    }
+  }
+
+  private removePersisted(): void {
+    if (typeof localStorage === "undefined") return;
+    try {
+      localStorage.removeItem(UserStore.STORAGE_KEY);
+    } catch {
+      /* no-op */
+    }
   }
 }
