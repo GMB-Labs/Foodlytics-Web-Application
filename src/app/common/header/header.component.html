@@ -78,7 +78,9 @@
           class="notifications-menu-btn p-0"
         >
           <i class="material-symbols-outlined"> notifications </i>
-          <span class="daxa-badge"> 3 </span>
+          @if (hasIncompleteProfile()) {
+            <span class="daxa-badge"> 1 </span>
+          }
         </button>
         <mat-menu
           class="notifications-menu-dropdown"
@@ -90,80 +92,37 @@
               themeService.isDark() || themeService.isHeaderDark()
             "
           >
-            <div
-              class="title d-flex align-items-center justify-content-between"
-            >
-              <span class="fw-medium">
-                Notifications
-                <span class="text-body fw-normal">(03)</span>
-              </span>
-              <a routerLink="/notifications" class="link-btn text-daxa">
-                Clear All
-              </a>
+            <div class="title d-flex align-items-center">
+              <span class="fw-medium">Notifications</span>
             </div>
             <ul class="menu-body pl-0 mt-0 list-unstyled">
-              <li class="position-relative">
-                <div
-                  class="icon rounded-circle position-absolute text-center transition"
-                >
-                  <i class="material-symbols-outlined"> sms </i>
-                </div>
-                <span class="sub-title d-block">
-                  You have requested to
-                  <strong class="fw-medium">withdrawal</strong>
-                </span>
-                <span class="time d-block text-body"> 2 hrs ago </span>
-                <a
-                  routerLink="/notifications"
-                  class="d-block link-btn position-absolute"
-                ></a>
-                <span
-                  class="unread d-inline-block rounded-circle bg-daxa position-absolute"
-                ></span>
-              </li>
-              <li class="position-relative">
-                <div
-                  class="icon rounded-circle position-absolute text-center transition"
-                >
-                  <i class="material-symbols-outlined"> person </i>
-                </div>
-                <span class="sub-title d-block">
-                  <strong class="fw-medium">A new user</strong> added in Daxa
-                </span>
-                <span class="time d-block text-body"> 3 hrs ago </span>
-                <a
-                  routerLink="/notifications"
-                  class="d-block link-btn position-absolute"
-                ></a>
-                <span
-                  class="unread d-inline-block rounded-circle bg-daxa position-absolute"
-                ></span>
-              </li>
-              <li class="position-relative">
-                <div
-                  class="icon rounded-circle position-absolute text-center transition"
-                >
-                  <i class="material-symbols-outlined"> mark_email_unread </i>
-                </div>
-                <span class="sub-title d-block">
-                  You have requested to
-                  <strong class="fw-medium">withdrawal</strong>
-                </span>
-                <span class="time d-block text-body"> 1 day ago </span>
-                <a
-                  routerLink="/notifications"
-                  class="d-block link-btn position-absolute"
-                ></a>
-              </li>
+              @if (hasIncompleteProfile()) {
+                <li class="position-relative">
+                  <div
+                    class="icon rounded-circle position-absolute text-center transition"
+                  >
+                    <i class="material-symbols-outlined"> info </i>
+                  </div>
+                  <span class="sub-title d-block fw-medium">
+                    Please complete your profile.
+                  </span>
+                  <span class="time d-block text-body">Action needed</span>
+                  <a
+                    routerLink="/settings"
+                    class="d-block link-btn position-absolute"
+                  ></a>
+                  <span
+                    class="unread d-inline-block rounded-circle bg-daxa position-absolute"
+                  ></span>
+                </li>
+              } @else {
+                <li class="position-relative">
+                  <span class="sub-title d-block fw-medium">
+                    You're all caught up.
+                  </span>
+                </li>
+              }
             </ul>
-            <div class="menu-footer text-center">
-              <a
-                routerLink="/notifications"
-                class="link-btn text-daxa d-inline-block fw-medium"
-              >
-                See All Notifications
-              </a>
-            </div>
           </div>
         </mat-menu>
       </li>
@@ -174,10 +133,11 @@
           class="profile-menu-btn"
         >
           <img
-            ngSrc="assets/images/admin.webp"
+            [ngSrc]="profileAvatar()"
             alt="profile-image"
             height="160"
             width="160"
+            class="avatar-img"
           />
           <span
             class="status d-inline-block rounded-circle position-absolute"
@@ -193,20 +153,24 @@
               themeService.isDark() || themeService.isHeaderDark()
             "
           >
-            <div class="menu-header d-flex align-items-center">
-              <img
-                ngSrc="assets/images/admin.webp"
-                alt="profile-image"
-                height="160"
-                width="160"
-              />
-              <div class="title">
-                <a routerLink="/profile" class="d-inline-block fw-medium">
-                  Mateo Luca
-                </a>
-                <span class="designation d-block text-body"> Admin </span>
+              <div class="menu-header d-flex align-items-center">
+                <img
+                  [ngSrc]="profileAvatar()"
+                  alt="profile-image"
+                  height="160"
+                  width="160"
+                  class="avatar-img"
+                />
+                <div class="title">
+                  <a routerLink="/profile" class="d-inline-block fw-medium">
+                    {{ profileName() || "Profile" }}
+                  </a>
+                  <span class="d-block text-body"> {{ profileEmail() }} </span>
+                  <span class="designation d-block text-body">
+                    {{ profileRole() }}
+                  </span>
+                </div>
               </div>
-            </div>
             <ul class="menu-body pl-0 mb-0 mt-0 list-unstyled">
               <li class="position-relative transition fw-medium">
                 <i class="material-symbols-outlined"> person </i>

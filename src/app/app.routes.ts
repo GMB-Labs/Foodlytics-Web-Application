@@ -87,15 +87,7 @@ export const routes: Routes = [
           import("./pages/coming-soon-page/coming-soon-page.component").then(
             (m) => m.ComingSoonPageComponent,
           ),
-      },
-      // test
-      {
-        path: "onboarding",
-        loadComponent: () =>
-          import(
-            "./features/authentication/ui/pages/onboarding/onboarding.component"
-          ).then((m) => m.OnboardingComponent),
-      },
+      }
     ],
   },
 
