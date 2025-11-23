@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { CustomizerSettingsService } from "../../core/customizer-settings/customizer-settings.service";
+import { CustomizerSettingsService } from "../../../../core/customizer-settings/customizer-settings.service";
 
 @Component({
   selector: "app-footer",
@@ -10,3 +10,4 @@ import { CustomizerSettingsService } from "../../core/customizer-settings/custom
 export class FooterComponent {
   constructor(public themeService: CustomizerSettingsService) {}
 }
+

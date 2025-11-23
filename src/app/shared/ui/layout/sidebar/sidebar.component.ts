@@ -2,10 +2,10 @@ import { Component, inject } from "@angular/core";
 import { NgScrollbarModule } from "ngx-scrollbar";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { RouterLink, RouterLinkActive, RouterModule } from "@angular/router";
-import { ToggleService } from "./toggle.service";
+import { ToggleService } from "../../../../core/services/toggle.service";
 import { NgClass, NgOptimizedImage } from "@angular/common";
-import { CustomizerSettingsService } from "../../core/customizer-settings/customizer-settings.service";
-import { AuthFacade } from "../../core/auth/auth.facade";
+import { CustomizerSettingsService } from "../../../../core/customizer-settings/customizer-settings.service";
+import { AuthFacade } from "../../../../core/auth/auth.facade";
 
 @Component({
   selector: "app-sidebar",
@@ -52,3 +52,4 @@ export class SidebarComponent {
   // Mat Expansion
   panelOpenState = false;
 }
+

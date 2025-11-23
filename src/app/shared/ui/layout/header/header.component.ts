@@ -8,14 +8,14 @@ import {
   effect,
   inject,
 } from "@angular/core";
-import { ToggleService } from "../sidebar/toggle.service";
+import { ToggleService } from "../../../../core/services/toggle.service";
 import { MatButtonModule } from "@angular/material/button";
 import { Router, RouterLink } from "@angular/router";
-import { CustomizerSettingsService } from "../../core/customizer-settings/customizer-settings.service";
-import { AuthFacade } from "../../core/auth/auth.facade";
-import { LoggerService } from "../../core/logger/logger.service";
-import { UserStore } from "../../core/user/user.store";
-import { UserSyncService } from "../../core/user/user-sync.service";
+import { CustomizerSettingsService } from "../../../../core/customizer-settings/customizer-settings.service";
+import { AuthFacade } from "../../../../core/auth/auth.facade";
+import { LoggerService } from "../../../../core/logger/logger.service";
+import { UserStore } from "../../../../core/user/user.store";
+import { UserSyncService } from "../../../../core/user/user-sync.service";
 import { take } from "rxjs";
 
 @Component({
@@ -137,3 +137,4 @@ export class HeaderComponent {
     }
   }
 }
+

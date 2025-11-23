@@ -58,86 +58,225 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
 
-## Angular Feature-Sliced Architecture (DDD + Clean Architecture Inspired)
+## 🏗️ Arquitectura: Feature-Sliced + Clean Architecture
 
-Este proyecto está construido con **Angular Standalone Components** siguiendo una arquitectura **Feature-Sliced** inspirada en **Domain-Driven Design (DDD)** y **Clean Architecture**.
+Este proyecto está construido con **Angular 20 Standalone Components** siguiendo una arquitectura **Feature-Sliced** inspirada en **Domain-Driven Design (DDD)** y **Clean Architecture**.
 
-## Principios Clave
+## ✅ Principios Clave
 
-- **Estructura por features**, no por tipo de archivo.
-- Cada feature es **autónoma** (domain + data-access + ui + container).
-- **Separación por capas** internas, respetando dependencias unidireccionales.
-- **Signals** para el estado local, **computed()** para estado derivado.
-- **Standalone Components** y **provideZonelessChangeDetection** en toda la app.
-- **Lazy loading** por feature y **lazy components** cuando aplica.
-- **Sin NgModules** — Angular Standalone moderno (>= v17).
-- **Control flow nativo**: `@if`, `@for`, `@switch`.
-- **SSR-ready**: compatible con Angular Universal e hidratación.
+- ✅ **Estructura por features** (bounded contexts), no por tipo de archivo
+- ✅ **Separación por capas** internas: `domain/` → `data-access/` → `ui/`
+- ✅ **Facades** como punto de entrada único a cada feature
+- ✅ **Signals** para estado local (`signal()`, `computed()`)
+- ✅ **Standalone Components** y **Zoneless** (`provideZonelessChangeDetection`)
+- ✅ **Lazy loading** por feature con `loadChildren`
+- ✅ **Control flow nativo**: `@if`, `@for`, `@switch`
+- ✅ **SSR-ready**: compatible con Angular Universal
 
-## Capas y Responsabilidades
+## 📂 Estructura de un Feature (Bounded Context)
 
-| Capa | Descripción | Depende de |
-|------|--------------|------------|
-| **domain/** | Modelos, tipos y validaciones puras (sin Angular). | Ninguna |
-| **data-access/** | Servicios HTTP, persistencia local, mappers DTO→dominio. | domain |
-| **ui/** | Componentes presentacionales sin lógica de negocio. | domain |
-| **feature.component.ts** | Contenedor: orquesta estado, API y UI. | domain, data-access, ui |
-| **core/** | Servicios globales, interceptores, stores singleton. | — |
-| **shared/** | Componentes, pipes y directivas reutilizables. | — |
+```
+src/app/features/{feature}/
+├── domain/                           ← Modelos, interfaces, tipos puros
+│   ├── models/
+│   │   ├── {entity}.model.ts
+│   │   └── index.ts
+│   └── interfaces/                   (opcional)
+│       └── {interface}.interface.ts
+│
+├── data-access/                      ← Lógica de negocio y acceso a datos
+│   ├── api/
+│   │   └── {feature}.api.ts          ← Servicios HTTP (backend)
+│   ├── services/
+│   │   └── {service}.service.ts      ← Lógica de negocio / integraciones
+│   ├── stores/
+│   │   └── {feature}.store.ts        ← Estado local (signals)
+│   └── facades/
+│       └── {feature}.facade.ts       ← ⚠️ PUNTO DE ENTRADA ÚNICO
+│
+├── ui/
+│   ├── components/                   ← Componentes presentacionales
+│   ├── pages/                        ← Smart components (contenedores)
+│   └── widgets/                      (opcional)
+│
+├── feature.component.ts              ← Shell del feature (router-outlet)
+└── routes.ts                         ← Rutas lazy del feature
+```
 
-**Nunca:**
-- features → features (acoplamiento cruzado)
-- data-access → ui
-- ui → data-access
+## 🎯 Capas y Responsabilidades
+
+| Capa | Responsabilidad | Puede depender de | NO puede depender de |
+|------|----------------|-------------------|----------------------|
+| **domain/** | Modelos, tipos, validaciones puras | Ninguna | Angular, servicios |
+| **data-access/** | API calls, stores, facades, lógica de negocio | `domain/` | `ui/` |
+| **ui/** | Componentes presentacionales | `domain/` | `data-access/` |
+| **facade** | Orquesta stores, APIs y expone interfaz simple | `domain/`, `data-access/` | `ui/` |
+
+### ⚠️ Reglas de Dependencia
+
+```
+✅ PERMITIDO:
+ui/ → domain/
+data-access/ → domain/
+facade → stores, api, services
+components → facade
+
+❌ PROHIBIDO:
+ui/ → data-access/  (usar facade)
+features/ → features/ (acoplamiento cruzado)
+domain/ → Angular imports
+```
+
+## 📦 Estructura del Proyecto
+
+```
+src/app/
+├── core/                             ← Servicios singleton globales
+│   ├── auth/
+│   │   ├── auth.facade.ts           ✅ Facade de autenticación
+│   │   ├── auth.guard.ts
+│   │   └── auth.providers.ts
+│   ├── user/
+│   │   ├── user.store.ts            ✅ Store global de usuario
+│   │   └── user-sync.service.ts
+│   ├── services/
+│   │   └── toggle.service.ts        ✅ Servicios globales
+│   └── customizer-settings/
+│
+├── shared/                           ← Componentes reutilizables
+│   ├── ui/
+│   │   ├── layout/                  ✅ Header, Footer, Sidebar
+│   │   └── breadcrumbs/
+│   └── data-access/
+│       ├── breadcrumb/
+│       └── charts/
+│
+├── features/                         ← Bounded Contexts
+│   ├── billing/                     ✅ EJEMPLO COMPLETO (ver abajo)
+│   ├── patients/                    ✅ Con facade
+│   ├── dashboard/                   ✅ Con facade
+│   ├── profile/                     ✅ Con facade
+│   ├── calendar/
+│   ├── invoice/
+│   ├── settings/
+│   └── authentication/
+│
+├── layouts/                          ← Shells de layouts
+│   ├── app-shell/
+│   └── auth-shell/
+│
+└── pages/                            ← Páginas standalone
+    ├── errors/
+    ├── faq-page/
+    └── notifications-page/
+```
+
+## 🚀 Ejemplo Real: Feature `billing` (Culqi Integration)
+
+### Estructura Completa
+
+```
+src/app/features/billing/
+├── domain/
+│   └── models/
+│       ├── plan.model.ts             ← Plan, PlanId, PlanLimits
+│       ├── subscription.model.ts     ← ActiveSubscription, CheckoutState
+│       ├── payment.model.ts          ← CulqiToken, CardData, PaymentRequest
+│       └── index.ts
+│
+├── data-access/
+│   ├── api/
+│   │   ├── payments.api.ts           ← POST /payments/charge
+│   │   └── subscriptions.api.ts      ← GET/POST subscriptions
+│   ├── services/
+│   │   ├── plans.service.ts          ← Lógica de planes (hardcoded)
+│   │   └── culqi-integration.service.ts  ← SDK de Culqi
+│   ├── stores/
+│   │   ├── billing.store.ts          ← Estado: activeSubscription, selectedPlan
+│   │   └── checkout.store.ts         ← Estado del checkout (idle/paying/success/error)
+│   └── facades/
+│       └── billing.facade.ts         ⚠️ PUNTO DE ENTRADA ÚNICO
+│
+├── ui/
+│   ├── components/
+│   │   ├── plan-card/                ← Presentacional
+│   │   ├── checkout-form/            ← Formulario de pago
+│   │   └── payment-status/           ← Feedback success/error
+│   └── pages/
+│       ├── pricing-page.component.ts ← Lista de planes
+│       └── checkout-page.component.ts ← Flujo de pago
+│
+├── feature.component.ts
+└── routes.ts
+```
+
+### Uso del Facade
+
+```typescript
+// checkout-page.component.ts
+@Component({ /* ... */ })
+export class CheckoutPageComponent {
+  private readonly billing = inject(BillingFacade);
+
+  selectedPlan = this.billing.selectedPlan;         // Signal
+  checkoutStatus = this.billing.checkoutStatus;     // Signal
+  plans = this.billing.plans;                       // Signal
+
+  async onPayment(cardData: CardData): Promise<void> {
+    const token = await this.culqi.generateToken(cardData);
+    await this.billing.initiatePayment(token);      // Facade method
+  }
+}
+```
+
+## 🎭 Facades: Punto de Entrada Único
+
+Los **facades** orquestan la lógica de cada feature y exponen una interfaz limpia:
+
+```typescript
+@Injectable({ providedIn: 'root' })
+export class BillingFacade {
+  private readonly plansService = inject(PlansService);
+  private readonly billingStore = inject(BillingStore);
+  private readonly checkoutStore = inject(CheckoutStore);
+  private readonly paymentsApi = inject(PaymentsApi);
+
+  // Signals (read-only)
+  readonly plans = this.plansService.plans;
+  readonly selectedPlan = computed(() => /* ... */);
+  readonly checkoutStatus = this.checkoutStore.status;
+
+  // Actions (métodos públicos)
+  selectPlan(planId: PlanId): void { /* ... */ }
+  async initiatePayment(token: CulqiToken): Promise<void> { /* ... */ }
+  cancelCheckout(): void { /* ... */ }
+}
+```
 
 ## ⚙️ Convenciones Técnicas
 
-- **Estado local:** `signal()`, `computed()`; no se usa `NgRx` salvo casos extremos.
-- **Inputs/Outputs modernos:** `input()`, `output()`.
-- **Detección de cambios:** `provideZonelessChangeDetection` a nivel global.
-- **Estilos:** SCSS modular; clases con bindings (`[class.active]="…"`) en lugar de `ngClass`.
-- **Control flow:** nativo (`@if`, `@for`, `@switch`).
-- **Testing:**
-    - `domain/`: funciones puras
-    - `data-access/`: HttpTestingController
-    - `ui/`: Test Harness o shallow testing
+- **Naming:** `kebab-case` para archivos, `PascalCase` para clases
+- **State management:** `signal()` + `computed()` (no NgRx)
+- **Inputs/Outputs:** `input()`, `output()` (APIs modernas)
+- **HTTP:** Todos los calls en `data-access/api/*.api.ts`
+- **Lazy loading:** Todas las rutas principales con `loadChildren`
+- **Estilos:** SCSS modular, `:host` para encapsulación
 
-## Ejemplo de Feature
+## 📚 Bounded Contexts Implementados
 
-```ts
-// features/dashboard/feature.component.ts
-import { ChangeDetectionStrategy, Component, inject, signal, computed } from '@angular/core';
-import { DashboardApi } from './data-access/dashboard.api';
+| Feature | Domain | Facade | API Services | Status |
+|---------|--------|--------|--------------|--------|
+| **billing** | ✅ | ✅ | ✅ (Culqi + Backend) | Completo |
+| **patients** | ✅ | ✅ | ⚠️ Parcial | En progreso |
+| **dashboard** | ⚠️ | ✅ | ⚠️ Parcial | En progreso |
+| **profile** | ⚠️ | ✅ | ✅ (UserSync) | En progreso |
+| calendar | ❌ | ❌ | ❌ | Pendiente |
+| invoice | ❌ | ❌ | ❌ | Pendiente |
+| settings | ❌ | ❌ | ✅ (UserSync) | Pendiente |
 
-@Component({
-  selector: 'app-dashboard-feature',
-  template: `
-    <section>
-      <h1 class="text-xl font-semibold">Dashboard</h1>
-      @if (status() === 'loading') { <p>Cargando…</p> }
-      @if (status() === 'ready') {
-        <app-stats-card [stats]="stats()"></app-stats-card>
-      }
-      @if (status() === 'error') { <p>Error al cargar datos.</p> }
-    </section>
-  `,
-})
-export class DashboardFeature {
-  #api = inject(DashboardApi);
-  #data = signal<{ total: number } | null>(null);
-  status = signal<'idle'|'loading'|'ready'|'error'>('idle');
+## 🔧 Próximos Pasos
 
-  stats = computed(() => this.#data() ?? { total: 0 });
-
-  constructor() {
-    this.load();
-  }
-
-  load() {
-    this.status.set('loading');
-    this.#api.getOverview().subscribe({
-      next: d => { this.#data.set(d); this.status.set('ready'); },
-      error: () => this.status.set('error'),
-    });
-  }
-}
+1. ✅ Completar facades faltantes (calendar, invoice, settings)
+2. ✅ Mover servicios de widgets a `data-access/services/`
+3. ✅ Implementar tests para facades
+4. ✅ Documentar integraciones (Culqi, Auth0)

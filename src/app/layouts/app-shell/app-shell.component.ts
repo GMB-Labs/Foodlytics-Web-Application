@@ -6,12 +6,12 @@ import {
   signal,
   computed,
 } from "@angular/core";
-import { SidebarComponent } from "../../common/sidebar/sidebar.component";
-import { HeaderComponent } from "../../common/header/header.component";
+import { SidebarComponent } from "../../shared/ui/layout/sidebar/sidebar.component";
+import { HeaderComponent } from "../../shared/ui/layout/header/header.component";
 import { Event, NavigationEnd, Router, RouterOutlet } from "@angular/router";
-import { FooterComponent } from "../../common/footer/footer.component";
+import { FooterComponent } from "../../shared/ui/layout/footer/footer.component";
 import { CustomizerSettingsComponent } from "../../core/customizer-settings/customizer-settings.component";
-import { ToggleService } from "../../common/sidebar/toggle.service";
+import { ToggleService } from "../../core/services/toggle.service";
 import { isPlatformBrowser, NgClass, ViewportScroller } from "@angular/common";
 import { CustomizerSettingsService } from "../../core/customizer-settings/customizer-settings.service";
 import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
