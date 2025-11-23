@@ -8,6 +8,7 @@
       <mat-card
         class="daxa-card pricing-card mb-25 border-radius p-0 bg-white border-none d-block"
         [class.recommended]="plan.recommended"
+        [class.is-selected]="selectedPlanId() === plan.id"
       >
         <mat-card-header class="border-top-radius">
           <mat-card-title>
@@ -62,8 +63,8 @@
           </ul>
 
           <!-- CTA -->
-          <button mat-button (click)="selectPlan(plan)">
-            {{ plan.cta }}
+          <button mat-button (click)="onSubscribe(plan)">
+            {{ plan.ctaLabel }}
           </button>
         </mat-card-content>
       </mat-card>

@@ -11,7 +11,7 @@ export const BILLING_ROUTES: Routes = [
         title: "Suscripciones",
         data: { breadcrumb: "Suscripciones" },
         loadComponent: () =>
-          import("./ui/pages/pricing-page.component").then(
+          import("./ui/pages/pricing-page/pricing-page.component").then(
             (m) => m.PricingPageComponent,
           ),
       },

@@ -236,7 +236,7 @@ Los **facades** orquestan la lógica de cada feature y exponen una interfaz limp
 ```typescript
 @Injectable({ providedIn: 'root' })
 export class BillingFacade {
-  private readonly plansService = inject(PlansService);
+  private readonly plansService = inject(BillingPlansService);
   private readonly billingStore = inject(BillingStore);
   private readonly checkoutStore = inject(CheckoutStore);
   private readonly paymentsApi = inject(PaymentsApi);

@@ -1,16 +1,17 @@
-import { computed, Injectable, signal } from "@angular/core";
-import { Plan, PlanId } from "./plans.model";
+import { Injectable, computed, signal } from "@angular/core";
+import type { Plan, PlanId } from "../../domain/models";
 
 @Injectable({ providedIn: "root" })
-export class PlansService {
-  private readonly data: Plan[] = [
+export class BillingPlansService {
+  private readonly plansData = signal<readonly Plan[]>([
     {
       id: "starter",
       name: "Starter",
+      tagline: "Empieza gratis y valida tu flujo",
+      description: "Activa Foodlytics con tus primeros pacientes.",
       priceCents: 0,
       currency: "PEN",
-      tagline: "Empieza gratis y valida tu flujo",
-      cta: "Empezar ahora",
+      ctaLabel: "Empezar ahora",
       features: [
         { label: "Hasta 5 pacientes", included: true },
         { label: "Soporte por correo", included: true },
@@ -25,10 +26,11 @@ export class PlansService {
     {
       id: "advanced",
       name: "Advanced",
+      tagline: "Productividad para tu día a día",
+      description: "Automatiza tareas clave y escala sin fricción.",
       priceCents: 2990,
       currency: "PEN",
-      tagline: "Productividad para tu día a día",
-      cta: "Suscribirme",
+      ctaLabel: "Suscribirme",
       features: [
         { label: "Hasta 25 pacientes", included: true },
         { label: "Exportar PDF ilimitados", included: true },
@@ -46,10 +48,11 @@ export class PlansService {
     {
       id: "professional_plus",
       name: "Professional+",
+      tagline: "Escala con más pacientes y control",
+      description: "Control total y soporte prioritario.",
       priceCents: 4990,
       currency: "PEN",
-      tagline: "Escala con más pacientes y control",
-      cta: "Suscribirme",
+      ctaLabel: "Suscribirme",
       features: [
         { label: "Hasta 100 pacientes", included: true },
         { label: "Exportar PDF ilimitados", included: true },
@@ -63,32 +66,27 @@ export class PlansService {
         features: { kanban: true, calendar: true, liveSupport: true },
       },
     },
+  ] as const);
+
+  readonly plans = computed(() => this.plansData());
+
+  readonly commonBenefits = [
+    "Conexión con pacientes vía app móvil",
+    "Acceso completo al dashboard",
+    "Detalles completos del paciente",
   ] as const;
 
-  readonly plans = signal<readonly Plan[]>(this.data);
-
-  // 3) Selectores
-  readonly recommended = computed(() =>
-    this.plans().find((p) => p.recommended),
-  );
-
-  // 4) Helpers
-  getById(id: PlanId): Plan | undefined {
-    return this.plans().find((p) => p.id === id);
+  getPlanById(id: PlanId): Plan | undefined {
+    return this.plans().find((plan) => plan.id === id);
   }
 
   formatPrice(cents: number): string {
     return (cents / 100).toLocaleString("es-PE", {
       style: "currency",
       currency: "PEN",
+      minimumFractionDigits: 2,
     });
   }
 
-  trackById = (_: number, p: Plan) => p.id;
-
-  readonly commonBullets: readonly string[] = [
-    "Conexión con pacientes vía app móvil",
-    "Acceso completo al dashboard",
-    "Detalles completos del paciente",
-  ] as const;
+  trackById = (_: number, plan: Plan) => plan.id;
 }
