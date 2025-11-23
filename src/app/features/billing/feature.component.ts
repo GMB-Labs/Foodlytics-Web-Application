@@ -3,11 +3,11 @@ import { RouterOutlet } from "@angular/router";
 import { BreadcrumbsComponent } from "../../shared/ui/breadcrumbs/breadcrumbs.component";
 
 @Component({
-  selector: "app-pricing-feature",
+  selector: "app-billing-feature",
   template: `
     <app-breadcrumbs />
     <router-outlet />
   `,
   imports: [RouterOutlet, BreadcrumbsComponent],
 })
-export class PricingFeature {}
+export class BillingFeature {}

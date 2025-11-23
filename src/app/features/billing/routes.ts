@@ -1,10 +1,10 @@
 import { Routes } from "@angular/router";
 
-export const PRICING_ROUTES: Routes = [
+export const BILLING_ROUTES: Routes = [
   {
     path: "",
     loadComponent: () =>
-      import("./feature.component").then((m) => m.PricingFeature),
+      import("./feature.component").then((m) => m.BillingFeature),
     children: [
       {
         path: "",

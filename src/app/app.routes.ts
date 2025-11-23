@@ -65,7 +65,7 @@ export const routes: Routes = [
       {
         path: "pricing",
         loadChildren: () =>
-          import("./features/pricing/routes").then((m) => m.PRICING_ROUTES),
+          import("./features/billing/routes").then((m) => m.PRICING_ROUTES),
       },
       // Pages
       {
