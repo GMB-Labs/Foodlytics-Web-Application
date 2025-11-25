@@ -15,7 +15,7 @@ import {
   withFetch,
   withInterceptorsFromDi,
 } from "@angular/common/http";
-import { provideAnimations } from "@angular/platform-browser/animations";
+import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
 import { provideBreadcrumbsFromRouter } from "./shared/data-access/breadcrumb/breadcrumb.providers";
 import { provideServiceWorker } from "@angular/service-worker";
 import { provideAuthWithRuntime } from "./core/auth/auth.providers";
@@ -29,7 +29,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withDebugTracing()),
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
     provideClientHydration(withIncrementalHydration()),
-    provideAnimations(),
+    provideAnimationsAsync(),
     provideBreadcrumbsFromRouter(),
     provideNativeDateAdapter(),
     provideServiceWorker("ngsw-worker.js", {
