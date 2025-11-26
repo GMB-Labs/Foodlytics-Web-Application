@@ -1,0 +1,27 @@
+<h1 mat-dialog-title>Invite your patient</h1>
+
+<div mat-dialog-content>
+  <p>Share this invitation code:</p>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Invitation Code</mat-label>
+    <input matInput [value]="code" disabled />
+
+    <button
+      mat-icon-button
+      matSuffix
+      type="button"
+      aria-label="Copy invitation code"
+      (click)="copyCode()"
+    >
+      <mat-icon>content_copy</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-flat-button color="warn" type="button" (click)="close()">
+    Close
+  </button>
+</div>
+

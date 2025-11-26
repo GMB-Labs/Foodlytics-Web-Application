@@ -350,29 +350,14 @@
               ></textarea>
             </mat-form-field>
           </div>
-          <div class="col-md-6">
-            <label class="main-label d-block lh-1 text-black">
-              Team Members
-            </label>
-            <mat-form-field>
-              <mat-label> Select </mat-label>
-              <mat-select multiple>
-                <mat-option value="option1"> Shawn Kennedy </mat-option>
-                <mat-option value="option2"> Roberto Cruz </mat-option>
-                <mat-option value="option3"> Juli Johnson </mat-option>
-                <mat-option value="option4"> Catalina Engles </mat-option>
-                <mat-option value="option5"> Louis Nagle </mat-option>
-                <mat-option value="option6"> Michael Marquez </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="col-md-6">
+          <div class="col-md-12">
             <label class="main-label d-block lh-1 text-black">
               Deadline Date
             </label>
             <mat-form-field class="date">
               <mat-label> Choose a date </mat-label>
               <input matInput [matDatepicker]="dueDate" />
+              <mat-hint>MM/DD/YYYY</mat-hint>
               <mat-datepicker-toggle
                 matIconSuffix
                 [for]="dueDate"
