@@ -1,17 +1,25 @@
+export type PatientGender = "male" | "female" | "other";
+export type PatientGoalType = "definition" | "maintenance" | "bulking";
+
 export interface Patient {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  age: number;
-  gender: string;
-  heightCm: number;
-  weightKg: number;
-  goalType: string;
-  activityLevel: string;
-  desiredWeightKg?: number;
-  createdAt: string;
-  updatedAt: string;
+  user_id: string;
+  nutritionist_id: string;
+  first_name: string;
+  last_name: string;
+  age: number | null;
+  height_cm: number | null;
+  weight_kg: number | null;
+  gender: PatientGender;
+  goal_type: PatientGoalType;
+  activity_level: string | null;
+  desired_weight_kg: number | null;
+  user_profile_completed: boolean;
+  created_at: string;
+  updated_at: string;
+  has_profile_picture: boolean;
+  id?: string;
+  email?: string;
+  [key: string]: unknown;
 }
 
 export interface NutritionStats {
@@ -33,4 +41,3 @@ export interface CalorieDistribution {
   dinner: number;
   snacks: number;
 }
-

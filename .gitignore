@@ -43,3 +43,5 @@ dist/foodlytics
 *.log
 logs/
 
+# Cursor rules
+.cursor/

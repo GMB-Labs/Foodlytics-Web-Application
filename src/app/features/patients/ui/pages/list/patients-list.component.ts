@@ -1,4 +1,11 @@
-import { Component, ViewChild, AfterViewInit, inject } from "@angular/core";
+import {
+  Component,
+  ViewChild,
+  AfterViewInit,
+  OnInit,
+  DestroyRef,
+  inject,
+} from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatMenuModule } from "@angular/material/menu";
@@ -12,10 +19,15 @@ import { CustomizerSettingsService } from "../../../../../core/customizer-settin
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
 import { PatientInviteCodeApiService } from "../../../data-access/api/patient-invite-code.api";
+import { PatientsApiService } from "../../../data-access/api/patients.api";
+import { PatientPictureApiService } from "../../../data-access/api/patient-picture.api";
 import { InviteCodeDialogComponent } from "../../components/invite-code-dialog/invite-code-dialog.component";
 import { UserStore } from "../../../../../core/user/user.store";
 import { LoggerService } from "../../../../../core/logger/logger.service";
 import { firstValueFrom } from "rxjs";
+import { finalize, take } from "rxjs/operators";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { Patient } from "../../../domain/models";
 
 @Component({
   selector: "app-list",
@@ -34,32 +46,211 @@ import { firstValueFrom } from "rxjs";
   templateUrl: "./patients-list.component.html",
   styleUrl: "./patients-list.component.scss",
 })
-export class PatientsListComponent implements AfterViewInit {
+export class PatientsListComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = [
     "select",
-    "userID",
     "fullName",
-    "email",
-    "role",
-    "projectAccess",
+    "age",
+    "height",
+    "weight",
+    "gender",
+    "goalType",
     "status",
     "action",
   ];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  dataSource = new MatTableDataSource<PatientTableItem>([]);
+  selection = new SelectionModel<PatientTableItem>(true, []);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  readonly themeService = inject(CustomizerSettingsService);
   private readonly inviteCodeApi = inject(PatientInviteCodeApiService);
+  private readonly patientsApi = inject(PatientsApiService);
+  private readonly patientPictureApi = inject(PatientPictureApiService);
   private readonly dialog = inject(MatDialog);
   private readonly snackBar = inject(MatSnackBar);
   private readonly userStore = inject(UserStore);
   private readonly logger = inject(LoggerService);
+  private readonly destroyRef = inject(DestroyRef);
 
   isGeneratingInviteCode = false;
+  isLoadingPatients = false;
+  private currentFilterValue = "";
+
+  private readonly fallbackAvatars: string[] = [
+    "assets/images/users/user1.webp",
+  ];
+
+  ngOnInit(): void {
+    this.dataSource.filterPredicate = this.createFilterPredicate();
+    this.loadPatients();
+  }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+  }
+
+  private loadPatients(): void {
+    const userId = this.userStore.userId();
+    if (!userId) {
+      this.logger.error(
+        "[PatientsListComponent] Missing nutritionist user id when loading patients",
+      );
+      this.snackBar.open(
+        "We couldn't find your user information. Please try again.",
+        "Close",
+        { duration: 5000 },
+      );
+      return;
+    }
+
+    this.isLoadingPatients = true;
+    this.patientsApi
+      .getPatientsByNutritionist(userId)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => {
+          this.isLoadingPatients = false;
+        }),
+      )
+      .subscribe({
+        next: (patients) => {
+          this.updateTableData(patients ?? []);
+        },
+        error: (error) => {
+          this.logger.error(
+            "[PatientsListComponent] Error loading patients",
+            error,
+          );
+          this.snackBar.open(
+            "We couldn't load your patients. Please try again.",
+            "Close",
+            { duration: 5000 },
+          );
+        },
+      });
+  }
+
+  private updateTableData(patients: Patient[]): void {
+    const mapped = patients.map((patient) => this.mapPatientToRow(patient));
+    this.selection.clear();
+    this.dataSource.data = mapped;
+    this.reapplyFilter();
+    this.loadProfilePictures(mapped);
+  }
+
+  private mapPatientToRow(patient: Patient): PatientTableItem {
+    return {
+      ...patient,
+      fullNameDisplay: this.buildFullName(
+        patient.first_name,
+        patient.last_name,
+      ),
+      avatarUrl: this.resolveAvatarUrl(patient),
+      genderLabel: this.getGenderLabel(patient.gender),
+      goalTypeLabel: this.getGoalTypeLabel(patient.goal_type),
+      status: patient.user_profile_completed
+        ? { active: "Active" }
+        : { deactive: "Incomplete" },
+      action: {
+        view: "visibility",
+        delete: "delete",
+      },
+    };
+  }
+
+  private loadProfilePictures(rows: PatientTableItem[]): void {
+    rows.forEach((row) => {
+      if (!row.has_profile_picture) {
+        return;
+      }
+
+      this.patientPictureApi
+        .getProfilePicture(row.user_id)
+        .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+        .subscribe((pictureUrl) => {
+          if (!pictureUrl) {
+            return;
+          }
+
+          row.avatarUrl = pictureUrl;
+          this.refreshRenderedRows();
+        });
+    });
+  }
+
+  private refreshRenderedRows(): void {
+    this.dataSource.data = [...this.dataSource.data];
+  }
+
+  private buildFullName(
+    firstName?: string | null,
+    lastName?: string | null,
+  ): string {
+    const parts = [firstName, lastName]
+      .map((value) => (value ?? "").trim())
+      .filter((value) => !!value);
+    return parts.length ? parts.join(" ") : "Unnamed Patient";
+  }
+
+  private resolveAvatarUrl(patient: Patient): string {
+    const fallbackIndex =
+      Math.abs(this.hashString(patient.user_id ?? "")) %
+      this.fallbackAvatars.length;
+    return this.fallbackAvatars[fallbackIndex];
+  }
+
+  private hashString(value: string): number {
+    if (!value) return 0;
+    let hash = 0;
+    for (let i = 0; i < value.length; i += 1) {
+      hash = (hash << 5) - hash + value.charCodeAt(i);
+      hash |= 0;
+    }
+    return hash;
+  }
+
+  private getGenderLabel(gender?: Patient["gender"] | null): string {
+    switch (gender) {
+      case "male":
+        return "Male";
+      case "female":
+        return "Female";
+      case "other":
+      default:
+        return "Other";
+    }
+  }
+
+  private getGoalTypeLabel(goal?: Patient["goal_type"] | null): string {
+    switch (goal) {
+      case "definition":
+        return "Definition";
+      case "maintenance":
+        return "Maintenance";
+      case "bulking":
+        return "Bulking";
+      default:
+        return "Goal pending";
+    }
+  }
+
+  private createFilterPredicate() {
+    return (data: PatientTableItem, filter: string): boolean => {
+      const normalizedFilter = filter.trim().toLowerCase();
+      if (!normalizedFilter) {
+        return true;
+      }
+      const fullName = data.fullNameDisplay?.toLowerCase() ?? "";
+      const userId = data.user_id?.toLowerCase() ?? "";
+      return (
+        fullName.includes(normalizedFilter) || userId.includes(normalizedFilter)
+      );
+    };
+  }
+
+  private reapplyFilter(): void {
+    this.dataSource.filter = this.currentFilterValue;
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -79,17 +270,24 @@ export class PatientsListComponent implements AfterViewInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: PatientTableItem): string {
     if (!row) {
       return `${this.isAllSelected() ? "deselect" : "select"} all`;
     }
-    return `${this.selection.isSelected(row) ? "deselect" : "select"} row ${row.fullName + 1}`;
+    const action = this.selection.isSelected(row) ? "deselect" : "select";
+    return `${action} row ${row.fullNameDisplay}`;
   }
 
   // Search Filter
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    const filterValue = (event.target as HTMLInputElement).value
+      .trim()
+      .toLowerCase();
+    this.currentFilterValue = filterValue;
+    this.dataSource.filter = filterValue;
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   async onAddNewPatient(event?: Event): Promise<void> {
@@ -134,397 +332,25 @@ export class PatientsListComponent implements AfterViewInit {
     }
   }
 
-  constructor(public themeService: CustomizerSettingsService) {}
+  onDeletePatient(row: PatientTableItem): void {
+    this.logger.log(
+      "[PatientsListComponent] Delete patient requested",
+      row.user_id,
+    );
+  }
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    userID: "#ARP-1217",
-    fullName: {
-      img: "assets/images/users/user15.webp",
-      name: "Marcia Baker",
-    },
-    email: "marcia@example.com",
-    role: "Project manager",
-    projectAccess: "Hotel management system, Python upgrade",
-    status: {
-      active: "Active",
-      // deactive: 'Deactive',
-    },
-    action: {
-      view: "visibility",
-      edit: "edit",
-      delete: "delete",
-    },
-  },
-  {
-    userID: "#ARP-1364",
-    fullName: {
-      img: "assets/images/users/user7.webp",
-      name: "Carolyn Barnes",
-    },
-    email: "barnes@example.com",
-    role: "Developer",
-    projectAccess: "Project monitoring, Project alpho ",
-    status: {
-      active: "Active",
-      // deactive: 'Deactive',
-    },
-    action: {
-      view: "visibility",
-      edit: "edit",
-      delete: "delete",
-    },
-  },
-  {
-    userID: "#ARP-2951",
-    fullName: {
-      img: "assets/images/users/user12.webp",
-      name: "Donna Miller",
-    },
-    email: "donna@example.com",
-    role: "Business analyst",
-    projectAccess: "Aegis accounting service, Beja banking finance ",
-    status: {
-      // active: 'Active',
-      deactive: "Deactive",
-    },
-    action: {
-      view: "visibility",
-      edit: "edit",
-      delete: "delete",
-    },
-  },
-  {
-    userID: "#ARP-7342",
-    fullName: {
-      img: "assets/images/users/user5.webp",
-      name: "Barbara Cross",
-    },
-    email: "cross@example.com",
-    role: "UI/UX designer",
-    projectAccess: "Aoriv ai design,  Vaxo app design",
-    status: {
-      active: "Active",
-      // deactive: 'Deactive',
-    },
-    action: {
-      view: "visibility",
-      edit: "edit",
-      delete: "delete",
-    },
-  },
-  {
-    userID: "#ARP-4619",
-    fullName: {
-      img: "assets/images/users/user16.webp",
-      name: "Rebecca Block",
-    },
-    email: "block@example.com",
-    role: "QA tester",
-    projectAccess: "Product development, Daxa dashboard design",
-    status: {
-      // active: 'Active',
-      deactive: "Deactive",
-    },
-    action: {
-      view: "visibility",
-      edit: "edit",
-      delete: "delete",
-    },
-  },
-  {
-    userID: "#ARP-7346",
-    fullName: {
-      img: "assets/images/users/user9.webp",
-      name: "Ramiro McCarty",
-    },
-    email: "ramiro@example.com",
-    role: "Admin",
-    projectAccess: "Hotel management system, Python upgrade",
-    status: {
-      active: "Active",
-      // deactive: 'Deactive',
-    },
-    action: {
-      view: "visibility",
-      edit: "edit",
-      delete: "delete",
-    },
-  },
-  {
-    userID: "#ARP-7612",
-    fullName: {
-      img: "assets/images/users/user1.webp",
-      name: "Robert Fairweather",
-    },
-    email: "robert@example.com",
-    role: "Editor",
-    projectAccess: "Aegis accounting service, Beja banking finance ",
-    status: {
-      active: "Active",
-      // deactive: 'Deactive',
-    },
-    action: {
-      view: "visibility",
-      edit: "edit",
-      delete: "delete",
-    },
-  },
-  {
-    userID: "#ARP-7642",
-    fullName: {
-      img: "assets/images/users/user6.webp",
-      name: "Marcelino Haddock",
-    },
-    email: "haddock@example.com",
-    role: "Project manager",
-    projectAccess: "Project monitoring, Project alpho ",
-    status: {
-      active: "Active",
-      // deactive: 'Deactive',
-    },
-    action: {
-      view: "visibility",
-      edit: "edit",
-      delete: "delete",
-    },
-  },
-  {
-    userID: "#ARP-4652",
-    fullName: {
-      img: "assets/images/users/user13.webp",
-      name: "Thomas Wilson",
-    },
-    email: "wildon@example.com",
-    role: "UI/UX designer",
-    projectAccess: "Product development, Daxa dashboard design",
-    status: {
-      // active: 'Active',
-      deactive: "Deactive",
-    },
-    action: {
-      view: "visibility",
-      edit: "edit",
-      delete: "delete",
-    },
-  },
-  {
-    userID: "#ARP-7895",
-    fullName: {
-      img: "assets/images/users/user14.webp",
-      name: "Nathaniel Hulsey",
-    },
-    email: "hulsey@example.com",
-    role: "Web developer",
-    projectAccess: "Aoriv ai design,  Vaxo app design",
-    status: {
-      active: "Active",
-      // deactive: 'Deactive',
-    },
-    action: {
-      view: "visibility",
-      edit: "edit",
-      delete: "delete",
-    },
-  },
-  {
-    userID: "#ARP-7895",
-    fullName: {
-      img: "assets/images/users/user14.webp",
-      name: "Nathaniel Hulsey",
-    },
-    email: "hulsey@example.com",
-    role: "Web developer",
-    projectAccess: "Aoriv ai design,  Vaxo app design",
-    status: {
-      // active: 'Active',
-      deactive: "Deactive",
-    },
-    action: {
-      view: "visibility",
-      edit: "edit",
-      delete: "delete",
-    },
-  },
-  {
-    userID: "#ARP-4652",
-    fullName: {
-      img: "assets/images/users/user13.webp",
-      name: "Thomas Wilson",
-    },
-    email: "wildon@example.com",
-    role: "UI/UX designer",
-    projectAccess: "Product development, Daxa dashboard design",
-    status: {
-      active: "Active",
-      // deactive: 'Deactive',
-    },
-    action: {
-      view: "visibility",
-      edit: "edit",
-      delete: "delete",
-    },
-  },
-  {
-    userID: "#ARP-7642",
-    fullName: {
-      img: "assets/images/users/user6.webp",
-      name: "Marcelino Haddock",
-    },
-    email: "haddock@example.com",
-    role: "Project manager",
-    projectAccess: "Project monitoring, Project alpho ",
-    status: {
-      active: "Active",
-      // deactive: 'Deactive',
-    },
-    action: {
-      view: "visibility",
-      edit: "edit",
-      delete: "delete",
-    },
-  },
-  {
-    userID: "#ARP-7612",
-    fullName: {
-      img: "assets/images/users/user1.webp",
-      name: "Robert Fairweather",
-    },
-    email: "robert@example.com",
-    role: "Editor",
-    projectAccess: "Aegis accounting service, Beja banking finance ",
-    status: {
-      // active: 'Active',
-      deactive: "Deactive",
-    },
-    action: {
-      view: "visibility",
-      edit: "edit",
-      delete: "delete",
-    },
-  },
-  {
-    userID: "#ARP-7346",
-    fullName: {
-      img: "assets/images/users/user9.webp",
-      name: "Ramiro McCarty",
-    },
-    email: "ramiro@example.com",
-    role: "Admin",
-    projectAccess: "Hotel management system, Python upgrade",
-    status: {
-      active: "Active",
-      // deactive: 'Deactive',
-    },
-    action: {
-      view: "visibility",
-      edit: "edit",
-      delete: "delete",
-    },
-  },
-  {
-    userID: "#ARP-4619",
-    fullName: {
-      img: "assets/images/users/user16.webp",
-      name: "Rebecca Block",
-    },
-    email: "block@example.com",
-    role: "QA tester",
-    projectAccess: "Product development, Daxa dashboard design",
-    status: {
-      active: "Active",
-      // deactive: 'Deactive',
-    },
-    action: {
-      view: "visibility",
-      edit: "edit",
-      delete: "delete",
-    },
-  },
-  {
-    userID: "#ARP-7342",
-    fullName: {
-      img: "assets/images/users/user5.webp",
-      name: "Barbara Cross",
-    },
-    email: "cross@example.com",
-    role: "UI/UX designer",
-    projectAccess: "Aoriv ai design,  Vaxo app design",
-    status: {
-      // active: 'Active',
-      deactive: "Deactive",
-    },
-    action: {
-      view: "visibility",
-      edit: "edit",
-      delete: "delete",
-    },
-  },
-  {
-    userID: "#ARP-2951",
-    fullName: {
-      img: "assets/images/users/user12.webp",
-      name: "Donna Miller",
-    },
-    email: "donna@example.com",
-    role: "Business analyst",
-    projectAccess: "Aegis accounting service, Beja banking finance ",
-    status: {
-      active: "Active",
-      // deactive: 'Deactive',
-    },
-    action: {
-      view: "visibility",
-      edit: "edit",
-      delete: "delete",
-    },
-  },
-  {
-    userID: "#ARP-1364",
-    fullName: {
-      img: "assets/images/users/user7.webp",
-      name: "Carolyn Barnes",
-    },
-    email: "barnes@example.com",
-    role: "Developer",
-    projectAccess: "Project monitoring, Project alpho ",
-    status: {
-      active: "Active",
-      // deactive: 'Deactive',
-    },
-    action: {
-      view: "visibility",
-      edit: "edit",
-      delete: "delete",
-    },
-  },
-  {
-    userID: "#ARP-1217",
-    fullName: {
-      img: "assets/images/users/user15.webp",
-      name: "Marcia Baker",
-    },
-    email: "marcia@example.com",
-    role: "Project manager",
-    projectAccess: "Hotel management system, Python upgrade",
-    status: {
-      active: "Active",
-      // deactive: 'Deactive',
-    },
-    action: {
-      view: "visibility",
-      edit: "edit",
-      delete: "delete",
-    },
-  },
-];
-export interface PeriodicElement {
-  userID: string;
-  fullName: any;
-  email: string;
-  role: string;
-  projectAccess: string;
-  status: any;
-  action: any;
+interface PatientTableItem extends Patient {
+  fullNameDisplay: string;
+  avatarUrl: string;
+  genderLabel: string;
+  goalTypeLabel: string;
+  status: {
+    active?: string;
+    deactive?: string;
+  };
+  action: {
+    view: string;
+    delete: string;
+  };
 }
