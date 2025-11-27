@@ -62,13 +62,10 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     plugins: [dayGridPlugin],
   };
 
-  private readonly syncCalendarEventsEffect = effect(
-    () => {
-      const events = this.events();
-      this.applyEventsToCalendar(events);
-    },
-    { allowSignalWrites: true },
-  );
+  private readonly syncCalendarEventsEffect = effect(() => {
+    const events = this.events();
+    this.applyEventsToCalendar(events);
+  });
 
   ngOnInit(): void {
     if (!this.isBrowser) {
