@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnInit, inject } from "@angular/core";
+import { Component, DestroyRef, OnInit, inject, signal } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatMenuModule } from "@angular/material/menu";
@@ -26,6 +26,13 @@ import {
   AddTaskDialogFormValue,
 } from "../components/add-task-dialog/add-task-dialog.component";
 
+interface ColumnsSnapshot {
+  toDo: KanbanTask[];
+  inProgress: KanbanTask[];
+  toReview: KanbanTask[];
+  toCompleted: KanbanTask[];
+}
+
 @Component({
   selector: "app-kanban-board",
   imports: [
@@ -48,15 +55,15 @@ export class KanbanBoardComponent implements OnInit {
   private readonly logger = inject(LoggerService);
   private readonly destroyRef = inject(DestroyRef);
 
-  toDo: KanbanTask[] = [];
-  inProgress: KanbanTask[] = [];
-  toReview: KanbanTask[] = [];
-  toCompleted: KanbanTask[] = [];
+  readonly toDo = signal<KanbanTask[]>([]);
+  readonly inProgress = signal<KanbanTask[]>([]);
+  readonly toReview = signal<KanbanTask[]>([]);
+  readonly toCompleted = signal<KanbanTask[]>([]);
 
-  isLoading = false;
-  creatingTask = false;
-  isAddTaskDialogOpen = false;
-  dialogStatus: KanbanTaskStatus = "backlog";
+  readonly isLoading = signal(false);
+  readonly creatingTask = signal(false);
+  readonly isAddTaskDialogOpen = signal(false);
+  readonly dialogStatus = signal<KanbanTaskStatus>("backlog");
 
   private allTasks: KanbanTask[] = [];
   private nutritionistId: string | null = null;
@@ -75,18 +82,18 @@ export class KanbanBoardComponent implements OnInit {
     }
 
     this.nutritionistId = userId;
-    this.isLoading = true;
+    this.isLoading.set(true);
 
     this.tasksService
       .getTasks(userId)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (tasks) => {
-          this.isLoading = false;
+          this.isLoading.set(false);
           this.applyTasks(tasks);
         },
         error: (error) => {
-          this.isLoading = false;
+          this.isLoading.set(false);
           this.logger.error(
             "[KanbanBoardComponent] Error loading tasks",
             error,
@@ -113,6 +120,13 @@ export class KanbanBoardComponent implements OnInit {
       return;
     }
 
+    if (!this.nutritionistId) {
+      this.showUserMissingError();
+      return;
+    }
+
+    const previousSnapshot = this.captureColumnsSnapshot();
+
     transferArrayItem(
       event.previousContainer.data,
       event.container.data,
@@ -121,19 +135,24 @@ export class KanbanBoardComponent implements OnInit {
     );
 
     const movedTask = event.container.data[event.currentIndex];
-    if (movedTask) {
-      movedTask.status = targetStatus;
+    if (!movedTask) {
+      this.restoreColumnsSnapshot(previousSnapshot);
+      return;
     }
+
+    const previousStatus = movedTask.status;
+    movedTask.status = targetStatus;
     this.syncAllTasksFromColumns();
+    this.syncTaskMoveWithBackend(movedTask, previousStatus, previousSnapshot);
   }
 
   openAddTaskDialog(status: KanbanTaskStatus): void {
-    this.dialogStatus = status;
-    this.isAddTaskDialogOpen = true;
+    this.dialogStatus.set(status);
+    this.isAddTaskDialogOpen.set(true);
   }
 
   closeAddTaskDialog(): void {
-    this.isAddTaskDialogOpen = false;
+    this.isAddTaskDialogOpen.set(false);
   }
 
   handleCreateTask(formValue: AddTaskDialogFormValue): void {
@@ -150,13 +169,13 @@ export class KanbanBoardComponent implements OnInit {
       return;
     }
 
-    this.creatingTask = true;
+    this.creatingTask.set(true);
     this.tasksService
       .createTask(this.nutritionistId, payload)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (task) => {
-          this.creatingTask = false;
+          this.creatingTask.set(false);
           this.addTaskToState(task);
           this.closeAddTaskDialog();
           this.snackBar.open("Task created successfully.", "Close", {
@@ -164,7 +183,7 @@ export class KanbanBoardComponent implements OnInit {
           });
         },
         error: (error) => {
-          this.creatingTask = false;
+          this.creatingTask.set(false);
           this.logger.error(
             "[KanbanBoardComponent] Error creating task",
             error,
@@ -219,10 +238,10 @@ export class KanbanBoardComponent implements OnInit {
   }
 
   private groupTasksByStatus(): void {
-    this.toDo = this.filterByStatus("backlog");
-    this.inProgress = this.filterByStatus("in_progress");
-    this.toReview = this.filterByStatus("review");
-    this.toCompleted = this.filterByStatus("completed");
+    this.toDo.set(this.filterByStatus("backlog"));
+    this.inProgress.set(this.filterByStatus("in_progress"));
+    this.toReview.set(this.filterByStatus("review"));
+    this.toCompleted.set(this.filterByStatus("completed"));
   }
 
   private filterByStatus(status: KanbanTaskStatus): KanbanTask[] {
@@ -240,6 +259,18 @@ export class KanbanBoardComponent implements OnInit {
     this.groupTasksByStatus();
   }
 
+  private replaceTaskInState(task: KanbanTask): void {
+    const idx = this.allTasks.findIndex((item) => item.id === task.id);
+    if (idx >= 0) {
+      const updatedTasks = [...this.allTasks];
+      updatedTasks[idx] = task;
+      this.allTasks = updatedTasks;
+    } else {
+      this.allTasks = [...this.allTasks, task];
+    }
+    this.groupTasksByStatus();
+  }
+
   private buildCreatePayload(
     formValue: AddTaskDialogFormValue,
   ): CreateKanbanTaskPayload | null {
@@ -254,7 +285,7 @@ export class KanbanBoardComponent implements OnInit {
     return {
       task_name: taskName,
       task_description: taskDescription,
-      status: this.dialogStatus,
+      status: this.dialogStatus(),
       deadline_date: this.formatDateForApi(deadlineDate),
     };
   }
@@ -310,12 +341,76 @@ export class KanbanBoardComponent implements OnInit {
   }
 
   private syncAllTasksFromColumns(): void {
+    // Forzar actualización de signals con nuevas referencias para que Angular detecte cambios
+    const newToDo = [...this.toDo()];
+    const newInProgress = [...this.inProgress()];
+    const newToReview = [...this.toReview()];
+    const newToCompleted = [...this.toCompleted()];
+
+    this.toDo.set(newToDo);
+    this.inProgress.set(newInProgress);
+    this.toReview.set(newToReview);
+    this.toCompleted.set(newToCompleted);
+
     this.allTasks = [
-      ...this.toDo,
-      ...this.inProgress,
-      ...this.toReview,
-      ...this.toCompleted,
+      ...newToDo,
+      ...newInProgress,
+      ...newToReview,
+      ...newToCompleted,
     ];
+  }
+
+  private captureColumnsSnapshot(): ColumnsSnapshot {
+    return {
+      toDo: [...this.toDo()],
+      inProgress: [...this.inProgress()],
+      toReview: [...this.toReview()],
+      toCompleted: [...this.toCompleted()],
+    };
+  }
+
+  private restoreColumnsSnapshot(snapshot: ColumnsSnapshot): void {
+    this.toDo.set([...snapshot.toDo]);
+    this.inProgress.set([...snapshot.inProgress]);
+    this.toReview.set([...snapshot.toReview]);
+    this.toCompleted.set([...snapshot.toCompleted]);
+    this.syncAllTasksFromColumns();
+  }
+
+  private syncTaskMoveWithBackend(
+    task: KanbanTask,
+    previousStatus: KanbanTaskStatus,
+    snapshot: ColumnsSnapshot,
+  ): void {
+    if (!this.nutritionistId) {
+      this.restoreColumnsSnapshot(snapshot);
+      this.showUserMissingError();
+      return;
+    }
+
+    this.tasksService
+      .moveTask(this.nutritionistId, task.id, task.status)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (updatedTask) => {
+          this.replaceTaskInState(updatedTask);
+        },
+        error: (error) => {
+          task.status = previousStatus;
+          this.restoreColumnsSnapshot(snapshot);
+          this.logger.error(
+            "[KanbanBoardComponent] Error updating task status",
+            error,
+          );
+          this.snackBar.open(
+            "We couldn't update the task status. Please try again.",
+            "Close",
+            {
+              duration: 5000,
+            },
+          );
+        },
+      });
   }
 
   private showUserMissingError(): void {

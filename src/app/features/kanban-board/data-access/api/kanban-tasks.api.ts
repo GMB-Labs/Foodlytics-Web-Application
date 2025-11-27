@@ -5,6 +5,7 @@ import { environment } from "../../../../../environments/environment";
 import {
   CreateKanbanTaskPayload,
   KanbanTask,
+  UpdateKanbanTaskStatusPayload,
 } from "../../domain/models/kanban-task.model";
 
 @Injectable({ providedIn: "root" })
@@ -24,6 +25,19 @@ export class KanbanTasksApiService {
     const encodedId = encodeURIComponent(nutritionistId);
     return this.http.post<KanbanTask>(
       `${this.apiUrl}/${encodedId}/tasks`,
+      payload,
+    );
+  }
+
+  moveTask(
+    nutritionistId: string,
+    taskId: string,
+    payload: UpdateKanbanTaskStatusPayload,
+  ): Observable<KanbanTask> {
+    const encodedNutritionistId = encodeURIComponent(nutritionistId);
+    const encodedTaskId = encodeURIComponent(taskId);
+    return this.http.patch<KanbanTask>(
+      `${this.apiUrl}/${encodedNutritionistId}/tasks/${encodedTaskId}/move`,
       payload,
     );
   }

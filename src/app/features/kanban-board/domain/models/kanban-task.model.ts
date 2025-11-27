@@ -19,3 +19,7 @@ export interface CreateKanbanTaskPayload {
   status: KanbanTaskStatus;
   deadline_date: string;
 }
+
+export interface UpdateKanbanTaskStatusPayload {
+  status: KanbanTaskStatus;
+}

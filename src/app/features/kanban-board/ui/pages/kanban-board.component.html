@@ -12,10 +12,10 @@
       <mat-card-header>
         <mat-card-title>
           <h5 class="mt-0 text-white">
-            To Do ({{ formatColumnCount(toDo.length) }})
+            To Do ({{ formatColumnCount(toDo().length) }})
           </h5>
           <span class="d-block text-white">
-            This month add {{ formatColumnCount(toDo.length) }} new tasks
+            This month add {{ formatColumnCount(toDo().length) }} new tasks
           </span>
         </mat-card-title>
         <mat-card-subtitle>
@@ -41,10 +41,10 @@
     </mat-card>
     <div
       cdkDropList
-      [cdkDropListData]="toDo"
+      [cdkDropListData]="toDo()"
       (cdkDropListDropped)="drop($event, 'backlog')"
     >
-      @for (item of toDo; track item.id ?? item.task_name) {
+      @for (item of toDo(); track item.id ?? item.task_name) {
         <mat-card
           class="daxa-card kanban-board-card mb-25 border-radius bg-white border-none d-block"
           cdkDrag
@@ -82,7 +82,7 @@
         class="add-another-task-btn"
         (click)="openAddTaskDialog('backlog')"
       >
-        {{ getAddTaskButtonText(toDo) }}
+        {{ getAddTaskButtonText(toDo()) }}
       </button>
     </div>
   </div>
@@ -93,10 +93,10 @@
       <mat-card-header>
         <mat-card-title>
           <h5 class="mt-0 text-white">
-            In Progress ({{ formatColumnCount(inProgress.length) }})
+            In Progress ({{ formatColumnCount(inProgress().length) }})
           </h5>
           <span class="d-block text-white">
-            This month progress {{ formatColumnCount(inProgress.length) }} tasks
+            This month progress {{ formatColumnCount(inProgress().length) }} tasks
           </span>
         </mat-card-title>
         <mat-card-subtitle>
@@ -122,10 +122,10 @@
     </mat-card>
     <div
       cdkDropList
-      [cdkDropListData]="inProgress"
+      [cdkDropListData]="inProgress()"
       (cdkDropListDropped)="drop($event, 'in_progress')"
     >
-      @for (item of inProgress; track item.id ?? item.task_name) {
+      @for (item of inProgress(); track item.id ?? item.task_name) {
         <mat-card
           class="daxa-card kanban-board-card mb-25 border-radius bg-white border-none d-block"
           cdkDrag
@@ -163,7 +163,7 @@
         class="add-another-task-btn"
         (click)="openAddTaskDialog('in_progress')"
       >
-        {{ getAddTaskButtonText(inProgress) }}
+        {{ getAddTaskButtonText(inProgress()) }}
       </button>
     </div>
   </div>
@@ -174,10 +174,10 @@
       <mat-card-header>
         <mat-card-title>
           <h5 class="mt-0 text-white">
-            To Review ({{ formatColumnCount(toReview.length) }})
+            To Review ({{ formatColumnCount(toReview().length) }})
           </h5>
           <span class="d-block text-white">
-            This month review {{ formatColumnCount(toReview.length) }} tasks
+            This month review {{ formatColumnCount(toReview().length) }} tasks
           </span>
         </mat-card-title>
         <mat-card-subtitle>
@@ -203,10 +203,10 @@
     </mat-card>
     <div
       cdkDropList
-      [cdkDropListData]="toReview"
+      [cdkDropListData]="toReview()"
       (cdkDropListDropped)="drop($event, 'review')"
     >
-      @for (item of toReview; track item.id ?? item.task_name) {
+      @for (item of toReview(); track item.id ?? item.task_name) {
         <mat-card
           class="daxa-card kanban-board-card mb-25 border-radius bg-white border-none d-block"
           cdkDrag
@@ -244,7 +244,7 @@
         class="add-another-task-btn"
         (click)="openAddTaskDialog('review')"
       >
-        {{ getAddTaskButtonText(toReview) }}
+        {{ getAddTaskButtonText(toReview()) }}
       </button>
     </div>
   </div>
@@ -255,10 +255,10 @@
       <mat-card-header>
         <mat-card-title>
           <h5 class="mt-0 text-white">
-            To Completed ({{ formatColumnCount(toCompleted.length) }})
+            To Completed ({{ formatColumnCount(toCompleted().length) }})
           </h5>
           <span class="d-block text-white">
-            This month completed {{ formatColumnCount(toCompleted.length) }} tasks
+            This month completed {{ formatColumnCount(toCompleted().length) }} tasks
           </span>
         </mat-card-title>
         <mat-card-subtitle>
@@ -284,10 +284,10 @@
     </mat-card>
     <div
       cdkDropList
-      [cdkDropListData]="toCompleted"
+      [cdkDropListData]="toCompleted()"
       (cdkDropListDropped)="drop($event, 'completed')"
     >
-      @for (item of toCompleted; track item.id ?? item.task_name) {
+      @for (item of toCompleted(); track item.id ?? item.task_name) {
         <mat-card
           class="daxa-card kanban-board-card mb-25 border-radius bg-white border-none d-block"
           cdkDrag
@@ -325,16 +325,16 @@
         class="add-another-task-btn"
         (click)="openAddTaskDialog('completed')"
       >
-        {{ getAddTaskButtonText(toCompleted) }}
+        {{ getAddTaskButtonText(toCompleted()) }}
       </button>
     </div>
   </div>
 </div>
 
 <app-add-task-dialog
-  [open]="isAddTaskDialogOpen"
-  [status]="dialogStatus"
-  [loading]="creatingTask"
+  [open]="isAddTaskDialogOpen()"
+  [status]="dialogStatus()"
+  [loading]="creatingTask()"
   (closed)="closeAddTaskDialog()"
   (create)="handleCreateTask($event)"
 ></app-add-task-dialog>
