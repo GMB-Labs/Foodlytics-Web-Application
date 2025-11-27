@@ -18,25 +18,6 @@
             This month add {{ formatColumnCount(toDo().length) }} new tasks
           </span>
         </mat-card-title>
-        <mat-card-subtitle>
-          <button
-            type="button"
-            mat-button
-            class="card-header-menu-btn p-0"
-            [matMenuTriggerFor]="cardHeaderMenu"
-          >
-            <i class="material-symbols-outlined"> more_horiz </i>
-          </button>
-          <mat-menu
-            #cardHeaderMenu="matMenu"
-            class="card-header-menu"
-            xPosition="before"
-          >
-            <button mat-menu-item>Select All</button>
-            <button mat-menu-item>Edit All</button>
-            <button mat-menu-item>Delete All</button>
-          </mat-menu>
-        </mat-card-subtitle>
       </mat-card-header>
     </mat-card>
     <div
@@ -71,6 +52,25 @@
                 <i class="material-symbols-outlined"> schedule </i>
                 {{ formatDeadlineDate(item.deadline_date) }}
               </span>
+              <button
+                mat-icon-button
+                type="button"
+                class="task-menu-btn"
+                [matMenuTriggerFor]="taskMenu"
+                [disabled]="isTaskDeleting(item.id)"
+              >
+                <i class="material-symbols-outlined"> more_horiz </i>
+              </button>
+              <mat-menu #taskMenu="matMenu" xPosition="before">
+                <button
+                  mat-menu-item
+                  type="button"
+                  (click)="handleDeleteTask(item)"
+                  [disabled]="isTaskDeleting(item.id)"
+                >
+                  Delete task
+                </button>
+              </mat-menu>
             </div>
           </mat-card-content>
         </mat-card>
@@ -99,25 +99,6 @@
             This month progress {{ formatColumnCount(inProgress().length) }} tasks
           </span>
         </mat-card-title>
-        <mat-card-subtitle>
-          <button
-            type="button"
-            mat-button
-            class="card-header-menu-btn p-0"
-            [matMenuTriggerFor]="cardHeaderMenu"
-          >
-            <i class="material-symbols-outlined"> more_horiz </i>
-          </button>
-          <mat-menu
-            #cardHeaderMenu="matMenu"
-            class="card-header-menu"
-            xPosition="before"
-          >
-            <button mat-menu-item>Select All</button>
-            <button mat-menu-item>Edit All</button>
-            <button mat-menu-item>Delete All</button>
-          </mat-menu>
-        </mat-card-subtitle>
       </mat-card-header>
     </mat-card>
     <div
@@ -152,6 +133,25 @@
                 <i class="material-symbols-outlined"> schedule </i>
                 {{ formatDeadlineDate(item.deadline_date) }}
               </span>
+              <button
+                mat-icon-button
+                type="button"
+                class="task-menu-btn"
+                [matMenuTriggerFor]="taskMenu"
+                [disabled]="isTaskDeleting(item.id)"
+              >
+                <i class="material-symbols-outlined"> more_horiz </i>
+              </button>
+              <mat-menu #taskMenu="matMenu" xPosition="before">
+                <button
+                  mat-menu-item
+                  type="button"
+                  (click)="handleDeleteTask(item)"
+                  [disabled]="isTaskDeleting(item.id)"
+                >
+                  Delete task
+                </button>
+              </mat-menu>
             </div>
           </mat-card-content>
         </mat-card>
@@ -180,25 +180,6 @@
             This month review {{ formatColumnCount(toReview().length) }} tasks
           </span>
         </mat-card-title>
-        <mat-card-subtitle>
-          <button
-            type="button"
-            mat-button
-            class="card-header-menu-btn p-0"
-            [matMenuTriggerFor]="cardHeaderMenu"
-          >
-            <i class="material-symbols-outlined"> more_horiz </i>
-          </button>
-          <mat-menu
-            #cardHeaderMenu="matMenu"
-            class="card-header-menu"
-            xPosition="before"
-          >
-            <button mat-menu-item>Select All</button>
-            <button mat-menu-item>Edit All</button>
-            <button mat-menu-item>Delete All</button>
-          </mat-menu>
-        </mat-card-subtitle>
       </mat-card-header>
     </mat-card>
     <div
@@ -233,6 +214,25 @@
                 <i class="material-symbols-outlined"> schedule </i>
                 {{ formatDeadlineDate(item.deadline_date) }}
               </span>
+              <button
+                mat-icon-button
+                type="button"
+                class="task-menu-btn"
+                [matMenuTriggerFor]="taskMenu"
+                [disabled]="isTaskDeleting(item.id)"
+              >
+                <i class="material-symbols-outlined"> more_horiz </i>
+              </button>
+              <mat-menu #taskMenu="matMenu" xPosition="before">
+                <button
+                  mat-menu-item
+                  type="button"
+                  (click)="handleDeleteTask(item)"
+                  [disabled]="isTaskDeleting(item.id)"
+                >
+                  Delete task
+                </button>
+              </mat-menu>
             </div>
           </mat-card-content>
         </mat-card>
@@ -261,25 +261,6 @@
             This month completed {{ formatColumnCount(toCompleted().length) }} tasks
           </span>
         </mat-card-title>
-        <mat-card-subtitle>
-          <button
-            type="button"
-            mat-button
-            class="card-header-menu-btn p-0"
-            [matMenuTriggerFor]="cardHeaderMenu"
-          >
-            <i class="material-symbols-outlined"> more_horiz </i>
-          </button>
-          <mat-menu
-            #cardHeaderMenu="matMenu"
-            class="card-header-menu"
-            xPosition="before"
-          >
-            <button mat-menu-item>Select All</button>
-            <button mat-menu-item>Edit All</button>
-            <button mat-menu-item>Delete All</button>
-          </mat-menu>
-        </mat-card-subtitle>
       </mat-card-header>
     </mat-card>
     <div
@@ -314,6 +295,25 @@
                 <i class="material-symbols-outlined"> schedule </i>
                 {{ formatDeadlineDate(item.deadline_date) }}
               </span>
+              <button
+                mat-icon-button
+                type="button"
+                class="task-menu-btn"
+                [matMenuTriggerFor]="taskMenu"
+                [disabled]="isTaskDeleting(item.id)"
+              >
+                <i class="material-symbols-outlined"> more_horiz </i>
+              </button>
+              <mat-menu #taskMenu="matMenu" xPosition="before">
+                <button
+                  mat-menu-item
+                  type="button"
+                  (click)="handleDeleteTask(item)"
+                  [disabled]="isTaskDeleting(item.id)"
+                >
+                  Delete task
+                </button>
+              </mat-menu>
             </div>
           </mat-card-content>
         </mat-card>

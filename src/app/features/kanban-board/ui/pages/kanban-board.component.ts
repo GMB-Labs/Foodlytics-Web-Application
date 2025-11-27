@@ -64,6 +64,7 @@ export class KanbanBoardComponent implements OnInit {
   readonly creatingTask = signal(false);
   readonly isAddTaskDialogOpen = signal(false);
   readonly dialogStatus = signal<KanbanTaskStatus>("backlog");
+  readonly deletingTaskIds = signal<Set<string>>(new Set());
 
   private allTasks: KanbanTask[] = [];
   private nutritionistId: string | null = null;
@@ -232,6 +233,52 @@ export class KanbanBoardComponent implements OnInit {
     return tasks.length === 0 ? "Add task" : "Add another task";
   }
 
+  isTaskDeleting(taskId: string | null | undefined): boolean {
+    if (!taskId) {
+      return false;
+    }
+    return this.deletingTaskIds().has(taskId);
+  }
+
+  handleDeleteTask(task: KanbanTask): void {
+    if (!this.nutritionistId) {
+      this.showUserMissingError();
+      return;
+    }
+    if (this.isTaskDeleting(task.id)) {
+      return;
+    }
+
+    this.updateDeletingTaskState(task.id, true);
+
+    this.tasksService
+      .deleteTask(this.nutritionistId, task.id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.updateDeletingTaskState(task.id, false);
+          this.removeTaskFromState(task.id);
+          this.snackBar.open("Task deleted successfully.", "Close", {
+            duration: 3000,
+          });
+        },
+        error: (error) => {
+          this.updateDeletingTaskState(task.id, false);
+          this.logger.error(
+            "[KanbanBoardComponent] Error deleting task",
+            error,
+          );
+          this.snackBar.open(
+            "We couldn't delete the task. Please try again.",
+            "Close",
+            {
+              duration: 5000,
+            },
+          );
+        },
+      });
+  }
+
   private applyTasks(tasks: KanbanTask[]): void {
     this.allTasks = [...tasks];
     this.groupTasksByStatus();
@@ -256,6 +303,11 @@ export class KanbanBoardComponent implements OnInit {
 
   private addTaskToState(task: KanbanTask): void {
     this.allTasks = [...this.allTasks, task];
+    this.groupTasksByStatus();
+  }
+
+  private removeTaskFromState(taskId: string): void {
+    this.allTasks = this.allTasks.filter((task) => task.id !== taskId);
     this.groupTasksByStatus();
   }
 
@@ -411,6 +463,16 @@ export class KanbanBoardComponent implements OnInit {
           );
         },
       });
+  }
+
+  private updateDeletingTaskState(taskId: string, deleting: boolean): void {
+    const nextState = new Set(this.deletingTaskIds());
+    if (deleting) {
+      nextState.add(taskId);
+    } else {
+      nextState.delete(taskId);
+    }
+    this.deletingTaskIds.set(nextState);
   }
 
   private showUserMissingError(): void {

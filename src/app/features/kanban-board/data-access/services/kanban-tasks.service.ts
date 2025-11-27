@@ -29,4 +29,8 @@ export class KanbanTasksService {
   ): Observable<KanbanTask> {
     return this.api.moveTask(nutritionistId, taskId, { status });
   }
+
+  deleteTask(nutritionistId: string, taskId: string): Observable<void> {
+    return this.api.deleteTask(nutritionistId, taskId);
+  }
 }

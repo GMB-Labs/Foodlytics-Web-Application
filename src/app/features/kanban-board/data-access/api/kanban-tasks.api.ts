@@ -41,4 +41,12 @@ export class KanbanTasksApiService {
       payload,
     );
   }
+
+  deleteTask(nutritionistId: string, taskId: string): Observable<void> {
+    const encodedNutritionistId = encodeURIComponent(nutritionistId);
+    const encodedTaskId = encodeURIComponent(taskId);
+    return this.http.delete<void>(
+      `${this.apiUrl}/${encodedNutritionistId}/tasks/${encodedTaskId}`,
+    );
+  }
 }
