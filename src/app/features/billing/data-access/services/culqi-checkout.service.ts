@@ -1,13 +1,41 @@
 import { Injectable, PLATFORM_ID, inject } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
-import type { Plan } from "../../domain/models";
 import { environment } from "../../../../../environments/environment";
 
+export interface CulqiPaymentToken {
+  id: string;
+  email?: string;
+  card_number?: string;
+  [key: string]: unknown;
+}
+
+export interface CulqiAlternativeOrder {
+  id: string;
+  payment_code?: string;
+  qr?: string;
+  url_pe?: string;
+  [key: string]: unknown;
+}
+
+export type CulqiCheckoutResult =
+  | { type: "token"; payload: CulqiPaymentToken }
+  | { type: "order"; payload: CulqiAlternativeOrder }
+  | { type: "error"; error: unknown };
+
+interface CulqiCheckoutParams {
+  amount: number;
+  orderId: string;
+  email: string;
+  currency?: "PEN";
+  onAction: (result: CulqiCheckoutResult) => void;
+}
+
 interface CulqiGlobal {
-  token?: { id: string };
-  order?: unknown;
+  token?: CulqiPaymentToken;
+  order?: CulqiAlternativeOrder;
   error?: unknown;
   culqi?: () => void;
+  close?: () => void;
 }
 
 interface CulqiWindow extends Window {
@@ -49,12 +77,15 @@ interface CulqiCheckoutOptions {
   appearance: {
     theme: string;
     menuType: "sidebar" | "sliderTop" | "select";
+    colors?: {
+      primary?: string;
+      buttonText?: string;
+    };
   };
 }
 
 interface PendingCheckoutHandlers {
-  onTokenReceived: (tokenId: string) => void;
-  onError?: (error: unknown) => void;
+  onAction: (result: CulqiCheckoutResult) => void;
 }
 
 @Injectable({ providedIn: "root" })
@@ -65,14 +96,7 @@ export class CulqiCheckoutService {
   private scriptLoadingPromise: Promise<void> | null = null;
   private pendingHandlers: PendingCheckoutHandlers | null = null;
 
-  async openCheckout(params: {
-    plan: Plan;
-    email: string;
-    onTokenReceived: (tokenId: string) => void;
-    onError?: (error: unknown) => void;
-    // TODO backend: orderId generado con la API de orders de Culqi
-    orderId?: string;
-  }): Promise<void> {
+  async openCheckout(params: CulqiCheckoutParams): Promise<void> {
     if (!this.isBrowser) {
       throw new Error("Culqi checkout solo está disponible en el navegador.");
     }
@@ -87,18 +111,26 @@ export class CulqiCheckoutService {
     }
 
     this.pendingHandlers = {
-      onTokenReceived: params.onTokenReceived,
-      onError: params.onError,
+      onAction: params.onAction,
     };
 
     culqiWindow.Culqi = culqiWindow.Culqi ?? {};
     culqiWindow.Culqi.culqi = () => this.handleCheckoutResult();
 
+    const paymentMethods: CulqiCheckoutOptions["options"]["paymentMethods"] = {
+      tarjeta: true,
+      yape: true,
+      billetera: true,
+      bancaMovil: true,
+      agente: true,
+      cuotealo: true,
+    };
+
     const checkout = new CulqiCheckoutCtor(environment.culqiPublicKey, {
       settings: {
-        title: `Suscripción ${params.plan.name}`,
-        currency: "PEN",
-        amount: params.plan.priceCents,
+        title: "Foodlytics",
+        currency: params.currency ?? "PEN",
+        amount: params.amount,
         order: params.orderId,
         xculqirsaid: environment.culqiRsaId,
         rsapublickey: environment.culqiRsaPublicKey,
@@ -110,16 +142,16 @@ export class CulqiCheckoutService {
         lang: "auto",
         installments: true,
         modal: true,
-        paymentMethods: {
-          tarjeta: true,
-          yape: true,
-          billetera: true,
-        },
-        paymentMethodsSort: ["tarjeta", "yape", "billetera"],
+        paymentMethods,
+        paymentMethodsSort: Object.keys(paymentMethods),
       },
       appearance: {
         theme: "default",
         menuType: "sidebar",
+        colors: {
+          primary: "#1d4ed8",
+          buttonText: "#ffffff",
+        },
       },
     });
 
@@ -134,17 +166,31 @@ export class CulqiCheckoutService {
 
     try {
       if (culqiGlobal.token) {
-        this.pendingHandlers.onTokenReceived(culqiGlobal.token.id);
+        culqiGlobal.close?.();
+        this.pendingHandlers.onAction({
+          type: "token",
+          payload: culqiGlobal.token,
+        });
+        return;
       } else if (culqiGlobal.order) {
-        this.pendingHandlers.onTokenReceived(
-          (culqiGlobal.order as { id?: string })?.id ?? "",
-        );
+        culqiGlobal.close?.();
+        this.pendingHandlers.onAction({
+          type: "order",
+          payload: culqiGlobal.order,
+        });
+        return;
       } else if (culqiGlobal.error) {
-        this.pendingHandlers.onError?.(culqiGlobal.error);
+        culqiGlobal.close?.();
+        this.pendingHandlers.onAction({
+          type: "error",
+          error: culqiGlobal.error,
+        });
+        return;
       } else {
-        this.pendingHandlers.onError?.(
-          new Error("No se recibió token ni orden desde Culqi."),
-        );
+        this.pendingHandlers.onAction({
+          type: "error",
+          error: new Error("No se recibió token ni orden desde Culqi."),
+        });
       }
     } finally {
       this.pendingHandlers = null;

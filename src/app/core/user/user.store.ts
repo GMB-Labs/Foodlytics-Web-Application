@@ -10,6 +10,7 @@ export interface UserProfile {
   height_cm?: number;
   weight_kg?: number;
   goal_type?: string;
+  phone_number?: string;
   activity_level?: string;
   desired_weight_kg?: number;
   [key: string]: unknown;

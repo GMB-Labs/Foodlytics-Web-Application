@@ -26,6 +26,9 @@ export class PricingPageComponent {
 
   onSubscribe(plan: Plan): void {
     this.billingFacade.selectPlan(plan.id);
+    if (plan.id === "starter" || plan.priceCents <= 0) {
+      return;
+    }
     void this.billingFacade.startCheckout(plan.id);
   }
 }
