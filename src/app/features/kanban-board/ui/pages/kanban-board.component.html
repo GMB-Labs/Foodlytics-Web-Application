@@ -11,38 +11,21 @@
     >
       <mat-card-header>
         <mat-card-title>
-          <h5 class="mt-0 text-white">To Do (04)</h5>
+          <h5 class="mt-0 text-white">
+            To Do ({{ formatColumnCount(toDo().length) }})
+          </h5>
           <span class="d-block text-white">
-            This month add 04 new projects
+            This month add {{ formatColumnCount(toDo().length) }} new tasks
           </span>
         </mat-card-title>
-        <mat-card-subtitle>
-          <button
-            type="button"
-            mat-button
-            class="card-header-menu-btn p-0"
-            [matMenuTriggerFor]="cardHeaderMenu"
-          >
-            <i class="material-symbols-outlined"> more_horiz </i>
-          </button>
-          <mat-menu
-            #cardHeaderMenu="matMenu"
-            class="card-header-menu"
-            xPosition="before"
-          >
-            <button mat-menu-item>Select All</button>
-            <button mat-menu-item>Edit All</button>
-            <button mat-menu-item>Delete All</button>
-          </mat-menu>
-        </mat-card-subtitle>
       </mat-card-header>
     </mat-card>
     <div
       cdkDropList
-      [cdkDropListData]="toDo"
-      (cdkDropListDropped)="drop($event)"
+      [cdkDropListData]="toDo()"
+      (cdkDropListDropped)="drop($event, 'backlog')"
     >
-      @for (item of toDo; track item) {
+      @for (item of toDo(); track item.id ?? item.task_name) {
         <mat-card
           class="daxa-card kanban-board-card mb-25 border-radius bg-white border-none d-block"
           cdkDrag
@@ -50,33 +33,56 @@
           <mat-card-content>
             <div class="head d-flex align-items-center justify-content-between">
               <span class="d-block fw-medium">
-                {{ item.title }}
+                {{ item.task_name }}
               </span>
               <span class="d-block text-daxa">
-                {{ item.daysLeft }}
+                {{ getDaysLeftLabel(item) }}
               </span>
             </div>
             <p>
-              {{ item.description }}
+              {{ item.task_description }}
             </p>
             <span class="daxa-badge text-success d-inline-block">
-              {{ item.category }}
+              Deadline
             </span>
             <div
               class="footer d-flex align-items-center justify-content-between"
             >
               <span class="date text-body d-block position-relative">
                 <i class="material-symbols-outlined"> schedule </i>
-                {{ item.createdDate }}
+                {{ formatDeadlineDate(item.deadline_date) }}
               </span>
+              <button
+                mat-icon-button
+                type="button"
+                class="task-menu-btn"
+                [matMenuTriggerFor]="taskMenu"
+                [disabled]="isTaskDeleting(item.id)"
+              >
+                <i class="material-symbols-outlined"> more_horiz </i>
+              </button>
+              <mat-menu #taskMenu="matMenu" xPosition="before">
+                <button
+                  mat-menu-item
+                  type="button"
+                  (click)="handleDeleteTask(item)"
+                  [disabled]="isTaskDeleting(item.id)"
+                >
+                  Delete task
+                </button>
+              </mat-menu>
             </div>
           </mat-card-content>
         </mat-card>
       }
     </div>
     <div class="mb-25">
-      <button mat-button class="add-another-task-btn" (click)="toggleClass()">
-        + Add Another Task
+      <button
+        mat-button
+        class="add-another-task-btn"
+        (click)="openAddTaskDialog('backlog')"
+      >
+        {{ getAddTaskButtonText(toDo()) }}
       </button>
     </div>
   </div>
@@ -86,38 +92,21 @@
     >
       <mat-card-header>
         <mat-card-title>
-          <h5 class="mt-0 text-white">In Progress (07)</h5>
+          <h5 class="mt-0 text-white">
+            In Progress ({{ formatColumnCount(inProgress().length) }})
+          </h5>
           <span class="d-block text-white">
-            This month progress 07 new projects
+            This month progress {{ formatColumnCount(inProgress().length) }} tasks
           </span>
         </mat-card-title>
-        <mat-card-subtitle>
-          <button
-            type="button"
-            mat-button
-            class="card-header-menu-btn p-0"
-            [matMenuTriggerFor]="cardHeaderMenu"
-          >
-            <i class="material-symbols-outlined"> more_horiz </i>
-          </button>
-          <mat-menu
-            #cardHeaderMenu="matMenu"
-            class="card-header-menu"
-            xPosition="before"
-          >
-            <button mat-menu-item>Select All</button>
-            <button mat-menu-item>Edit All</button>
-            <button mat-menu-item>Delete All</button>
-          </mat-menu>
-        </mat-card-subtitle>
       </mat-card-header>
     </mat-card>
     <div
       cdkDropList
-      [cdkDropListData]="inProgress"
-      (cdkDropListDropped)="drop($event)"
+      [cdkDropListData]="inProgress()"
+      (cdkDropListDropped)="drop($event, 'in_progress')"
     >
-      @for (item of inProgress; track item) {
+      @for (item of inProgress(); track item.id ?? item.task_name) {
         <mat-card
           class="daxa-card kanban-board-card mb-25 border-radius bg-white border-none d-block"
           cdkDrag
@@ -125,33 +114,56 @@
           <mat-card-content>
             <div class="head d-flex align-items-center justify-content-between">
               <span class="d-block fw-medium">
-                {{ item.title }}
+                {{ item.task_name }}
               </span>
               <span class="d-block text-warning">
-                {{ item.daysLeft }}
+                {{ getDaysLeftLabel(item) }}
               </span>
             </div>
             <p>
-              {{ item.description }}
+              {{ item.task_description }}
             </p>
             <span class="daxa-badge text-success d-inline-block">
-              {{ item.category }}
+              Deadline
             </span>
             <div
               class="footer d-flex align-items-center justify-content-between"
             >
               <span class="date text-body d-block position-relative">
                 <i class="material-symbols-outlined"> schedule </i>
-                {{ item.createdDate }}
+                {{ formatDeadlineDate(item.deadline_date) }}
               </span>
+              <button
+                mat-icon-button
+                type="button"
+                class="task-menu-btn"
+                [matMenuTriggerFor]="taskMenu"
+                [disabled]="isTaskDeleting(item.id)"
+              >
+                <i class="material-symbols-outlined"> more_horiz </i>
+              </button>
+              <mat-menu #taskMenu="matMenu" xPosition="before">
+                <button
+                  mat-menu-item
+                  type="button"
+                  (click)="handleDeleteTask(item)"
+                  [disabled]="isTaskDeleting(item.id)"
+                >
+                  Delete task
+                </button>
+              </mat-menu>
             </div>
           </mat-card-content>
         </mat-card>
       }
     </div>
     <div class="mb-25">
-      <button mat-button class="add-another-task-btn" (click)="toggleClass()">
-        + Add Another Task
+      <button
+        mat-button
+        class="add-another-task-btn"
+        (click)="openAddTaskDialog('in_progress')"
+      >
+        {{ getAddTaskButtonText(inProgress()) }}
       </button>
     </div>
   </div>
@@ -161,38 +173,21 @@
     >
       <mat-card-header>
         <mat-card-title>
-          <h5 class="mt-0 text-white">To Review (06)</h5>
+          <h5 class="mt-0 text-white">
+            To Review ({{ formatColumnCount(toReview().length) }})
+          </h5>
           <span class="d-block text-white">
-            This month review 06 projects
+            This month review {{ formatColumnCount(toReview().length) }} tasks
           </span>
         </mat-card-title>
-        <mat-card-subtitle>
-          <button
-            type="button"
-            mat-button
-            class="card-header-menu-btn p-0"
-            [matMenuTriggerFor]="cardHeaderMenu"
-          >
-            <i class="material-symbols-outlined"> more_horiz </i>
-          </button>
-          <mat-menu
-            #cardHeaderMenu="matMenu"
-            class="card-header-menu"
-            xPosition="before"
-          >
-            <button mat-menu-item>Select All</button>
-            <button mat-menu-item>Edit All</button>
-            <button mat-menu-item>Delete All</button>
-          </mat-menu>
-        </mat-card-subtitle>
       </mat-card-header>
     </mat-card>
     <div
       cdkDropList
-      [cdkDropListData]="toReview"
-      (cdkDropListDropped)="drop($event)"
+      [cdkDropListData]="toReview()"
+      (cdkDropListDropped)="drop($event, 'review')"
     >
-      @for (item of toReview; track item) {
+      @for (item of toReview(); track item.id ?? item.task_name) {
         <mat-card
           class="daxa-card kanban-board-card mb-25 border-radius bg-white border-none d-block"
           cdkDrag
@@ -200,33 +195,56 @@
           <mat-card-content>
             <div class="head d-flex align-items-center justify-content-between">
               <span class="d-block fw-medium">
-                {{ item.title }}
+                {{ item.task_name }}
               </span>
               <span class="d-block text-danger">
-                {{ item.daysLeft }}
+                {{ getDaysLeftLabel(item) }}
               </span>
             </div>
             <p>
-              {{ item.description }}
+              {{ item.task_description }}
             </p>
             <span class="daxa-badge text-success d-inline-block">
-              {{ item.category }}
+              Deadline
             </span>
             <div
               class="footer d-flex align-items-center justify-content-between"
             >
               <span class="date text-body d-block position-relative">
                 <i class="material-symbols-outlined"> schedule </i>
-                {{ item.createdDate }}
+                {{ formatDeadlineDate(item.deadline_date) }}
               </span>
+              <button
+                mat-icon-button
+                type="button"
+                class="task-menu-btn"
+                [matMenuTriggerFor]="taskMenu"
+                [disabled]="isTaskDeleting(item.id)"
+              >
+                <i class="material-symbols-outlined"> more_horiz </i>
+              </button>
+              <mat-menu #taskMenu="matMenu" xPosition="before">
+                <button
+                  mat-menu-item
+                  type="button"
+                  (click)="handleDeleteTask(item)"
+                  [disabled]="isTaskDeleting(item.id)"
+                >
+                  Delete task
+                </button>
+              </mat-menu>
             </div>
           </mat-card-content>
         </mat-card>
       }
     </div>
     <div class="mb-25">
-      <button mat-button class="add-another-task-btn" (click)="toggleClass()">
-        + Add Another Task
+      <button
+        mat-button
+        class="add-another-task-btn"
+        (click)="openAddTaskDialog('review')"
+      >
+        {{ getAddTaskButtonText(toReview()) }}
       </button>
     </div>
   </div>
@@ -236,38 +254,21 @@
     >
       <mat-card-header>
         <mat-card-title>
-          <h5 class="mt-0 text-white">To Completed (05)</h5>
+          <h5 class="mt-0 text-white">
+            To Completed ({{ formatColumnCount(toCompleted().length) }})
+          </h5>
           <span class="d-block text-white">
-            This month completed 05 projects
+            This month completed {{ formatColumnCount(toCompleted().length) }} tasks
           </span>
         </mat-card-title>
-        <mat-card-subtitle>
-          <button
-            type="button"
-            mat-button
-            class="card-header-menu-btn p-0"
-            [matMenuTriggerFor]="cardHeaderMenu"
-          >
-            <i class="material-symbols-outlined"> more_horiz </i>
-          </button>
-          <mat-menu
-            #cardHeaderMenu="matMenu"
-            class="card-header-menu"
-            xPosition="before"
-          >
-            <button mat-menu-item>Select All</button>
-            <button mat-menu-item>Edit All</button>
-            <button mat-menu-item>Delete All</button>
-          </mat-menu>
-        </mat-card-subtitle>
       </mat-card-header>
     </mat-card>
     <div
       cdkDropList
-      [cdkDropListData]="toCompleted"
-      (cdkDropListDropped)="drop($event)"
+      [cdkDropListData]="toCompleted()"
+      (cdkDropListDropped)="drop($event, 'completed')"
     >
-      @for (item of toCompleted; track item) {
+      @for (item of toCompleted(); track item.id ?? item.task_name) {
         <mat-card
           class="daxa-card kanban-board-card mb-25 border-radius bg-white border-none d-block"
           cdkDrag
@@ -275,102 +276,65 @@
           <mat-card-content>
             <div class="head d-flex align-items-center justify-content-between">
               <span class="d-block fw-medium">
-                {{ item.title }}
+                {{ item.task_name }}
               </span>
               <span class="d-block text-success">
-                {{ item.daysLeft }}
+                {{ getDaysLeftLabel(item) }}
               </span>
             </div>
             <p>
-              {{ item.description }}
+              {{ item.task_description }}
             </p>
             <span class="daxa-badge text-success d-inline-block">
-              {{ item.category }}
+              Deadline
             </span>
             <div
               class="footer d-flex align-items-center justify-content-between"
             >
               <span class="date text-body d-block position-relative">
                 <i class="material-symbols-outlined"> schedule </i>
-                {{ item.createdDate }}
+                {{ formatDeadlineDate(item.deadline_date) }}
               </span>
+              <button
+                mat-icon-button
+                type="button"
+                class="task-menu-btn"
+                [matMenuTriggerFor]="taskMenu"
+                [disabled]="isTaskDeleting(item.id)"
+              >
+                <i class="material-symbols-outlined"> more_horiz </i>
+              </button>
+              <mat-menu #taskMenu="matMenu" xPosition="before">
+                <button
+                  mat-menu-item
+                  type="button"
+                  (click)="handleDeleteTask(item)"
+                  [disabled]="isTaskDeleting(item.id)"
+                >
+                  Delete task
+                </button>
+              </mat-menu>
             </div>
           </mat-card-content>
         </mat-card>
       }
     </div>
     <div class="mb-25">
-      <button mat-button class="add-another-task-btn" (click)="toggleClass()">
-        + Add Another Task
+      <button
+        mat-button
+        class="add-another-task-btn"
+        (click)="openAddTaskDialog('completed')"
+      >
+        {{ getAddTaskButtonText(toCompleted()) }}
       </button>
     </div>
   </div>
 </div>
 
-<!-- Popup -->
-<div
-  class="add-another-task-popup"
-  [class.active]="classApplied"
-  [class.rtl-enabled]="themeService.isRTLEnabled()"
->
-  <div class="popup-dialog">
-    <mat-card
-      class="daxa-card mb-25 border-radius bg-white border-none d-block"
-    >
-      <mat-card-header>
-        <mat-card-title>
-          <h5 class="mb-0">Add New Task</h5>
-        </mat-card-title>
-        <mat-card-subtitle>
-          <button mat-button (click)="toggleClass()">
-            <i class="ri-close-fill"></i>
-          </button>
-        </mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="row">
-          <div class="col-md-12">
-            <label class="main-label d-block lh-1 text-black">
-              Task Name
-            </label>
-            <mat-form-field>
-              <mat-label> Task name </mat-label>
-              <input matInput placeholder="E.g. Hand Watch" />
-            </mat-form-field>
-          </div>
-          <div class="col-md-12">
-            <label class="main-label d-block lh-1 text-black">
-              Task Description
-            </label>
-            <mat-form-field class="textarea">
-              <mat-label> Task description </mat-label>
-              <textarea
-                matInput
-                placeholder="E.g. It makes me feel..."
-              ></textarea>
-            </mat-form-field>
-          </div>
-          <div class="col-md-12">
-            <label class="main-label d-block lh-1 text-black">
-              Deadline Date
-            </label>
-            <mat-form-field class="date">
-              <mat-label> Choose a date </mat-label>
-              <input matInput [matDatepicker]="dueDate" />
-              <mat-hint>MM/DD/YYYY</mat-hint>
-              <mat-datepicker-toggle
-                matIconSuffix
-                [for]="dueDate"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #dueDate></mat-datepicker>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="btn-box">
-          <button mat-button (click)="toggleClass()">Cancel</button>
-          <button mat-button>Create</button>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</div>
+<app-add-task-dialog
+  [open]="isAddTaskDialogOpen()"
+  [status]="dialogStatus()"
+  [loading]="creatingTask()"
+  (closed)="closeAddTaskDialog()"
+  (create)="handleCreateTask($event)"
+></app-add-task-dialog>
