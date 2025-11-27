@@ -152,15 +152,8 @@ export class AddTaskDialogComponent implements OnChanges {
   }
 
   private restorePreviousFocus(): void {
-    const target = this.previouslyFocusedElement;
+    // Clear reference without restoring focus to avoid leaving buttons highlighted
     this.previouslyFocusedElement = null;
-    if (
-      target &&
-      !this.dialogRoot?.nativeElement?.contains(target) &&
-      target.isConnected
-    ) {
-      target.focus();
-    }
   }
 
   private getActiveElement(): HTMLElement | null {
