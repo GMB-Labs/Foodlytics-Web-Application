@@ -270,7 +270,7 @@ export class BillingFacade {
 | **patients** | ✅ | ✅ | ⚠️ Parcial | En progreso |
 | **dashboard** | ⚠️ | ✅ | ⚠️ Parcial | En progreso |
 | **profile** | ⚠️ | ✅ | ✅ (UserSync) | En progreso |
-| calendar | ❌ | ❌ | ❌ | Pendiente |
+| **calendar** | ✅ Modelos | ✅ Señales compartidas | ✅ GET/POST/DELETE eventos | Completo |
 | invoice | ❌ | ❌ | ❌ | Pendiente |
 | settings | ❌ | ❌ | ✅ (UserSync) | Pendiente |
 
@@ -280,3 +280,18 @@ export class BillingFacade {
 2. ✅ Mover servicios de widgets a `data-access/services/`
 3. ✅ Implementar tests para facades
 4. ✅ Documentar integraciones (Culqi, Auth0)
+
+## 🧩 Features destacados
+
+### 👥 Gestión de Pacientes
+- Tabla conectada al endpoint `GET /api/v1/profiles/patients/{nutritionist_id}`.
+- Avatares sincronizados con `GET /api/v1/profiles/{user_id}/picture`, con `blob:` URLs cacheadas y fallbacks locales.
+- Búsqueda por nombre o `user_id`, filtros en memoria y acciones de overview/delete alineadas con el diseño.
+- Campos renderizados: nombre completo, edad, altura, peso, género, objetivo y estado de perfil.
+
+### 🗓️ Calendario conectado a backend
+- Servicios `CalendarEventsApiService` y `CalendarEventsService` que consumen `GET/POST/DELETE /api/v1/nutritionists/{nutritionist_id}/calendar-events`.
+- El calendario grande (FullCalendar) y el panel “Working Schedule” se sincronizan mediante signals, mostrando los eventos desde la carga inicial.
+- Creación y eliminación de eventos con feedback, resaltado de días con citas y lista lateral sincronizada.
+- Horarios introducidos en formato Perú (UTC-5) y enviados automáticamente en UTC con precisión `HH:mm:ss.SSSZ`.
+- Representación visual consistente (color badges/clases) tanto en el calendario mensual como en la lista lateral.

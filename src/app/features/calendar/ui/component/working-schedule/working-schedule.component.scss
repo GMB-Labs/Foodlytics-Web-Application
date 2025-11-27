@@ -17,42 +17,47 @@
                                 left: 20px;
                                 bottom: 15px;
                             };
+                            display: flex;
+                            gap: 12px;
+                            .event-dot {
+                                width: 10px;
+                                height: 10px;
+                                border-radius: 50%;
+                                margin-top: 7px;
+                                flex-shrink: 0;
+                                background: var(--daxaColor);
+                            }
+                            .event-row {
+                                gap: 12px;
+                                flex: 1;
+                            }
+                            .event-body {
+                                flex: 1;
+                                min-width: 0;
+                            }
+                            .event-actions {
+                                .mat-mdc-button {
+                                    padding: 0;
+                                    height: 36px;
+                                    width: 36px;
+                                    min-width: auto;
+                                    border-radius: 50%;
+                                    display: inline-flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: var(--bodyColor);
+                                }
+                            }
                             p {
                                 margin-bottom: 5px;
                             }
                             &:first-child {
                                 padding-top: 0;
-
-                                &::before {
-                                    top: 9px;
-                                }
-                            }
-                            &::before {
-                                left: 0;
-                                top: 24px;
-                                width: 10px;
-                                content: '';
-                                height: 10px;
-                                border-radius: 50%;
-                                position: absolute;
-                                background: var(--daxaColor);
-                            }
-                            &:nth-child(2) {
-                                &::before {
-                                    background: var(--infoColor);
-                                }
-                            }
-                            &:nth-child(3) {
-                                &::before {
-                                    background: var(--warningColor);
-                                }
-                            }
-                            &:nth-child(4) {
-                                &::before {
-                                    background: var(--primaryColor);
-                                }
                             }
                         }
+                    }
+                    .no-events {
+                        padding: 10px 0;
                     }
                 }
                 .add-new-event-btn {
@@ -92,9 +97,9 @@
                                     left: 0;
                                     right: 20px;
                                 };
-                                &::before {
-                                    left: auto;
-                                    right: 0;
+                                .event-row {
+                                    flex-direction: row-reverse;
+                                    text-align: right;
                                 }
                             }
                         }
@@ -102,6 +107,20 @@
                 }
             }
         }
+    }
+}
+.event-dot {
+    &.calendar-event-color-0 {
+        background-color: var(--daxaColor);
+    }
+    &.calendar-event-color-1 {
+        background-color: var(--infoColor);
+    }
+    &.calendar-event-color-2 {
+        background-color: var(--warningColor);
+    }
+    &.calendar-event-color-3 {
+        background-color: var(--primaryColor);
     }
 }
 ::ng-deep {
@@ -195,6 +214,12 @@
                                 height: 100%;
                                 color: var(--blackColor);
                                 font-size: var(--fontSize);
+                            }
+                            &.has-event:not(.mat-calendar-body-active) {
+                                .mat-calendar-body-cell-content {
+                                    border: 1px solid var(--daxaColor);
+                                    border-radius: 50%;
+                                }
                             }
                             .mat-calendar-body-selected {
                                 background-color: var(--daxaColor);

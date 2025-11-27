@@ -107,32 +107,28 @@
                                 }
                             }
                             tr {
-                                &:nth-child(2) {
-                                    --fc-event-bg-color: var(--warningColor);
-                                    --fc-event-border-color: var(--warningColor);
-                                }
-                                &:nth-child(3) {
-                                    --fc-event-bg-color: var(--infoColor);
-                                    --fc-event-border-color: var(--infoColor);
-                                }
-                                &:nth-child(4) {
-                                    --fc-event-bg-color: var(--successColor);
-                                    --fc-event-border-color: var(--successColor);
-                                }
-                                &:nth-child(5) {
-                                    --fc-event-bg-color: var(--dangerColor);
-                                    --fc-event-border-color: var(--dangerColor);
-                                }
-                                &:nth-child(6) {
-                                    --fc-event-bg-color: var(--primaryColor);
-                                    --fc-event-border-color: var(--primaryColor);
-                                }
                                 &:last-child {
                                     th, td {
                                         border-bottom: 0;
                                     }
                                 }
                             }
+                        }
+                        .calendar-event-color-0 {
+                            background-color: var(--daxaColor) !important;
+                            border-color: var(--daxaColor) !important;
+                        }
+                        .calendar-event-color-1 {
+                            background-color: var(--infoColor) !important;
+                            border-color: var(--infoColor) !important;
+                        }
+                        .calendar-event-color-2 {
+                            background-color: var(--warningColor) !important;
+                            border-color: var(--warningColor) !important;
+                        }
+                        .calendar-event-color-3 {
+                            background-color: var(--primaryColor) !important;
+                            border-color: var(--primaryColor) !important;
                         }
                         .fc-popover {
                             border: 0;
@@ -203,6 +199,22 @@
                                         background-color: var(--daxaColor);
                                     }
                                 }
+                            }
+                            .calendar-event-color-0 {
+                                background-color: var(--daxaColor) !important;
+                                border-color: var(--daxaColor) !important;
+                            }
+                            .calendar-event-color-1 {
+                                background-color: var(--infoColor) !important;
+                                border-color: var(--infoColor) !important;
+                            }
+                            .calendar-event-color-2 {
+                                background-color: var(--warningColor) !important;
+                                border-color: var(--warningColor) !important;
+                            }
+                            .calendar-event-color-3 {
+                                background-color: var(--primaryColor) !important;
+                                border-color: var(--primaryColor) !important;
                             }
                             .fc-popover {
                                 color: var(--whiteColor);

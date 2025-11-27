@@ -11,41 +11,63 @@
   </mat-card-header>
   <mat-card-content>
     @if (isBrowser) {
-      <mat-calendar [(selected)]="selected"></mat-calendar>
+      <mat-calendar
+        [selected]="selectedDate()"
+        (selectedChange)="onDateSelected($event)"
+        [dateClass]="dateClass"
+      ></mat-calendar>
     }
     <div class="events-content">
       <h5>EVENTS</h5>
-      <ul class="mt-0 pl-0 list-unstyled mb-0">
-        <li class="position-relative">
-          <p>Annual Conference</p>
-          <span class="d-block text-daxa">
-            November 21 <span class="text-body">(10:00 - 11:00 AM)</span>
-          </span>
-        </li>
-        <li class="position-relative">
-          <p>Product Lunch Webinar</p>
-          <span class="d-block text-daxa">
-            December 06 <span class="text-body">(02:00 PM)</span>
-          </span>
-        </li>
-        <li class="position-relative">
-          <p>Tech Summit 2024</p>
-          <span class="d-block text-daxa">
-            December 13 <span class="text-body">(03:00 PM)</span>
-          </span>
-        </li>
-        <!-- <li class="position-relative">
-                    <p>
-                        Web Development Seminar
-                    </p>
-                    <span class="d-block text-daxa">
-                        December 20 <span class="text-body">(12:00 AM)</span>
-                    </span>
-                </li> -->
-      </ul>
+      @if (eventsForSelectedDate().length > 0) {
+        <ul class="mt-0 pl-0 list-unstyled mb-0">
+          @for (
+            event of eventsForSelectedDate();
+            track trackByEventId($index, event)
+          ) {
+            <li class="position-relative">
+              <span
+                class="event-dot"
+                [ngClass]="getEventColorClass(event)"
+              ></span>
+              <div
+                class="event-row d-flex align-items-start justify-content-between"
+              >
+                <div class="event-body">
+                  <p>{{ event.event_name }}</p>
+                  <span class="d-block text-daxa">
+                    {{ getFormattedDate(event) }}
+                    @if (getFormattedTime(event); as time) {
+                      <span class="text-body">({{ time }})</span>
+                    }
+                  </span>
+                </div>
+                <div class="event-actions">
+                  <button
+                    type="button"
+                    mat-button
+                    matTooltip="Delete"
+                    matTooltipPosition="above"
+                    (click)="onDeleteEvent(event)"
+                    [disabled]="deletingEventId === event.id"
+                  >
+                    <i class="material-symbols-outlined"> delete </i>
+                  </button>
+                </div>
+              </div>
+            </li>
+          }
+        </ul>
+      } @else {
+        <p class="no-events text-body mb-0">
+          No events scheduled for this day.
+        </p>
+      }
     </div>
     <div class="add-new-event-btn text-right">
-      <button mat-button (click)="toggleClass()">+ Add New Event</button>
+      <button mat-button type="button" (click)="openAddEvent()">
+        + Add New Event
+      </button>
     </div>
   </mat-card-content>
 </mat-card>
@@ -65,39 +87,82 @@
           <h5 class="mb-0">Add New Event</h5>
         </mat-card-title>
         <mat-card-subtitle>
-          <button mat-button (click)="toggleClass()">
+          <button mat-button type="button" (click)="closeAddEvent()">
             <i class="ri-close-fill"></i>
           </button>
         </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <label class="main-label d-block lh-1 text-black"> Event Name </label>
-        <mat-form-field>
-          <mat-label> Event name </mat-label>
-          <input
-            matInput
-            placeholder="E.g. Project Daxa milestone 1 due next week."
-          />
-        </mat-form-field>
-        <label class="main-label d-block lh-1 text-black"> Event Date </label>
-        <mat-form-field class="date">
-          <mat-label> Choose a date </mat-label>
-          <input matInput [matDatepicker]="eventDate" />
-          <mat-datepicker-toggle
-            matIconSuffix
-            [for]="eventDate"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #eventDate></mat-datepicker>
-        </mat-form-field>
-        <label class="main-label d-block lh-1 text-black"> Event Time </label>
-        <mat-form-field>
-          <mat-label> Event time </mat-label>
-          <input matInput placeholder="E.g. 12:00 AM" />
-        </mat-form-field>
-        <div class="btn-box">
-          <button mat-button (click)="toggleClass()">Cancel</button>
-          <button mat-button>Create</button>
-        </div>
+        <form [formGroup]="eventForm" (ngSubmit)="onSubmitEvent()">
+          <label
+            class="main-label d-block lh-1 text-black"
+            for="calendarEventName"
+          >
+            Event Name
+          </label>
+          <mat-form-field>
+            <mat-label> Event name </mat-label>
+            <input
+              matInput
+              placeholder="E.g. Consultation with patient"
+              formControlName="event_name"
+              id="calendarEventName"
+            />
+          </mat-form-field>
+          <label
+            class="main-label d-block lh-1 text-black"
+            for="calendarEventDate"
+          >
+            Event Date
+          </label>
+          <mat-form-field class="date">
+            <mat-label> Choose a date </mat-label>
+            <input
+              matInput
+              [matDatepicker]="eventDate"
+              formControlName="event_date"
+              id="calendarEventDate"
+            />
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="eventDate"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #eventDate></mat-datepicker>
+          </mat-form-field>
+          <label
+            class="main-label d-block lh-1 text-black"
+            for="calendarEventTime"
+          >
+            Event Time
+          </label>
+          <mat-form-field>
+            <mat-label> Event time </mat-label>
+            <input
+              matInput
+              type="time"
+              formControlName="event_time"
+              placeholder="HH:mm (24h)"
+              id="calendarEventTime"
+            />
+            <mat-hint align="start">Formato 24h</mat-hint>
+          </mat-form-field>
+          <div class="btn-box">
+            <button mat-button type="button" (click)="closeAddEvent()">
+              Cancel
+            </button>
+            <button
+              mat-button
+              type="submit"
+              [disabled]="creatingEvent || eventForm.invalid"
+            >
+              @if (creatingEvent) {
+                Saving...
+              } @else {
+                Create
+              }
+            </button>
+          </div>
+        </form>
       </mat-card-content>
     </mat-card>
   </div>
