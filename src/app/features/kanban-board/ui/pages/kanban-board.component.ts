@@ -1,4 +1,11 @@
-import { Component, DestroyRef, OnInit, inject, signal } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  OnInit,
+  inject,
+  signal,
+} from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatMenuModule } from "@angular/material/menu";
@@ -46,6 +53,7 @@ interface ColumnsSnapshot {
   ],
   templateUrl: "./kanban-board.component.html",
   styleUrl: "./kanban-board.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KanbanBoardComponent implements OnInit {
   readonly themeService = inject(CustomizerSettingsService);
