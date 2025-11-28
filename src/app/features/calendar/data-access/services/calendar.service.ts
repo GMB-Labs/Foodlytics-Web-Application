@@ -28,7 +28,12 @@ export class CalendarService {
   readonly loading = computed(() => this.loadingSignal());
 
   loadEvents(options?: { force?: boolean }): Observable<CalendarEvent[]> {
-    const userId = this.requireUserId();
+    const userId = this.userStore.userId();
+    if (!userId) {
+      return throwError(
+        () => new Error("User information is required to load calendar events."),
+      );
+    }
     const force = options?.force ?? false;
 
     if (
@@ -65,7 +70,12 @@ export class CalendarService {
   }
 
   createEvent(payload: CreateCalendarEventPayload): Observable<CalendarEvent> {
-    const userId = this.requireUserId();
+    const userId = this.userStore.userId();
+    if (!userId) {
+      return throwError(
+        () => new Error("User information is required to create events."),
+      );
+    }
 
     return this.api.createEvent(userId, payload).pipe(
       tap((created) => {
@@ -78,7 +88,12 @@ export class CalendarService {
   }
 
   deleteEvent(eventId: string): Observable<void> {
-    const userId = this.requireUserId();
+    const userId = this.userStore.userId();
+    if (!userId) {
+      return throwError(
+        () => new Error("User information is required to delete events."),
+      );
+    }
 
     return this.api.deleteEvent(userId, eventId).pipe(
       tap(() => {
@@ -97,14 +112,6 @@ export class CalendarService {
   getEventColorValue(eventId: string): string {
     const index = this.getColorIndex(eventId);
     return this.colorPalette[index] ?? this.colorPalette[0];
-  }
-
-  private requireUserId(): string {
-    const userId = this.userStore.userId();
-    if (!userId) {
-      throw new Error("User information is required to load calendar events.");
-    }
-    return userId;
   }
 
   private sortEvents(events: CalendarEvent[]): CalendarEvent[] {

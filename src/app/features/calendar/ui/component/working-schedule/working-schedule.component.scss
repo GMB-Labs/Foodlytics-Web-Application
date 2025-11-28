@@ -74,10 +74,47 @@
                         }
                     }
                 }
+                .compact-events {
+                    margin-bottom: 10px;
+
+                    h5 {
+                        margin-bottom: 12px;
+                        text-transform: uppercase;
+                        font-size: 14px;
+                    }
+
+                    ul {
+                        li {
+                            display: flex;
+                            gap: 12px;
+                            padding: 12px 0;
+                            border-bottom: 1px dashed #e0e0e0;
+
+                            &:first-child {
+                                padding-top: 0;
+                            }
+
+                            .event-body {
+                                flex: 1;
+
+                                p {
+                                    margin-bottom: 4px;
+                                }
+                            }
+                        }
+                    }
+                }
             }
             &.component-dark-theme {
                 .mat-mdc-card-content {
                     .events-content {
+                        ul {
+                            li {
+                                border-color: rgba(255, 255, 255, 0.09);
+                            }
+                        }
+                    }
+                    .compact-events {
                         ul {
                             li {
                                 border-color: rgba(255, 255, 255, 0.09);
@@ -101,6 +138,16 @@
                                     flex-direction: row-reverse;
                                     text-align: right;
                                 }
+                            }
+                        }
+                    }
+                    .compact-events {
+                        ul {
+                            padding-right: 0;
+
+                            li {
+                                padding-right: 20px;
+                                padding-left: 0;
                             }
                         }
                     }

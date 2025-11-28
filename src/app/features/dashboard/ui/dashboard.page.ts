@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { ProjectsOverviewComponent } from "./widgets/projects-overview/projects-overview.component";
 import { AllProjectsComponent } from "./widgets/all-projects/all-projects.component";
-import { WorkingScheduleComponent } from "./widgets/working-schedule/working-schedule.component";
+import { WorkingScheduleComponent } from "../../calendar/ui/component/working-schedule/working-schedule.component";
 import { ToDoListComponent } from "./widgets/to-do-list/to-do-list.component";
 import { TeamMembersComponent } from "./widgets/team-members/team-members.component";
 
@@ -16,7 +16,7 @@ import { TeamMembersComponent } from "./widgets/team-members/team-members.compon
           </div>
 
           <div class="col-lg-12 col-xxxl-4">
-              <app-working-schedule />
+              <app-working-schedule mode="compact" />
               <app-team-members />
           </div>
       </div>

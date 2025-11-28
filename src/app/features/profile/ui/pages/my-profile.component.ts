@@ -4,8 +4,6 @@ import { TotalProjectsComponent } from "../components/total-projects/total-proje
 import { TotalRevenueComponent } from "../components/total-revenue/total-revenue.component";
 import { TotalOrdersComponent } from "../components/total-orders/total-orders.component";
 import { ProfileInformationComponent } from "../components/profile-information/profile-information.component";
-import { OverviewComponent } from "../components/overview/overview.component";
-import { ToDoListComponent } from "../components/to-do-list/to-do-list.component";
 import { RecentActivityComponent } from "../components/recent-activity/recent-activity.component";
 
 @Component({
@@ -16,8 +14,6 @@ import { RecentActivityComponent } from "../components/recent-activity/recent-ac
     TotalOrdersComponent,
     TotalRevenueComponent,
     ProfileInformationComponent,
-    OverviewComponent,
-    ToDoListComponent,
     RecentActivityComponent,
   ],
   templateUrl: "./my-profile.component.html",
