@@ -9,6 +9,7 @@ import { UserSyncService } from "../../../../core/user/user-sync.service";
 import { PatientPictureApiService } from "../api/patient-picture.api";
 import {
   DailySummaryStatus,
+  MealEntry,
   PatientCalorieTargets,
   PatientDailySummary,
   PatientsApiService,
@@ -49,6 +50,14 @@ export interface DailyCalorieCardOverview {
   badgeIcon: "trending_up" | "trending_down" | "trending_flat";
 }
 
+export interface MealTimelineEntry {
+  id: string;
+  mealType: string;
+  description: string;
+  timeLabel: string;
+  kcalLabel: string | null;
+}
+
 @Injectable({ providedIn: "root" })
 export class PatientDetailStore {
   private static readonly PLACEHOLDER = "—";
@@ -71,6 +80,9 @@ export class PatientDetailStore {
   private readonly dailySummarySig = signal<PatientDailySummary | null>(null);
   private readonly dailySummaryLoadingSig = signal(false);
   private readonly dailySummaryErrorSig = signal<string | null>(null);
+  private readonly mealsSig = signal<MealEntry[] | null>(null);
+  private readonly mealsLoadingSig = signal(false);
+  private readonly mealsErrorSig = signal<string | null>(null);
 
   readonly profile = computed(() => this.profileSig());
   readonly loading = computed(() => this.profileLoadingSig());
@@ -94,6 +106,11 @@ export class PatientDetailStore {
   readonly calorieCardOverview = computed<DailyCalorieCardOverview>(() =>
     this.buildCalorieCardOverview(this.dailySummarySig()),
   );
+  readonly mealsTimeline = computed<MealTimelineEntry[]>(() =>
+    this.buildMealsTimeline(this.mealsSig()),
+  );
+  readonly mealsLoading = computed(() => this.mealsLoadingSig());
+  readonly mealsError = computed(() => this.mealsErrorSig());
 
   loadPatient(userId: string | null | undefined): void {
     if (!userId) {
@@ -107,6 +124,8 @@ export class PatientDetailStore {
       this.calorieTargetsErrorSig.set("missing_user_id");
       this.dailySummarySig.set(null);
       this.dailySummaryErrorSig.set("missing_user_id");
+      this.mealsSig.set(null);
+      this.mealsErrorSig.set("missing_user_id");
       this.bmiSig.set(null);
       this.currentUserIdSig.set(null);
       return;
@@ -117,6 +136,7 @@ export class PatientDetailStore {
     void this.fetchPhoto(userId);
     void this.fetchCalorieTargets(userId);
     void this.fetchDailySummary(userId);
+    void this.fetchMeals(userId);
   }
 
   private async fetchProfile(userId: string): Promise<void> {
@@ -195,6 +215,27 @@ export class PatientDetailStore {
       this.dailySummaryErrorSig.set("daily_summary_load_failed");
     } finally {
       this.dailySummaryLoadingSig.set(false);
+    }
+  }
+
+  private async fetchMeals(patientId: string): Promise<void> {
+    this.mealsLoadingSig.set(true);
+    this.mealsErrorSig.set(null);
+    try {
+      const day = this.getCurrentDayString();
+      const response = await firstValueFrom(
+        this.patientsApi.getMealsByDay(patientId, day),
+      );
+      this.mealsSig.set(response ?? []);
+    } catch (error) {
+      this.logger.warn(
+        "[PatientDetailStore] Error loading meals timeline",
+        error,
+      );
+      this.mealsSig.set(null);
+      this.mealsErrorSig.set("meals_load_failed");
+    } finally {
+      this.mealsLoadingSig.set(false);
     }
   }
 
@@ -379,6 +420,33 @@ export class PatientDetailStore {
     };
   }
 
+  private buildMealsTimeline(
+    meals: MealEntry[] | null,
+  ): MealTimelineEntry[] {
+    if (!meals || !meals.length) {
+      return [];
+    }
+    const sorted = [...meals].sort((a, b) => {
+      const dateA = this.parseDate(a.uploaded_at);
+      const dateB = this.parseDate(b.uploaded_at);
+      if (dateA && dateB) {
+        return dateA.getTime() - dateB.getTime();
+      }
+      return 0;
+    });
+
+    return sorted.map((meal) => ({
+      id: meal.id,
+      mealType: meal.meal_t || "Comida",
+      description: meal.name || "Sin descripción",
+      timeLabel: this.formatTimeLabel(meal.uploaded_at),
+      kcalLabel:
+        typeof meal.kcal === "number"
+          ? `${this.formatWholeNumber(meal.kcal)} kcal`
+          : null,
+    }));
+  }
+
   private mapGender(value?: string | null): string {
     if (!value) return PatientDetailStore.PLACEHOLDER;
     switch (value.toLowerCase()) {
@@ -458,6 +526,25 @@ export class PatientDetailStore {
     const month = String(today.getMonth() + 1).padStart(2, "0");
     const day = String(today.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
+  }
+
+  private parseDate(value?: string | null): Date | null {
+    if (!value) return null;
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
+  private formatTimeLabel(value?: string | null): string {
+    const date = this.parseDate(value);
+    if (!date) {
+      return "—";
+    }
+    const formatter = new Intl.DateTimeFormat("es-ES", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+    return `${formatter.format(date)} H`;
   }
 }
 

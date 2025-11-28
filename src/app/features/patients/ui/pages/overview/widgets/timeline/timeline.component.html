@@ -10,26 +10,25 @@
   </mat-card-header>
   <mat-card-content>
     <ul class="timeline pl-0 mb-0 mt-0 list-unstyled">
-      <li class="position-relative">
-        <h5>Lunch</h5>
-        <span class="time d-block text-body"> 13:47 H Wednesday </span>
-        <p class="text-black">Arroz con Ceviche.</p>
-      </li>
-      <li class="position-relative">
-        <h5>Exercise</h5>
-        <span class="time d-block text-body"> 15:21 H Wednesday </span>
-        <p class="text-black">Upper Body Gym Exercise.</p>
-      </li>
-      <li class="position-relative">
-        <h5>Dessert</h5>
-        <span class="time d-block text-body"> 12:59 PM Wednesday </span>
-        <p class="text-black">Patitas y Monster.</p>
-      </li>
-      <li class="position-relative">
-        <h5>Dinner</h5>
-        <span class="time d-block text-body"> 11:47 PM Wednesday </span>
-        <p class="text-black">Chaqueta Masiva Twin Turbo.</p>
-      </li>
+      @if (timelineEntries().length) {
+        <li
+          class="position-relative"
+          *ngFor="let meal of timelineEntries(); trackBy: mealTrackById"
+        >
+          <h5>{{ meal.mealType }}</h5>
+          <span class="time d-block text-body">
+            {{ meal.timeLabel }}
+          </span>
+          <p class="text-black mb-1">{{ meal.description }}</p>
+          @if (meal.kcalLabel) {
+            <span class="text-body kcal-label">{{ meal.kcalLabel }}</span>
+          }
+        </li>
+      } @else {
+        <li class="position-relative text-center text-body">
+          No hay comidas registradas hoy.
+        </li>
+      }
     </ul>
   </mat-card-content>
 </mat-card>

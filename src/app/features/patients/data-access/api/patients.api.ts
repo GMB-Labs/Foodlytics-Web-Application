@@ -38,6 +38,18 @@ export interface PatientDailySummary {
   net_calories: number | null;
 }
 
+export interface MealEntry {
+  id: string;
+  name: string;
+  patient_id: string;
+  meal_t: string;
+  kcal: number | null;
+  protein: number | null;
+  carbs: number | null;
+  fats: number | null;
+  uploaded_at: string;
+}
+
 @Injectable({ providedIn: "root" })
 export class PatientsApiService {
   private readonly http = inject(HttpClient);
@@ -65,5 +77,15 @@ export class PatientsApiService {
       `${this.calorieTargetsUrl}/${encodedId}/daily-summary`,
       { params: { day } },
     );
+  }
+
+  getMealsByDay(patientId: string, day: string): Observable<MealEntry[]> {
+    const params = {
+      day,
+      user_id: patientId,
+    };
+    return this.http.get<MealEntry[]>(`${environment.apiUrl}/api/v1/meals`, {
+      params,
+    });
   }
 }
