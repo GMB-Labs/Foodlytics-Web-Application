@@ -120,7 +120,7 @@ export class BillingFacade {
       order_number: this.buildOrderNumber(plan.id),
       expiration_date: this.buildExpirationDate(),
       client_details: this.buildClientDetails(email),
-      confirm: true,
+      confirm: false,
       metadata: {
         plan_id: plan.id,
         plan_name: plan.name,
