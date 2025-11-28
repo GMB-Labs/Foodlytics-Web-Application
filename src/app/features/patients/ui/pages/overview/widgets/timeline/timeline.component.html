@@ -10,7 +10,7 @@
   </mat-card-header>
   <mat-card-content>
     <ul class="timeline pl-0 mb-0 mt-0 list-unstyled">
-      @if (timelineEntries().length) {
+      <ng-container *ngIf="timelineEntries().length; else emptyState">
         <li
           class="position-relative"
           *ngFor="let meal of timelineEntries(); trackBy: mealTrackById"
@@ -20,15 +20,16 @@
             {{ meal.timeLabel }}
           </span>
           <p class="text-black mb-1">{{ meal.description }}</p>
-          @if (meal.kcalLabel) {
-            <span class="text-body kcal-label">{{ meal.kcalLabel }}</span>
-          }
+          <ng-container *ngIf="meal.kcalLabel as kcal">
+            <span class="text-body kcal-label">{{ kcal }}</span>
+          </ng-container>
         </li>
-      } @else {
+      </ng-container>
+      <ng-template #emptyState>
         <li class="position-relative text-center text-body">
           No hay comidas registradas hoy.
         </li>
-      }
+      </ng-template>
     </ul>
   </mat-card-content>
 </mat-card>
