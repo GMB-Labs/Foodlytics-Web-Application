@@ -135,7 +135,7 @@
               <div class="action-info">
                 <a
                   mat-button
-                  routerLink="/patients/overview/:id"
+                  [routerLink]="['/patients/overview', element.user_id]"
                   matTooltip="View Contact"
                   matTooltipPosition="above"
                 >

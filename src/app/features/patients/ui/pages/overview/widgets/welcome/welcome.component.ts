@@ -3,8 +3,8 @@ import {
   Component,
   DestroyRef,
   ElementRef,
+  computed,
   inject,
-  NgZone,
   signal,
   viewChild,
 } from "@angular/core";
@@ -14,6 +14,7 @@ import { MatMenuModule } from "@angular/material/menu";
 import { DatePipe, NgOptimizedImage } from "@angular/common";
 import { WelcomeService } from "../../../../../data-access/services/patient-stats.service";
 import { CustomizerSettingsService } from "../../../../../../../core/customizer-settings/customizer-settings.service";
+import { PatientDetailStore } from "../../../../../data-access/stores/patient-detail.store";
 
 @Component({
   selector: "app-welcome",
@@ -31,10 +32,19 @@ import { CustomizerSettingsService } from "../../../../../../../core/customizer-
 export class WelcomeComponent {
   currentDate = signal(new Date());
 
+  private readonly fallbackAvatar = "assets/images/users/user1.webp";
   public themeService = inject(CustomizerSettingsService);
   private welcomeService = inject(WelcomeService);
+  private readonly patientDetailStore = inject(PatientDetailStore);
   private destroyRef = inject(DestroyRef);
   protected chartEl = viewChild<ElementRef<HTMLDivElement>>("chartEl");
+
+  protected readonly headerInfo = computed(() =>
+    this.patientDetailStore.viewModel(),
+  );
+  protected readonly photoSrc = computed(
+    () => this.patientDetailStore.photoUrl() ?? this.fallbackAvatar,
+  );
 
   constructor() {
     afterNextRender(async () => {

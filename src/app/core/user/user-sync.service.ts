@@ -58,7 +58,11 @@ export class UserSyncService {
     );
   }
 
-  fetchProfile(userId: string): Observable<UserProfileResponse> {
+  fetchProfile(
+    userId: string,
+    options?: { updateStore?: boolean },
+  ): Observable<UserProfileResponse> {
+    const shouldUpdateStore = options?.updateStore ?? true;
     const encodedId = encodeURIComponent(userId);
     return this.auth.getAccessTokenSilently().pipe(
       take(1),
@@ -81,15 +85,19 @@ export class UserSyncService {
           )
           .pipe(
             tap((profile) => {
-              this.userStore.setProfile(profile ?? null);
-              this.userStore.setSyncError(null);
+              if (shouldUpdateStore) {
+                this.userStore.setProfile(profile ?? null);
+                this.userStore.setSyncError(null);
+              }
             }),
           );
       }),
       catchError((error) => {
         this.logger.error("Fetch profile failed", error);
         this.handleAuthErrors(error);
-        this.userStore.setSyncError("profile_fetch_failed");
+        if (shouldUpdateStore) {
+          this.userStore.setSyncError("profile_fetch_failed");
+        }
         return throwError(() => error);
       }),
     );

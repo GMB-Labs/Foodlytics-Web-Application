@@ -1,4 +1,7 @@
-import { Component } from "@angular/core";
+import { Component, DestroyRef, OnInit, inject } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { map } from "rxjs/operators";
 import { DailyCalorieTargetComponent } from "./widgets/daily-calorie-target/daily-calorie-target.component";
 import { WeightCardComponent } from "./widgets/weight-card/weight-card.component";
 import { WelcomeComponent } from "./widgets/welcome/welcome.component";
@@ -11,6 +14,7 @@ import { WeeklyCaloriesBurnedComponent } from "./widgets/weekly-calories-burned/
 import { MacroTargetsComponent } from "./widgets/macro-targets/macro-targets.component";
 import { AgeCardComponent } from "./widgets/age-card/age-card.component";
 import { HeightCardComponent } from "./widgets/height-card/height-card.component";
+import { PatientDetailStore } from "../../../data-access/stores/patient-detail.store";
 
 @Component({
   selector: "app-overview-page",
@@ -90,4 +94,19 @@ import { HeightCardComponent } from "./widgets/height-card/height-card.component
     HeightCardComponent,
   ],
 })
-export class DetailPage {}
+export class DetailPage implements OnInit {
+  private readonly route = inject(ActivatedRoute);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly patientDetailStore = inject(PatientDetailStore);
+
+  ngOnInit(): void {
+    this.route.paramMap
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        map((params) => params.get("id")),
+      )
+      .subscribe((userId) => {
+        this.patientDetailStore.loadPatient(userId);
+      });
+  }
+}

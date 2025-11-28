@@ -9,10 +9,10 @@
           <span class="d-block text-white">
             {{ currentDate() | date: "EEEE, d 'de' MMMM yyyy, h:mm:ss a" }}
           </span>
-          <h3 class="text-white">Nombre de l'apprenant</h3>
-          <p class="text-white">telefono - altura - edad</p>
+          <h3 class="text-white">{{ headerInfo().fullName }}</h3>
+          <p class="text-white">{{ headerInfo().secondaryInfo }}</p>
           <span class="d-block text-white fw-medium">
-            Progreso General --- posiblemente quitar proggres bar (sobrepeso)
+            Progreso general
           </span>
           <div class="chart">
             <div #chartEl id="lms_welcome_chart"></div>
@@ -22,8 +22,8 @@
       <div class="col-lg-6">
         <div class="image">
           <img
-            ngSrc="../../../../../../../../assets/images/welcome.webp"
-            alt="welcome-image"
+            [ngSrc]="photoSrc()"
+            [alt]="headerInfo().fullName"
             height="235"
             width="345"
           />
