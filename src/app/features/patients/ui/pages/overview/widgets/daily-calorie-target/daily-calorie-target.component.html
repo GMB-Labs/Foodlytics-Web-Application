@@ -5,7 +5,9 @@
   <mat-card-content>
     <div class="title">
       <h5>Meta Calórica Diaria</h5>
-      <div class="number fw-medium lh-1">2800 kcal</div>
+      <div class="number fw-medium lh-1">
+        {{ calorieCard().targetLabel }}
+      </div>
     </div>
     <div class="icon text-center rounded-circle text-white position-relative">
       <img
@@ -16,10 +18,20 @@
       />
     </div>
     <div class="info d-flex align-items-center justify-content-between">
-      <span class="sub-title d-block text-body"> Déficit moderado </span>
-      <span class="daxa-up-down-badge down position-relative">
-        <i class="material-symbols-outlined"> trending_down </i>
-        -10%
+      <span class="sub-title d-block text-body">
+        {{ calorieCard().consumedLabel }}
+      </span>
+      <span
+        class="daxa-up-down-badge position-relative"
+        [ngClass]="{
+          down: calorieCard().badgeClass === 'down',
+          up: calorieCard().badgeClass === 'up'
+        }"
+      >
+        <i class="material-symbols-outlined">
+          {{ calorieCard().badgeIcon }}
+        </i>
+        {{ calorieCard().differenceLabel }} · {{ calorieCard().statusLabel }}
       </span>
     </div>
   </mat-card-content>

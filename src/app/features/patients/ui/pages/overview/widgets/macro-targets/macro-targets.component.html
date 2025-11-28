@@ -45,8 +45,12 @@
           </div>
           Proteínas
         </div>
-        <span class="d-block text-body"> 9,562 </span>
-        <span class="d-block text-body"> 30% </span>
+        <span class="d-block text-body">
+          {{ macroOverview().macros.protein.gramsLabel }}
+        </span>
+        <span class="d-block text-body">
+          {{ macroOverview().macros.protein.percentLabel }}
+        </span>
       </li>
       <li class="d-flex align-items-center justify-content-between">
         <div class="title d-flex align-items-center fw-medium">
@@ -57,8 +61,12 @@
           </div>
           Carbohidratos
         </div>
-        <span class="d-block text-body"> 18,426 </span>
-        <span class="d-block text-body"> 55% </span>
+        <span class="d-block text-body">
+          {{ macroOverview().macros.carbs.gramsLabel }}
+        </span>
+        <span class="d-block text-body">
+          {{ macroOverview().macros.carbs.percentLabel }}
+        </span>
       </li>
       <li class="d-flex align-items-center justify-content-between">
         <div class="title d-flex align-items-center fw-medium">
@@ -69,8 +77,12 @@
           </div>
           Grasas
         </div>
-        <span class="d-block text-body"> 4,753 </span>
-        <span class="d-block text-body"> 10% </span>
+        <span class="d-block text-body">
+          {{ macroOverview().macros.fats.gramsLabel }}
+        </span>
+        <span class="d-block text-body">
+          {{ macroOverview().macros.fats.percentLabel }}
+        </span>
       </li>
     </ul>
   </mat-card-content>
