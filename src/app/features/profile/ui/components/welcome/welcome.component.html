@@ -7,23 +7,20 @@
       <div class="col-lg-6">
         <div class="content">
           <span class="d-block text-white">
-            {{ currentDate }}
+            {{ currentDate() }}
           </span>
-          <h3 class="text-white">Welcome To Daxa</h3>
-          <p class="text-white">You have done 68% 😎 more sales today.</p>
-          <span class="d-block text-white fw-medium"> Daily Performance </span>
-          <div class="chart">
-            <div id="mp_welcome_chart"></div>
-          </div>
+          <h3 class="text-white">
+            Welcome back, {{ nutritionistName() }}!
+          </h3>
         </div>
       </div>
       <div class="col-lg-6">
         <div class="image">
           <img
-            ngSrc="../../../../../../assets/images/welcome.webp"
-            alt="welcome-image"
-            height="235"
+            [src]="photoUrl()"
+            alt="Profile photo"
             width="345"
+            height="235"
           />
         </div>
       </div>

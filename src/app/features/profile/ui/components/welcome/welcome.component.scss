@@ -27,9 +27,17 @@
             }
             .image {
                 text-align: right;
-
+                width: 345px;
+                height: 235px;
+                display: inline-block;
+                overflow: hidden;
                 img {
                     margin-bottom: -4px;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    object-position: center;
+                    display: block;
                 }
             }
             &::before {

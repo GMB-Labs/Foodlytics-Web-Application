@@ -1,13 +1,16 @@
 import {
+  ChangeDetectionStrategy,
   Component,
+  DestroyRef,
+  OnInit,
   PLATFORM_ID,
   computed,
   inject,
+  input,
   signal,
 } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
-import { MatMenuModule } from "@angular/material/menu";
 import {
   MatCalendarCellClassFunction,
   MatDatepickerModule,
@@ -15,54 +18,55 @@ import {
 import { MatNativeDateModule } from "@angular/material/core";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
-import { MatSelectModule } from "@angular/material/select";
-import { NgClass } from "@angular/common";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { ReactiveFormsModule, FormBuilder, Validators } from "@angular/forms";
 import { CustomizerSettingsService } from "../../../../../core/customizer-settings/customizer-settings.service";
 import { isPlatformBrowser } from "@angular/common";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { UserStore } from "../../../../../core/user/user.store";
 import { LoggerService } from "../../../../../core/logger/logger.service";
-import { CalendarEventsService } from "../../../data-access/services/calendar-events.service";
+import { CalendarService } from "../../../data-access/services/calendar.service";
 import { CalendarEvent } from "../../../domain/models";
 import { take } from "rxjs/operators";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: "app-working-schedule:not(p)",
   imports: [
-    NgClass,
     MatCardModule,
-    MatMenuModule,
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
     MatTooltipModule,
     ReactiveFormsModule,
   ],
   templateUrl: "./working-schedule.component.html",
   styleUrl: "./working-schedule.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WorkingScheduleComponent {
-  private platformId = inject(PLATFORM_ID);
+export class WorkingScheduleComponent implements OnInit {
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly destroyRef = inject(DestroyRef);
   private readonly snackBar = inject(MatSnackBar);
-  private readonly userStore = inject(UserStore);
   private readonly logger = inject(LoggerService);
-  private readonly calendarEventsService = inject(CalendarEventsService);
+  private readonly calendarService = inject(CalendarService);
   private readonly fb = inject(FormBuilder);
   readonly themeService = inject(CustomizerSettingsService);
   readonly isBrowser = isPlatformBrowser(this.platformId);
 
-  readonly events = this.calendarEventsService.events;
+  readonly mode = input<"full" | "compact">("full");
+  readonly isFullMode = computed(() => this.mode() === "full");
+  readonly isCompactMode = computed(() => this.mode() === "compact");
+
+  readonly events = this.calendarService.events;
   private readonly selectedDateSignal = signal<Date>(this.getToday());
   readonly selectedDate = computed(() => this.selectedDateSignal());
 
   readonly eventsForSelectedDate = computed(() => {
+    if (!this.isFullMode()) {
+      return [];
+    }
     const selectedKey = this.formatDate(this.selectedDateSignal());
     const events = this.events();
     return events
@@ -74,6 +78,8 @@ export class WorkingScheduleComponent {
     const events = this.events();
     return new Set(events.map((event) => event.event_date));
   });
+
+  readonly upcomingEvents = computed(() => this.events().slice(0, 3));
 
   readonly dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
     if (view !== "month") {
@@ -93,7 +99,33 @@ export class WorkingScheduleComponent {
     event_time: ["", Validators.required],
   });
 
+  ngOnInit(): void {
+    if (!this.isBrowser) {
+      return;
+    }
+
+    this.calendarService
+      .loadEvents()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        error: (error) => {
+          this.logger.error(
+            "[WorkingScheduleComponent] Error loading events",
+            error,
+          );
+          this.snackBar.open(
+            "We couldn't load your calendar events. Please try again.",
+            "Close",
+            { duration: 5000 },
+          );
+        },
+      });
+  }
+
   onDateSelected(date: Date | null): void {
+    if (!this.isFullMode()) {
+      return;
+    }
     if (!date) {
       return;
     }
@@ -108,27 +140,23 @@ export class WorkingScheduleComponent {
   }
 
   openAddEvent(): void {
+    if (!this.isFullMode()) {
+      return;
+    }
     this.classApplied = true;
     this.resetEventForm(this.selectedDateSignal());
   }
 
   closeAddEvent(): void {
+    if (!this.isFullMode()) {
+      return;
+    }
     this.classApplied = false;
     this.resetEventForm(this.selectedDateSignal());
   }
 
-  async onSubmitEvent(): Promise<void> {
+  onSubmitEvent(): void {
     if (this.eventForm.invalid || this.creatingEvent) {
-      return;
-    }
-
-    const userId = this.userStore.userId();
-    if (!userId) {
-      this.snackBar.open(
-        "We couldn't find your user information. Please try again.",
-        "Close",
-        { duration: 5000 },
-      );
       return;
     }
 
@@ -144,8 +172,8 @@ export class WorkingScheduleComponent {
     };
 
     this.creatingEvent = true;
-    this.calendarEventsService
-      .createEvent(userId, payload)
+    this.calendarService
+      .createEvent(payload)
       .pipe(take(1))
       .subscribe({
         next: () => {
@@ -178,19 +206,9 @@ export class WorkingScheduleComponent {
       return;
     }
 
-    const userId = this.userStore.userId();
-    if (!userId) {
-      this.snackBar.open(
-        "We couldn't find your user information. Please try again.",
-        "Close",
-        { duration: 5000 },
-      );
-      return;
-    }
-
     this.deletingEventId = event.id;
-    this.calendarEventsService
-      .deleteEvent(userId, event.id)
+    this.calendarService
+      .deleteEvent(event.id)
       .pipe(take(1))
       .subscribe({
         next: () => {
@@ -245,7 +263,11 @@ export class WorkingScheduleComponent {
   }
 
   getEventColorClass(event: CalendarEvent): string {
-    return this.calendarEventsService.getEventColorClass(event.id);
+    return this.calendarService.getEventColorClass(event.id);
+  }
+
+  getEventDotClass(event: CalendarEvent): string {
+    return `event-dot ${this.getEventColorClass(event)}`;
   }
 
   private compareEvents(a: CalendarEvent, b: CalendarEvent): number {

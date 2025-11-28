@@ -1,70 +1,32 @@
 import { Component } from "@angular/core";
 import { ProjectsOverviewComponent } from "./widgets/projects-overview/projects-overview.component";
-import { ProjectsRoadmapComponent } from "./widgets/projects-roadmap/projects-roadmap.component";
 import { AllProjectsComponent } from "./widgets/all-projects/all-projects.component";
-import { ProjectsProgressComponent } from "./widgets/projects-progress/projects-progress.component";
-import { WorkingScheduleComponent } from "./widgets/working-schedule/working-schedule.component";
-import { ProjectsAnalysisComponent } from "./widgets/projects-analysis/projects-analysis.component";
-import { ChatProjectsUserComponent } from "./widgets/chat-projects-user/chat-projects-user.component";
-import { ToDoListComponent } from "./widgets/to-do-list/to-do-list.component";
+import { WorkingScheduleComponent } from "../../calendar/ui/component/working-schedule/working-schedule.component";
 import { TeamMembersComponent } from "./widgets/team-members/team-members.component";
+import { KanbanListComponent } from "./widgets/kanban/kanban-list.component";
 
 @Component({
   selector: "app-dashboard-page",
   template: `
-    <div class="row">
-      <div class="col-lg-12 col-xxxl-6">
-        <!-- Projects Overview -->
-        <app-projects-overview />
-      </div>
-      <div class="col-lg-12 col-xxxl-6">
-        <!-- Projects Roadmap -->
-        <app-projects-roadmap />
-      </div>
-      <div class="col-lg-8 col-xxxl-9">
-        <!-- All Projects -->
-        <app-all-projects />
-      </div>
-      <div class="col-lg-4 col-xxxl-3">
-        <!-- Projects Progress -->
-        <app-projects-progress />
-      </div>
-      <div class="col-lg-4">
-        <!-- Working Schedule -->
-        <app-working-schedule />
-      </div>
-      <div class="col-lg-8">
-        <div class="row">
-          <div class="col-lg-6">
-            <!-- Projects Analysis -->
-            <app-projects-analysis />
+      <div class="row">
+          <div class="col-lg-12 col-xxxl-8">
+              <app-projects-overview />
+              <app-all-projects />
+              <app-kanban-list />
           </div>
-          <div class="col-lg-6">
-            <!-- Chat Project User -->
-            <app-chat-projects-user />
+
+          <div class="col-lg-12 col-xxxl-4">
+              <app-working-schedule mode="compact" />
+              <app-team-members />
           </div>
-          <div class="col-lg-12">
-            <!-- To Do List -->
-            <app-to-do-list />
-          </div>
-        </div>
       </div>
-      <div class="col-lg-4">
-        <!-- Team Members -->
-        <app-team-members />
-      </div>
-    </div>
   `,
   imports: [
     ProjectsOverviewComponent,
-    ProjectsRoadmapComponent,
     AllProjectsComponent,
-    ProjectsProgressComponent,
     WorkingScheduleComponent,
-    ProjectsAnalysisComponent,
-    ChatProjectsUserComponent,
-    ToDoListComponent,
     TeamMembersComponent,
+    KanbanListComponent
   ],
 })
 export class DashboardPage {}
