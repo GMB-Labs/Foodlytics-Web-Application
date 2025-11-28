@@ -28,43 +28,45 @@
                             &:first-child {
                                 padding-right: 0;
                             }
+                            .task-name {
+                                font-weight: 600;
+                                display: block;
+                                color: var(--blackColor);
+                            }
+                            .description-text {
+                                display: block;
+                                color: var(--bodyColor);
+                                font-size: 14px;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                max-width: 260px;
+                            }
                         }
                         .daxa-badge {
                             color: var(--daxaColor);
                             background: rgba(15, 121, 243, 0.10);
 
-                            &.in-progress {
+                            &.status-backlog {
+                                color: var(--daxaColor);
+                                background: rgba(15, 121, 243, 0.10);
+                            }
+                            &.status-in-progress {
                                 color: var(--warningColor);
                                 background: rgba(241, 179, 28, 0.10);
                             }
-                            &.pending {
+                            &.status-review {
+                                color: var(--infoColor);
+                                background: rgba(0, 202, 227, 0.10);
+                            }
+                            &.status-completed {
                                 color: var(--successColor);
                                 background: rgba(46, 212, 126, 0.10);
                             }
-                            &.not-started {
-                                color: var(--dangerColor);
-                                background: rgba(231, 76, 60, 0.10);
-                            }
                         }
                     }
-                }
-                .add-new-task-btn {
-                    padding: {
-                        top: 20px;
-                        left: 20px;
-                        right: 20px;
-                    };
-                    .mat-mdc-button {
-                        padding: 0;
-                        height: auto;
-                        min-width: auto;
-                        font: {
-                            size: var(--fontSize) !important;
-                            weight: normal;
-                        };
-                        &:not(:disabled) {
-                            color: var(--daxaColor);
-                        }
+                    .loading-overlay {
+                        padding: 20px 0;
                     }
                 }
             }

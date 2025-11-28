@@ -72,9 +72,14 @@ export class AddTaskDialogComponent implements OnChanges {
   private readonly document = inject(DOCUMENT);
   private readonly injector = inject(EnvironmentInjector);
 
+  private readonly maxDescriptionLength = 160;
+
   readonly form = this.fb.group({
     taskName: ["", [Validators.required, Validators.maxLength(120)]],
-    taskDescription: ["", [Validators.required, Validators.maxLength(1000)]],
+    taskDescription: [
+      "",
+      [Validators.required, Validators.maxLength(this.maxDescriptionLength)],
+    ],
     deadlineDate: [null as Date | null, Validators.required],
   });
 

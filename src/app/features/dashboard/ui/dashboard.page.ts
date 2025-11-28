@@ -2,8 +2,8 @@ import { Component } from "@angular/core";
 import { ProjectsOverviewComponent } from "./widgets/projects-overview/projects-overview.component";
 import { AllProjectsComponent } from "./widgets/all-projects/all-projects.component";
 import { WorkingScheduleComponent } from "../../calendar/ui/component/working-schedule/working-schedule.component";
-import { ToDoListComponent } from "./widgets/to-do-list/to-do-list.component";
 import { TeamMembersComponent } from "./widgets/team-members/team-members.component";
+import { KanbanListComponent } from "./widgets/kanban/kanban-list.component";
 
 @Component({
   selector: "app-dashboard-page",
@@ -12,7 +12,7 @@ import { TeamMembersComponent } from "./widgets/team-members/team-members.compon
           <div class="col-lg-12 col-xxxl-8">
               <app-projects-overview />
               <app-all-projects />
-              <app-to-do-list />
+              <app-kanban-list />
           </div>
 
           <div class="col-lg-12 col-xxxl-4">
@@ -25,8 +25,8 @@ import { TeamMembersComponent } from "./widgets/team-members/team-members.compon
     ProjectsOverviewComponent,
     AllProjectsComponent,
     WorkingScheduleComponent,
-    ToDoListComponent,
     TeamMembersComponent,
+    KanbanListComponent
   ],
 })
 export class DashboardPage {}

@@ -10,7 +10,7 @@ import {
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatMenuModule } from "@angular/material/menu";
-import { DatePipe, NgOptimizedImage } from "@angular/common";
+import { DatePipe } from "@angular/common";
 import { CustomizerSettingsService } from "../../../../../core/customizer-settings/customizer-settings.service";
 import type { UserProfile } from "../../../../../core/user/user.store";
 import { UserStore } from "../../../../../core/user/user.store";
@@ -21,7 +21,7 @@ import { Injector } from "@angular/core";
 
 @Component({
   selector: "app-welcome:not(p)",
-  imports: [MatCardModule, MatMenuModule, MatButtonModule, NgOptimizedImage],
+  imports: [MatCardModule, MatMenuModule, MatButtonModule],
   templateUrl: "./welcome.component.html",
   styleUrl: "./welcome.component.scss",
   providers: [DatePipe],
