@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { map } from "rxjs/operators";
 import { DailyCalorieTargetComponent } from "./widgets/daily-calorie-target/daily-calorie-target.component";
 import { WeightCardComponent } from "./widgets/weight-card/weight-card.component";
-import { WelcomeComponent } from "./widgets/welcome/welcome.component";
+import { PatientsWelcomeComponent } from "./widgets/patients-welcome/patients-welcome.component";
 import { DailyCalorieDistributionComponent } from "./widgets/daily-calorie-distribution/daily-calorie-distribution.component";
 import { WeeklyCaloricProgressComponent } from "./widgets/weekly-caloric-progress/weekly-caloric-progress.component";
 import { TimelineComponent } from "./widgets/timeline/timeline.component";
@@ -22,7 +22,7 @@ import { PatientDetailStore } from "../../../data-access/stores/patient-detail.s
     <div class="row">
       <div class="col-lg-12 col-xxxl-12">
         <!-- Welcome -->
-        <app-welcome />
+        <patients-welcome />
       </div>
       <div class="col-lg-8 col-xxxl-8">
         <div class="row">
@@ -82,7 +82,7 @@ import { PatientDetailStore } from "../../../data-access/stores/patient-detail.s
   imports: [
     DailyCalorieTargetComponent,
     WeightCardComponent,
-    WelcomeComponent,
+    PatientsWelcomeComponent,
     DailyCalorieDistributionComponent,
     WeeklyCaloricProgressComponent,
     TimelineComponent,
