@@ -14,7 +14,7 @@ import { KanbanTasksService } from "../../../../kanban-board/data-access/service
 import { UserStore } from "../../../../../core/user/user.store";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { KanbanTask } from "../../../../kanban-board/domain/models";
-import { NgClass, NgIf } from "@angular/common";
+import { NgClass } from "@angular/common";
 import { MatTooltipModule } from "@angular/material/tooltip";
 
 @Component({
@@ -24,7 +24,6 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     MatTableModule,
     MatProgressSpinnerModule,
     NgClass,
-    NgIf,
     MatTooltipModule,
   ],
   templateUrl: "./kanban-list.component.html",
