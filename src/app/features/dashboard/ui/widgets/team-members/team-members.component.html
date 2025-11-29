@@ -5,12 +5,12 @@
 >
   <mat-card-header>
     <mat-card-title>
-      <h5 class="mb-0">Team Members</h5>
+      <h5 class="mb-0">Patients</h5>
     </mat-card-title>
     <mat-card-subtitle>
-      <a mat-button routerLink="/members" class="card-header-link-btn">
-        View All
-      </a>
+      <span class="card-header-link-btn">
+        Total: {{ totalPatients() }}
+      </span>
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
@@ -19,154 +19,55 @@
         <table>
           <thead>
             <tr>
-              <th scope="col" class="fw-medium text-black text-left">Member</th>
-              <th scope="col" class="fw-medium text-black text-left">Hours</th>
-              <th scope="col" class="fw-medium text-black text-left">Status</th>
+              <th scope="col" class="fw-medium text-black text-left">
+                Patient
+              </th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>
-                <div class="info d-flex align-items-center">
-                  <div class="image">
-                    <img
-                      ngSrc="../../../../../../assets/images/users/user12.webp"
-                      alt="user-image"
-                      height="200"
-                      width="200"
-                    />
-                  </div>
-                  <div>
-                    <span class="d-block fw-medium"> Mark Stjohn </span>
-                    <span class="sub-title d-block text-body">
-                      Product Manager
-                    </span>
-                  </div>
-                </div>
-              </td>
-              <td class="text-body">120 hrs</td>
-              <td class="text-body">
-                <span class="percentage d-block"> 75% </span>
-                <mat-progress-bar
-                  mode="determinate"
-                  value="75"
-                ></mat-progress-bar>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="info d-flex align-items-center">
-                  <div class="image">
-                    <img
-                      ngSrc="../../../../../../assets/images/users/user13.webp"
-                      alt="user-image"
-                      height="200"
-                      width="200"
-                    />
-                  </div>
-                  <div>
-                    <span class="d-block fw-medium"> Russell Colon </span>
-                    <span class="sub-title d-block text-body">
-                      Web Designer
-                    </span>
-                  </div>
-                </div>
-              </td>
-              <td class="text-body">89 hrs</td>
-              <td class="text-body">
-                <span class="percentage d-block"> 55% </span>
-                <mat-progress-bar
-                  mode="determinate"
-                  value="55"
-                ></mat-progress-bar>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="info d-flex align-items-center">
-                  <div class="image">
-                    <img
-                      ngSrc="../../../../../../assets/images/users/user14.webp"
-                      alt="user-image"
-                      height="200"
-                      width="200"
-                    />
-                  </div>
-                  <div>
-                    <span class="d-block fw-medium"> Juana Thatcher </span>
-                    <span class="sub-title d-block text-body">
-                      UI/UX Designer
-                    </span>
-                  </div>
-                </div>
-              </td>
-              <td class="text-body">57 hrs</td>
-              <td class="text-body">
-                <span class="percentage d-block"> 65% </span>
-                <mat-progress-bar
-                  mode="determinate"
-                  value="65"
-                ></mat-progress-bar>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="info d-flex align-items-center">
-                  <div class="image">
-                    <img
-                      ngSrc="../../../../../../assets/images/users/user15.webp"
-                      alt="user-image"
-                      height="200"
-                      width="200"
-                    />
-                  </div>
-                  <div>
-                    <span class="d-block fw-medium"> Raymond Nguyen </span>
-                    <span class="sub-title d-block text-body">
-                      Lead Developer
-                    </span>
-                  </div>
-                </div>
-              </td>
-              <td class="text-body">76 hrs</td>
-              <td class="text-body">
-                <span class="percentage d-block"> 85% </span>
-                <mat-progress-bar
-                  mode="determinate"
-                  value="85"
-                ></mat-progress-bar>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="info d-flex align-items-center">
-                  <div class="image">
-                    <img
-                      ngSrc="../../../../../../assets/images/users/user16.webp"
-                      alt="user-image"
-                      height="200"
-                      width="200"
-                    />
-                  </div>
-                  <div>
-                    <span class="d-block fw-medium"> Frank Mele </span>
-                    <span class="sub-title d-block text-body">
-                      Angular Developer
-                    </span>
-                  </div>
-                </div>
-              </td>
-              <td class="text-body">95 hrs</td>
-              <td class="text-body">
-                <span class="percentage d-block"> 60% </span>
-                <mat-progress-bar
-                  mode="determinate"
-                  value="60"
-                ></mat-progress-bar>
-              </td>
-            </tr>
+            <ng-container *ngIf="loading(); else dataState">
+              <tr>
+                <td class="text-center text-body py-3">
+                  Cargando pacientes...
+                </td>
+              </tr>
+            </ng-container>
+            <ng-template #dataState>
+              <ng-container *ngIf="patients().length; else emptyState">
+                <tr *ngFor="let patient of patients(); trackBy: trackByPatient">
+                  <td>
+                    <div class="info d-flex align-items-center">
+                      <div class="image">
+                        <img
+                          [ngSrc]="patient.avatarUrl"
+                          [alt]="patient.fullName"
+                          height="200"
+                          width="200"
+                        />
+                      </div>
+                      <div>
+                        <span class="d-block fw-medium">
+                          {{ patient.fullName }}
+                        </span>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+            </ng-template>
           </tbody>
         </table>
+        <ng-template #emptyState>
+          <tr>
+            <td class="text-center text-body py-3">
+              {{
+                error()
+                  ? "No pudimos cargar tus pacientes."
+                  : "Aún no tienes pacientes registrados."
+              }}
+            </td>
+          </tr>
+        </ng-template>
       </div>
     </div>
   </mat-card-content>
