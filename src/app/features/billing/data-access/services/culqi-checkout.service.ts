@@ -147,11 +147,7 @@ export class CulqiCheckoutService {
       },
       appearance: {
         theme: "default",
-        menuType: "sidebar",
-        colors: {
-          primary: "#1d4ed8",
-          buttonText: "#ffffff",
-        },
+        menuType: "sidebar"
       },
     });
 
