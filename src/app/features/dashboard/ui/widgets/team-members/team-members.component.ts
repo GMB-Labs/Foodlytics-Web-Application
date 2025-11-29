@@ -9,8 +9,8 @@ import {
 import { MatCardModule } from "@angular/material/card";
 import { CustomizerSettingsService } from "../../../../../core/customizer-settings/customizer-settings.service";
 import { NgForOf, NgIf, NgOptimizedImage } from "@angular/common";
-import { PatientsApiService } from "../../../data-access/api/patients.api";
-import { Patient } from "../../../domain/models";
+import { PatientsApiService } from "../../../../patients/data-access/api/patients.api";
+import { Patient } from "../../../../patients/domain/models";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { UserStore } from "../../../../../core/user/user.store";
 import { LoggerService } from "../../../../../core/logger/logger.service";
@@ -74,12 +74,12 @@ export class TeamMembersComponent implements OnInit {
       .getPatientsByNutritionist(userId)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (patients) => {
+        next: (patients: Patient[]) => {
           this.patientsSignal.set(this.mapPatients(patients ?? []));
           this.errorSignal.set(null);
           this.loadingSignal.set(false);
         },
-        error: (error) => {
+        error: (error: unknown) => {
           this.logger.error(
             "[TeamMembersComponent] Error loading patients",
             error,
