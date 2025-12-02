@@ -12,26 +12,34 @@
         class="card-header-menu-btn"
         [matMenuTriggerFor]="cardHeaderMenu"
       >
-        Last 30 days
+        {{ selectedRange() }}
       </button>
       <mat-menu
         #cardHeaderMenu="matMenu"
         class="card-header-menu"
         xPosition="before"
       >
-        <button mat-menu-item>Last 30 days</button>
-        <button mat-menu-item>Last 15 days</button>
-        <button mat-menu-item>Last 7 days</button>
-        <button mat-menu-item>Last Day</button>
+        <button mat-menu-item (click)="onRangeSelected('Last 7 days')">
+          Last 7 days
+        </button>
+        <button mat-menu-item (click)="onRangeSelected('Last 15 days')">
+          Last 15 days
+        </button>
+        <button mat-menu-item (click)="onRangeSelected('Last 30 days')">
+          Last 30 days
+        </button>
+        <button mat-menu-item (click)="onRangeSelected('Last Day')">
+          Last Day
+        </button>
       </mat-menu>
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <h3 class="lh-1 mb-0 text-center">
-      1200 <span class="fw-normal">kcal</span>
+      {{ weeklyBurnedTotal() }} <span class="fw-normal">kcal</span>
     </h3>
     <div class="chart">
-      <div id="help_desk_first_response_time_chart"></div>
+      <div #chartContainer id="help_desk_first_response_time_chart"></div>
     </div>
   </mat-card-content>
 </mat-card>

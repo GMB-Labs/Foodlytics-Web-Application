@@ -3,18 +3,24 @@
         &.ave-resolution-time-card {
             .mat-mdc-card-content {
                 position: relative;
-                height: 144px;
+                min-height: 144px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
 
                 h3 {
+                    font-size: 2.5rem;
+                    font-weight: 600;
+                    color: var(--blackColor, #1a1a1a);
+                    
                     span {
                         font-size: var(--fontSize);
                     }
                 }
-                .chart {
-                    left: -42px;
-                    right: -31px;
-                    bottom: -50px;
-                    position: absolute;
+                
+                p {
+                    font-size: 1rem;
+                    color: var(--bodyColor, #919aa3);
                 }
             }
         }
