@@ -7,6 +7,7 @@ import {
   inject,
   signal,
   ChangeDetectorRef,
+  effect,
 } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
@@ -63,9 +64,25 @@ export class PatientsListComponent implements OnInit, AfterViewInit {
   private readonly cdr = inject(ChangeDetectorRef);
 
   readonly isLoading = signal(false);
+  private lastLoadedUserId: string | null = null;
+
+  constructor() {
+    // Effect que observa cambios en userId y recarga cuando esté disponible
+    effect(() => {
+      const userId = this.userStore.userId();
+      if (userId && userId !== this.lastLoadedUserId) {
+        this.lastLoadedUserId = userId;
+        this.loadPatients();
+      }
+    });
+  }
 
   ngOnInit(): void {
-    this.loadPatients();
+    // Intentar cargar si ya hay userId disponible
+    const userId = this.userStore.userId();
+    if (userId && userId !== this.lastLoadedUserId) {
+      this.loadPatients();
+    }
   }
 
   ngAfterViewInit() {

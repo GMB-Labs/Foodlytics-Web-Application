@@ -6,6 +6,7 @@ import {
   inject,
   signal,
   ChangeDetectorRef,
+  effect,
 } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
@@ -39,6 +40,7 @@ export class TotalPatientsComponent implements OnInit {
 
   private readonly patientsSignal = signal<PatientWithAvatar[]>([]);
   private readonly loadingSignal = signal(false);
+  private lastLoadedUserId: string | null = null;
 
   protected readonly totalPatients = computed(() => this.patientsSignal().length);
   protected readonly loading = computed(() => this.loadingSignal());
@@ -46,10 +48,23 @@ export class TotalPatientsComponent implements OnInit {
     return this.patientsSignal().slice(0, 5);
   });
 
-  constructor(public themeService: CustomizerSettingsService) {}
+  constructor(public themeService: CustomizerSettingsService) {
+    // Effect que observa cambios en userId y recarga cuando esté disponible
+    effect(() => {
+      const userId = this.userStore.userId();
+      if (userId && userId !== this.lastLoadedUserId) {
+        this.lastLoadedUserId = userId;
+        this.loadPatients();
+      }
+    });
+  }
 
   ngOnInit(): void {
-    this.loadPatients();
+    // Intentar cargar si ya hay userId disponible
+    const userId = this.userStore.userId();
+    if (userId && userId !== this.lastLoadedUserId) {
+      this.loadPatients();
+    }
   }
 
   private loadPatients(): void {

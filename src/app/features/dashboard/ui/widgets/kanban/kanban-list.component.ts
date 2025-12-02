@@ -5,6 +5,7 @@ import {
   computed,
   inject,
   signal,
+  effect,
 } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
 import { MatTableModule } from "@angular/material/table";
@@ -43,6 +44,7 @@ export class KanbanListComponent {
 
   readonly tasks = signal<KanbanTask[]>([]);
   readonly isLoading = signal(false);
+  private lastLoadedUserId: string | null = null;
 
   readonly formattedTasks = computed(() => {
     const tasksWithDiff = this.tasks().map((task) => {
@@ -83,9 +85,15 @@ export class KanbanListComponent {
   });
 
   constructor() {
-    this.loadTasks();
+    // Effect que observa cambios en userId y recarga cuando esté disponible
+    effect(() => {
+      const userId = this.userStore.userId();
+      if (userId && userId !== this.lastLoadedUserId) {
+        this.lastLoadedUserId = userId;
+        this.loadTasks();
+      }
+    });
   }
-
 
   loadTasks(): void {
     const userId = this.userStore.userId();

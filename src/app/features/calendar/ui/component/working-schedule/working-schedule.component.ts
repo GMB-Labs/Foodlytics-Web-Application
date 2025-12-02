@@ -8,6 +8,7 @@ import {
   inject,
   input,
   signal,
+  effect,
 } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
@@ -29,6 +30,7 @@ import { CalendarEvent } from "../../../domain/models";
 import { take } from "rxjs/operators";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { UserStore } from "../../../../../core/user/user.store";
 
 @Component({
   selector: "app-working-schedule:not(p)",
@@ -53,6 +55,7 @@ export class WorkingScheduleComponent implements OnInit {
   private readonly snackBar = inject(MatSnackBar);
   private readonly logger = inject(LoggerService);
   private readonly calendarService = inject(CalendarService);
+  private readonly userStore = inject(UserStore);
   private readonly fb = inject(FormBuilder);
   readonly themeService = inject(CustomizerSettingsService);
   readonly isBrowser = isPlatformBrowser(this.platformId);
@@ -102,11 +105,35 @@ export class WorkingScheduleComponent implements OnInit {
     event_time: ["", Validators.required],
   });
 
+  private lastLoadedUserId: string | null = null;
+
+  constructor() {
+    // Effect que observa cambios en userId y recarga cuando esté disponible
+    effect(() => {
+      const userId = this.userStore.userId();
+      if (!this.isBrowser) {
+        return;
+      }
+      if (userId && userId !== this.lastLoadedUserId) {
+        this.lastLoadedUserId = userId;
+        this.loadEvents();
+      }
+    });
+  }
+
   ngOnInit(): void {
     if (!this.isBrowser) {
       return;
     }
 
+    // Intentar cargar si ya hay userId disponible
+    const userId = this.userStore.userId();
+    if (userId && userId !== this.lastLoadedUserId) {
+      this.loadEvents();
+    }
+  }
+
+  private loadEvents(): void {
     this.isLoading.set(true);
     this.calendarService
       .loadEvents()
