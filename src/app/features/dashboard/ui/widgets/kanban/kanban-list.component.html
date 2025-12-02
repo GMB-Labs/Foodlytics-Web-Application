@@ -20,23 +20,12 @@
             </td>
           </ng-container>
 
-          <ng-container matColumnDef="description">
-            <th mat-header-cell *matHeaderCellDef>Description</th>
-            <td mat-cell *matCellDef="let task">
-              <span
-                class="description-text"
-                [matTooltip]="task.fullDescription || ''"
-                [matTooltipDisabled]="!task.hasDescription || !task.isTruncated"
-              >
-                {{ task.description }}
-              </span>
-            </td>
-          </ng-container>
-
           <ng-container matColumnDef="daysLeft">
             <th mat-header-cell *matHeaderCellDef>Days Left</th>
             <td mat-cell *matCellDef="let task">
-              {{ task.daysLeftLabel }}
+              <span class="d-block" [ngClass]="task.daysLeftColorClass">
+                {{ task.daysLeftLabel }}
+              </span>
             </td>
           </ng-container>
 

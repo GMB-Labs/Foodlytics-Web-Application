@@ -15,7 +15,11 @@ import { UserStore } from "../../../../../core/user/user.store";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { KanbanTask } from "../../../../kanban-board/domain/models";
 import { NgClass } from "@angular/common";
-import { MatTooltipModule } from "@angular/material/tooltip";
+import {
+  calculateDaysLeft,
+  getDaysLeftLabel,
+  getDaysLeftColorClass,
+} from "../../../../kanban-board/utils/kanban.utils";
 
 @Component({
   selector: "app-kanban-list:not(p)",
@@ -24,7 +28,6 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     MatTableModule,
     MatProgressSpinnerModule,
     NgClass,
-    MatTooltipModule,
   ],
   templateUrl: "./kanban-list.component.html",
   styleUrl: "./kanban-list.component.scss",
@@ -36,14 +39,14 @@ export class KanbanListComponent {
   private readonly userStore = inject(UserStore);
   private readonly destroyRef = inject(DestroyRef);
 
-  readonly displayedColumns = ["task", "description", "daysLeft", "status"] as const;
+  readonly displayedColumns = ["task", "daysLeft", "status"] as const;
 
   readonly tasks = signal<KanbanTask[]>([]);
   readonly isLoading = signal(false);
 
   readonly formattedTasks = computed(() => {
     const tasksWithDiff = this.tasks().map((task) => {
-      const daysLeft = this.calculateDaysLeft(task.deadline_date);
+      const daysLeft = calculateDaysLeft(task.deadline_date);
       return { task, daysLeft };
     });
 
@@ -71,8 +74,8 @@ export class KanbanListComponent {
     return ordered.map(({ task, daysLeft }) => ({
       id: task.id,
       taskName: task.task_name || "Untitled task",
-      ...this.formatDescription(task.task_description),
-      daysLeftLabel: this.getDaysLeftLabel(task.deadline_date),
+      daysLeftLabel: getDaysLeftLabel(task.deadline_date),
+      daysLeftColorClass: getDaysLeftColorClass(task.deadline_date),
       statusLabel: this.getStatusLabel(task.status),
       statusClass: this.getStatusClass(task.status),
       daysLeft,
@@ -83,39 +86,6 @@ export class KanbanListComponent {
     this.loadTasks();
   }
 
-  private formatDescription(description?: string | null): {
-    description: string;
-    fullDescription: string | null;
-    hasDescription: boolean;
-    isTruncated: boolean;
-  } {
-    if (!description) {
-      return {
-        description: "—",
-        fullDescription: null,
-        hasDescription: false,
-        isTruncated: false,
-      };
-    }
-    const trimmed = description.trim();
-    if (!trimmed) {
-      return {
-        description: "—",
-        fullDescription: null,
-        hasDescription: false,
-        isTruncated: false,
-      };
-    }
-    const limit = 60;
-    const isTruncated = trimmed.length > limit;
-    const truncated = isTruncated ? `${trimmed.slice(0, limit - 3)}...` : trimmed;
-    return {
-      description: truncated,
-      fullDescription: trimmed,
-      hasDescription: true,
-      isTruncated,
-    };
-  }
 
   loadTasks(): void {
     const userId = this.userStore.userId();
@@ -139,44 +109,6 @@ export class KanbanListComponent {
       });
   }
 
-  private getDaysLeftLabel(deadline: string): string {
-    const diff = this.calculateDaysLeft(deadline);
-    if (diff === null) {
-      return "—";
-    }
-    if (diff > 0) {
-      return diff === 1 ? "1 day left" : `${diff} days left`;
-    }
-    if (diff === 0) {
-      return "Due Today";
-    }
-    const overdue = Math.abs(diff);
-    return overdue === 1
-      ? "Overdue by 1 day"
-      : `Overdue by ${overdue} days`;
-  }
-
-  private calculateDaysLeft(deadline: string): number | null {
-    if (!deadline) {
-      return null;
-    }
-    const deadlineDate = new Date(deadline);
-    if (Number.isNaN(deadlineDate.getTime())) {
-      return null;
-    }
-    const today = new Date();
-    const todayUtc = Date.UTC(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate(),
-    );
-    const deadlineUtc = Date.UTC(
-      deadlineDate.getFullYear(),
-      deadlineDate.getMonth(),
-      deadlineDate.getDate(),
-    );
-    return Math.floor((deadlineUtc - todayUtc) / (24 * 60 * 60 * 1000));
-  }
 
   private getStatusLabel(status: KanbanTask["status"]): string {
     switch (status) {
