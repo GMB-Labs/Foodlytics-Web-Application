@@ -30,7 +30,12 @@
             <ng-container matColumnDef="daysLeft">
               <th mat-header-cell *matHeaderCellDef>Days Left</th>
               <td mat-cell *matCellDef="let task">
-                <span class="d-block" [ngClass]="task.daysLeftColorClass">
+                <span
+                  class="d-block"
+                  [class.text-danger]="task.daysLeftColorClass === 'text-danger'"
+                  [class.text-warning]="task.daysLeftColorClass === 'text-warning'"
+                  [class.text-daxa]="task.daysLeftColorClass === 'text-daxa'"
+                >
                   {{ task.daysLeftLabel }}
                 </span>
               </td>
@@ -39,7 +44,13 @@
             <ng-container matColumnDef="status">
               <th mat-header-cell *matHeaderCellDef>Status</th>
               <td mat-cell *matCellDef="let task">
-                <span class="daxa-badge d-inline-block" [ngClass]="task.statusClass">
+                <span
+                  class="daxa-badge d-inline-block"
+                  [class.status-backlog]="task.statusClass === 'status-backlog'"
+                  [class.status-in-progress]="task.statusClass === 'status-in-progress'"
+                  [class.status-review]="task.statusClass === 'status-review'"
+                  [class.status-completed]="task.statusClass === 'status-completed'"
+                >
                   {{ task.statusLabel }}
                 </span>
               </td>

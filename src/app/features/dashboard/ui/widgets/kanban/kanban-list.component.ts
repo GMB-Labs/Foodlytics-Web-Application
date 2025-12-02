@@ -15,7 +15,6 @@ import { KanbanTasksService } from "../../../../kanban-board/data-access/service
 import { UserStore } from "../../../../../core/user/user.store";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { KanbanTask } from "../../../../kanban-board/domain/models";
-import { NgClass } from "@angular/common";
 import {
   calculateDaysLeft,
   getDaysLeftLabel,
@@ -28,7 +27,6 @@ import {
     MatCardModule,
     MatTableModule,
     MatProgressSpinnerModule,
-    NgClass,
   ],
   templateUrl: "./kanban-list.component.html",
   styleUrl: "./kanban-list.component.scss",

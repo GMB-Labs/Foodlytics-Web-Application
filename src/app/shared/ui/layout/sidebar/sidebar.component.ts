@@ -26,15 +26,7 @@ export class SidebarComponent {
   private readonly toggleService = inject(ToggleService);
 
   readonly isSidebarToggled = this.toggleService.isSidebarToggled;
-
-  // isToggled
-  isToggled = false;
-
-  constructor() {
-    this.themeService.isToggled$.subscribe((isToggled) => {
-      this.isToggled = isToggled;
-    });
-  }
+  readonly isToggled = this.themeService.isToggled;
 
   logout() {
     this.auth.logout();

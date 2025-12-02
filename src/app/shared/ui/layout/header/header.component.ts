@@ -89,14 +89,9 @@ export class HeaderComponent {
   private readonly toggleService = inject(ToggleService);
   readonly isSidebarToggled = this.toggleService.isSidebarToggled;
 
-  // isToggled
-  isToggled = false;
+  readonly isToggled = this.themeService.isToggled;
 
   constructor() {
-    this.themeService.isToggled$.subscribe((isToggled) => {
-      this.isToggled = isToggled;
-    });
-
     effect(
       () => {
         const userId = this.userStore.userId();
