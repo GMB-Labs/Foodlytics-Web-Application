@@ -1,6 +1,6 @@
 <div
   class="sidebar-area bg-white"
-  [ngClass]="{ active: isSidebarToggled }"
+  [class.active]="isSidebarToggled()"
   [class.component-dark-theme]="themeService.isDark()"
   [class.dark-sidebar]="themeService.isSidebarDark()"
   [class.right-sidebar]="themeService.isRightSidebar()"
@@ -22,7 +22,7 @@
   <div
     (click)="toggle()"
     class="burger-menu"
-    [ngClass]="{ active: isSidebarToggled }"
+    [class.active]="isSidebarToggled()"
   >
     <span class="top-bar"></span>
     <span class="middle-bar"></span>

@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { ChangeDetectionStrategy } from "@angular/core";
 import { PatientsOverviewComponent } from "./widgets/patients-overview/patients-overview.component";
 import { PatientsListComponent } from "./widgets/patients-list/patients-list.component";
 import { WorkingScheduleComponent } from "../../calendar/ui/component/working-schedule/working-schedule.component";
@@ -24,5 +25,6 @@ import { KanbanListComponent } from "./widgets/kanban/kanban-list.component";
     WorkingScheduleComponent,
     KanbanListComponent
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardPage {}

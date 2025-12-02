@@ -1,4 +1,5 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
+import { ChangeDetectionStrategy } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { CustomizerSettingsService } from "../../../../../core/customizer-settings/customizer-settings.service";
 
@@ -7,7 +8,8 @@ import { CustomizerSettingsService } from "../../../../../core/customizer-settin
   imports: [MatButtonModule],
   templateUrl: "./terms-conditions.component.html",
   styleUrl: "./terms-conditions.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TermsConditionsComponent {
-  constructor(public themeService: CustomizerSettingsService) {}
+  readonly themeService = inject(CustomizerSettingsService);
 }

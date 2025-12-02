@@ -1,8 +1,7 @@
-import { Location, NgClass, NgOptimizedImage } from "@angular/common";
+import { Location, NgOptimizedImage } from "@angular/common";
 import { MatMenuModule } from "@angular/material/menu";
 import {
   Component,
-  HostListener,
   Injector,
   computed,
   effect,
@@ -21,7 +20,6 @@ import { take } from "rxjs";
 @Component({
   selector: "app-header",
   imports: [
-    NgClass,
     MatMenuModule,
     MatButtonModule,
     RouterLink,
@@ -29,6 +27,9 @@ import { take } from "rxjs";
   ],
   templateUrl: "./header.component.html",
   styleUrl: "./header.component.scss",
+  host: {
+    "(window:scroll)": "checkScroll()",
+  },
 })
 export class HeaderComponent {
   private readonly logger = inject(LoggerService);
@@ -85,20 +86,12 @@ export class HeaderComponent {
     this.auth.logout();
   }
 
-  // isSidebarToggled
-  isSidebarToggled = false;
+  private readonly toggleService = inject(ToggleService);
+  readonly isSidebarToggled = this.toggleService.isSidebarToggled;
 
-  // isToggled
-  isToggled = false;
+  readonly isToggled = this.themeService.isToggled;
 
-  constructor(private toggleService: ToggleService) {
-    this.toggleService.isSidebarToggled$.subscribe((isSidebarToggled) => {
-      this.isSidebarToggled = isSidebarToggled;
-    });
-    this.themeService.isToggled$.subscribe((isToggled) => {
-      this.isToggled = isToggled;
-    });
-
+  constructor() {
     effect(
       () => {
         const userId = this.userStore.userId();
@@ -121,7 +114,6 @@ export class HeaderComponent {
 
   // Navbar Sticky
   isSticky = false;
-  @HostListener("window:scroll")
   checkScroll() {
     const scrollPosition =
       window.scrollY ||

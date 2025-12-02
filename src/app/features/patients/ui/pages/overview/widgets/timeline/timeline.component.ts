@@ -1,9 +1,9 @@
 import { Component, computed, inject } from "@angular/core";
+import { ChangeDetectionStrategy } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatMenuModule } from "@angular/material/menu";
 import { CustomizerSettingsService } from "../../../../../../../core/customizer-settings/customizer-settings.service";
-import { NgForOf, NgIf } from "@angular/common";
 import {
   MealTimelineEntry,
   PatientDetailStore,
@@ -15,11 +15,10 @@ import {
     MatButtonModule,
     MatMenuModule,
     MatCardModule,
-    NgIf,
-    NgForOf,
   ],
   templateUrl: "./timeline.component.html",
   styleUrl: "./timeline.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimelineComponent {
   private readonly patientDetailStore = inject(PatientDetailStore);
@@ -35,5 +34,5 @@ export class TimelineComponent {
     meal: MealTimelineEntry,
   ): string => meal.id;
 
-  constructor(public themeService: CustomizerSettingsService) {}
+  readonly themeService = inject(CustomizerSettingsService);
 }

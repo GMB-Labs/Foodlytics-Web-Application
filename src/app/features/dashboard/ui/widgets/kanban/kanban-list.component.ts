@@ -5,6 +5,7 @@ import {
   computed,
   inject,
   signal,
+  effect,
 } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
 import { MatTableModule } from "@angular/material/table";
@@ -14,7 +15,6 @@ import { KanbanTasksService } from "../../../../kanban-board/data-access/service
 import { UserStore } from "../../../../../core/user/user.store";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { KanbanTask } from "../../../../kanban-board/domain/models";
-import { NgClass } from "@angular/common";
 import {
   calculateDaysLeft,
   getDaysLeftLabel,
@@ -27,7 +27,6 @@ import {
     MatCardModule,
     MatTableModule,
     MatProgressSpinnerModule,
-    NgClass,
   ],
   templateUrl: "./kanban-list.component.html",
   styleUrl: "./kanban-list.component.scss",
@@ -43,6 +42,7 @@ export class KanbanListComponent {
 
   readonly tasks = signal<KanbanTask[]>([]);
   readonly isLoading = signal(false);
+  private lastLoadedUserId: string | null = null;
 
   readonly formattedTasks = computed(() => {
     const tasksWithDiff = this.tasks().map((task) => {
@@ -83,9 +83,15 @@ export class KanbanListComponent {
   });
 
   constructor() {
-    this.loadTasks();
+    // Effect que observa cambios en userId y recarga cuando esté disponible
+    effect(() => {
+      const userId = this.userStore.userId();
+      if (userId && userId !== this.lastLoadedUserId) {
+        this.lastLoadedUserId = userId;
+        this.loadTasks();
+      }
+    });
   }
-
 
   loadTasks(): void {
     const userId = this.userStore.userId();

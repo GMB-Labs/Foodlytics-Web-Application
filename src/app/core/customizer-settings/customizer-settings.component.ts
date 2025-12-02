@@ -1,6 +1,6 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { CustomizerSettingsService } from "./customizer-settings.service";
-import { NgClass, NgOptimizedImage } from "@angular/common";
+import { NgOptimizedImage } from "@angular/common";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
@@ -9,7 +9,6 @@ import { NgScrollbarModule } from "ngx-scrollbar";
 @Component({
   selector: "app-customizer-settings",
   imports: [
-    NgClass,
     MatDividerModule,
     MatIconModule,
     MatButtonModule,
@@ -20,14 +19,8 @@ import { NgScrollbarModule } from "ngx-scrollbar";
   styleUrl: "./customizer-settings.component.scss",
 })
 export class CustomizerSettingsComponent {
-  // isToggled
-  isToggled = false;
-
-  constructor(public themeService: CustomizerSettingsService) {
-    this.themeService.isToggled$.subscribe((isToggled) => {
-      this.isToggled = isToggled;
-    });
-  }
+  readonly themeService = inject(CustomizerSettingsService);
+  readonly isToggled = this.themeService.isToggled;
 
   // Dark Mode
   toggleTheme() {

@@ -1,4 +1,5 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
+import { ChangeDetectionStrategy } from "@angular/core";
 import { CustomizerSettingsService } from "../../../../core/customizer-settings/customizer-settings.service";
 
 @Component({
@@ -6,8 +7,9 @@ import { CustomizerSettingsService } from "../../../../core/customizer-settings/
   imports: [],
   templateUrl: "./footer.component.html",
   styleUrl: "./footer.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FooterComponent {
-  constructor(public themeService: CustomizerSettingsService) {}
+  readonly themeService = inject(CustomizerSettingsService);
 }
 

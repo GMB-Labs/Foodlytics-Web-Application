@@ -1,179 +1,216 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { Injectable, signal, effect, inject, Injector } from "@angular/core";
 
 @Injectable({
   providedIn: "root",
 })
 export class CustomizerSettingsService {
+  private readonly injector = inject(Injector);
+
+  // Signals privados para cada flag
+  private readonly isDarkThemeSig = signal<boolean>(false);
+  private readonly isSidebarDarkThemeSig = signal<boolean>(false);
+  private readonly isRightSidebarThemeSig = signal<boolean>(false);
+  private readonly isHideSidebarThemeSig = signal<boolean>(false);
+  private readonly isHeaderDarkThemeSig = signal<boolean>(false);
+  private readonly isCardBorderThemeSig = signal<boolean>(false);
+  private readonly isCardBorderRadiusThemeSig = signal<boolean>(false);
+  private readonly isRTLEnabledThemeSig = signal<boolean>(false);
+  private readonly isToggledSig = signal<boolean>(false);
+
+  // Signals readonly públicos
+  readonly isDarkSignal = this.isDarkThemeSig.asReadonly();
+  readonly isSidebarDarkSignal = this.isSidebarDarkThemeSig.asReadonly();
+  readonly isRightSidebarSignal = this.isRightSidebarThemeSig.asReadonly();
+  readonly isHideSidebarSignal = this.isHideSidebarThemeSig.asReadonly();
+  readonly isHeaderDarkSignal = this.isHeaderDarkThemeSig.asReadonly();
+  readonly isCardBorderSignal = this.isCardBorderThemeSig.asReadonly();
+  readonly isCardBorderRadiusSignal = this.isCardBorderRadiusThemeSig.asReadonly();
+  readonly isRTLEnabledSignal = this.isRTLEnabledThemeSig.asReadonly();
+  readonly isToggled = this.isToggledSig.asReadonly();
+
   constructor() {
-    if (typeof window !== "undefined" && window.localStorage) {
-      // Dark Mode
-      this.isDarkTheme = JSON.parse(
-        localStorage.getItem("isDarkTheme") || "false",
-      );
-      this.updateDarkBodyClass();
+    this.restoreFromStorage();
 
-      // Sidebar Dark Mode
-      this.isSidebarDarkTheme = JSON.parse(
-        localStorage.getItem("isSidebarDarkTheme") || "false",
-      );
+    // Effects para sincronizar con el DOM
+    effect(
+      () => {
+        const isDark = this.isDarkThemeSig();
+        if (typeof document === "undefined") return;
+        if (isDark) {
+          document.body.classList.add("dark-theme");
+        } else {
+          document.body.classList.remove("dark-theme");
+        }
+      },
+      { injector: this.injector },
+    );
 
-      // Right Sidebar
-      this.isRightSidebarTheme = JSON.parse(
-        localStorage.getItem("isRightSidebarTheme") || "false",
-      );
+    effect(
+      () => {
+        const isRTL = this.isRTLEnabledThemeSig();
+        if (typeof document === "undefined") return;
+        if (isRTL) {
+          document.body.classList.add("rtl-enabled");
+        } else {
+          document.body.classList.remove("rtl-enabled");
+        }
+      },
+      { injector: this.injector },
+    );
+  }
 
-      // Hide Sidebar
-      this.isHideSidebarTheme = JSON.parse(
-        localStorage.getItem("isHideSidebarTheme") || "false",
-      );
-
-      // Header Dark
-      this.isHeaderDarkTheme = JSON.parse(
-        localStorage.getItem("isHeaderDarkTheme") || "false",
-      );
-
-      // Card Border
-      this.isCardBorderTheme = JSON.parse(
-        localStorage.getItem("isCardBorderTheme") || "false",
-      );
-
-      // Card Border Radius
-      this.isCardBorderRadiusTheme = JSON.parse(
-        localStorage.getItem("isCardBorderRadiusTheme") || "false",
-      );
-
-      // RTL Mode
-      this.isRTLEnabledTheme = JSON.parse(
-        localStorage.getItem("isRTLEnabledTheme") || "false",
-      );
-      this.updateRTLBodyClass();
+  private restoreFromStorage(): void {
+    if (typeof window === "undefined" || !window.localStorage) {
+      return;
     }
+
+    // Dark Mode
+    const isDarkTheme = JSON.parse(
+      localStorage.getItem("isDarkTheme") || "false",
+    );
+    this.isDarkThemeSig.set(isDarkTheme);
+
+    // Sidebar Dark Mode
+    const isSidebarDarkTheme = JSON.parse(
+      localStorage.getItem("isSidebarDarkTheme") || "false",
+    );
+    this.isSidebarDarkThemeSig.set(isSidebarDarkTheme);
+
+    // Right Sidebar
+    const isRightSidebarTheme = JSON.parse(
+      localStorage.getItem("isRightSidebarTheme") || "false",
+    );
+    this.isRightSidebarThemeSig.set(isRightSidebarTheme);
+
+    // Hide Sidebar
+    const isHideSidebarTheme = JSON.parse(
+      localStorage.getItem("isHideSidebarTheme") || "false",
+    );
+    this.isHideSidebarThemeSig.set(isHideSidebarTheme);
+
+    // Header Dark
+    const isHeaderDarkTheme = JSON.parse(
+      localStorage.getItem("isHeaderDarkTheme") || "false",
+    );
+    this.isHeaderDarkThemeSig.set(isHeaderDarkTheme);
+
+    // Card Border
+    const isCardBorderTheme = JSON.parse(
+      localStorage.getItem("isCardBorderTheme") || "false",
+    );
+    this.isCardBorderThemeSig.set(isCardBorderTheme);
+
+    // Card Border Radius
+    const isCardBorderRadiusTheme = JSON.parse(
+      localStorage.getItem("isCardBorderRadiusTheme") || "false",
+    );
+    this.isCardBorderRadiusThemeSig.set(isCardBorderRadiusTheme);
+
+    // RTL Mode
+    const isRTLEnabledTheme = JSON.parse(
+      localStorage.getItem("isRTLEnabledTheme") || "false",
+    );
+    this.isRTLEnabledThemeSig.set(isRTLEnabledTheme);
   }
 
   // Dark Mode
-  private isDarkTheme!: boolean;
-  toggleTheme() {
-    this.isDarkTheme = !this.isDarkTheme;
-    localStorage.setItem("isDarkTheme", JSON.stringify(this.isDarkTheme));
-    this.updateDarkBodyClass();
-  }
-  isDark() {
-    return this.isDarkTheme;
-  }
-  private updateDarkBodyClass() {
-    if (this.isDarkTheme) {
-      document.body.classList.add("dark-theme");
-    } else {
-      document.body.classList.remove("dark-theme");
+  toggleTheme(): void {
+    const newValue = !this.isDarkThemeSig();
+    this.isDarkThemeSig.set(newValue);
+    if (typeof window !== "undefined" && window.localStorage) {
+      localStorage.setItem("isDarkTheme", JSON.stringify(newValue));
     }
+  }
+  isDark(): boolean {
+    return this.isDarkThemeSig();
   }
 
   // Sidebar Dark
-  private isSidebarDarkTheme!: boolean;
-  toggleSidebarTheme() {
-    this.isSidebarDarkTheme = !this.isSidebarDarkTheme;
-    localStorage.setItem(
-      "isSidebarDarkTheme",
-      JSON.stringify(this.isSidebarDarkTheme),
-    );
+  toggleSidebarTheme(): void {
+    const newValue = !this.isSidebarDarkThemeSig();
+    this.isSidebarDarkThemeSig.set(newValue);
+    if (typeof window !== "undefined" && window.localStorage) {
+      localStorage.setItem("isSidebarDarkTheme", JSON.stringify(newValue));
+    }
   }
-  isSidebarDark() {
-    return this.isSidebarDarkTheme;
+  isSidebarDark(): boolean {
+    return this.isSidebarDarkThemeSig();
   }
 
   // Right Sidebar
-  private isRightSidebarTheme!: boolean;
-  toggleRightSidebarTheme() {
-    this.isRightSidebarTheme = !this.isRightSidebarTheme;
-    localStorage.setItem(
-      "isRightSidebarTheme",
-      JSON.stringify(this.isRightSidebarTheme),
-    );
+  toggleRightSidebarTheme(): void {
+    const newValue = !this.isRightSidebarThemeSig();
+    this.isRightSidebarThemeSig.set(newValue);
+    if (typeof window !== "undefined" && window.localStorage) {
+      localStorage.setItem("isRightSidebarTheme", JSON.stringify(newValue));
+    }
   }
-  isRightSidebar() {
-    return this.isRightSidebarTheme;
+  isRightSidebar(): boolean {
+    return this.isRightSidebarThemeSig();
   }
 
   // Hide Sidebar
-  private isHideSidebarTheme!: boolean;
-  toggleHideSidebarTheme() {
-    this.isHideSidebarTheme = !this.isHideSidebarTheme;
-    localStorage.setItem(
-      "isHideSidebarTheme",
-      JSON.stringify(this.isHideSidebarTheme),
-    );
+  toggleHideSidebarTheme(): void {
+    const newValue = !this.isHideSidebarThemeSig();
+    this.isHideSidebarThemeSig.set(newValue);
+    if (typeof window !== "undefined" && window.localStorage) {
+      localStorage.setItem("isHideSidebarTheme", JSON.stringify(newValue));
+    }
   }
-  isHideSidebar() {
-    return this.isHideSidebarTheme;
+  isHideSidebar(): boolean {
+    return this.isHideSidebarThemeSig();
   }
 
   // Header Dark Mode
-  private isHeaderDarkTheme!: boolean;
-  toggleHeaderTheme() {
-    this.isHeaderDarkTheme = !this.isHeaderDarkTheme;
-    localStorage.setItem(
-      "isHeaderDarkTheme",
-      JSON.stringify(this.isHeaderDarkTheme),
-    );
+  toggleHeaderTheme(): void {
+    const newValue = !this.isHeaderDarkThemeSig();
+    this.isHeaderDarkThemeSig.set(newValue);
+    if (typeof window !== "undefined" && window.localStorage) {
+      localStorage.setItem("isHeaderDarkTheme", JSON.stringify(newValue));
+    }
   }
-  isHeaderDark() {
-    return this.isHeaderDarkTheme;
+  isHeaderDark(): boolean {
+    return this.isHeaderDarkThemeSig();
   }
 
   // Card Border
-  private isCardBorderTheme!: boolean;
-  toggleCardBorderTheme() {
-    this.isCardBorderTheme = !this.isCardBorderTheme;
-    localStorage.setItem(
-      "isCardBorderTheme",
-      JSON.stringify(this.isCardBorderTheme),
-    );
+  toggleCardBorderTheme(): void {
+    const newValue = !this.isCardBorderThemeSig();
+    this.isCardBorderThemeSig.set(newValue);
+    if (typeof window !== "undefined" && window.localStorage) {
+      localStorage.setItem("isCardBorderTheme", JSON.stringify(newValue));
+    }
   }
-  isCardBorder() {
-    return this.isCardBorderTheme;
+  isCardBorder(): boolean {
+    return this.isCardBorderThemeSig();
   }
 
   // Card Border Radius
-  private isCardBorderRadiusTheme!: boolean;
-  toggleCardBorderRadiusTheme() {
-    this.isCardBorderRadiusTheme = !this.isCardBorderRadiusTheme;
-    localStorage.setItem(
-      "isCardBorderRadiusTheme",
-      JSON.stringify(this.isCardBorderRadiusTheme),
-    );
+  toggleCardBorderRadiusTheme(): void {
+    const newValue = !this.isCardBorderRadiusThemeSig();
+    this.isCardBorderRadiusThemeSig.set(newValue);
+    if (typeof window !== "undefined" && window.localStorage) {
+      localStorage.setItem("isCardBorderRadiusTheme", JSON.stringify(newValue));
+    }
   }
-  isCardBorderRadius() {
-    return this.isCardBorderRadiusTheme;
+  isCardBorderRadius(): boolean {
+    return this.isCardBorderRadiusThemeSig();
   }
 
   // RTL Mode
-  private isRTLEnabledTheme!: boolean;
-  toggleRTLEnabledTheme() {
-    this.isRTLEnabledTheme = !this.isRTLEnabledTheme;
-    localStorage.setItem(
-      "isRTLEnabledTheme",
-      JSON.stringify(this.isRTLEnabledTheme),
-    );
-    this.updateRTLBodyClass();
-  }
-  isRTLEnabled() {
-    return this.isRTLEnabledTheme;
-  }
-  private updateRTLBodyClass() {
-    if (this.isRTLEnabledTheme) {
-      document.body.classList.add("rtl-enabled");
-    } else {
-      document.body.classList.remove("rtl-enabled");
+  toggleRTLEnabledTheme(): void {
+    const newValue = !this.isRTLEnabledThemeSig();
+    this.isRTLEnabledThemeSig.set(newValue);
+    if (typeof window !== "undefined" && window.localStorage) {
+      localStorage.setItem("isRTLEnabledTheme", JSON.stringify(newValue));
     }
   }
-
-  // isToggled
-  private isToggled = new BehaviorSubject<boolean>(false);
-  get isToggled$() {
-    return this.isToggled.asObservable();
+  isRTLEnabled(): boolean {
+    return this.isRTLEnabledThemeSig();
   }
-  toggle() {
-    this.isToggled.next(!this.isToggled.value);
+
+  // isToggled (customizer panel)
+  toggle(): void {
+    this.isToggledSig.update((v) => !v);
   }
 }

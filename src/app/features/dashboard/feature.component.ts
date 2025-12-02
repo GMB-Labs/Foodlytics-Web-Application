@@ -1,6 +1,7 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import { BreadcrumbsComponent } from "../../shared/ui/breadcrumbs/breadcrumbs.component";
+import { DashboardBootstrapService } from "./data-access/services/dashboard-bootstrap.service";
 
 @Component({
   selector: "app-dashboard-feature",
@@ -10,4 +11,7 @@ import { BreadcrumbsComponent } from "../../shared/ui/breadcrumbs/breadcrumbs.co
   `,
   imports: [RouterOutlet, BreadcrumbsComponent],
 })
-export class DashboardFeature {}
+export class DashboardFeature {
+  // Inyectar el servicio para inicializarlo cuando se carga el feature
+  private readonly bootstrapService = inject(DashboardBootstrapService);
+}

@@ -1,5 +1,6 @@
 // shared/ui/breadcrumbs/breadcrumbs.component.ts
 import { Component, inject } from "@angular/core";
+import { ChangeDetectionStrategy } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { BreadcrumbService } from "../../data-access/breadcrumb/breadcrumb.service";
 
@@ -7,6 +8,7 @@ import { BreadcrumbService } from "../../data-access/breadcrumb/breadcrumb.servi
   selector: "app-breadcrumbs",
   imports: [RouterLink],
   host: { class: "block" },
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div
       class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-between"

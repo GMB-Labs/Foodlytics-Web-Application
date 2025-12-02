@@ -15,6 +15,7 @@ import { MacroTargetsComponent } from "./widgets/macro-targets/macro-targets.com
 import { AgeCardComponent } from "./widgets/age-card/age-card.component";
 import { HeightCardComponent } from "./widgets/height-card/height-card.component";
 import { PatientDetailStore } from "../../../data-access/stores/patient-detail.store";
+import { CalorieTargetsStore } from "../../../data-access/stores/calorie-targets.store";
 
 @Component({
   selector: "app-overview-page",
@@ -98,6 +99,7 @@ export class DetailPage implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
   private readonly patientDetailStore = inject(PatientDetailStore);
+  private readonly calorieTargetsStore = inject(CalorieTargetsStore);
 
   ngOnInit(): void {
     this.route.paramMap
@@ -107,6 +109,7 @@ export class DetailPage implements OnInit {
       )
       .subscribe((userId) => {
         this.patientDetailStore.loadPatient(userId);
+        this.calorieTargetsStore.load(userId);
       });
   }
 }
