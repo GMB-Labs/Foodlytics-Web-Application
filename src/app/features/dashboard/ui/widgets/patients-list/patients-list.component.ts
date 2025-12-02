@@ -6,6 +6,7 @@ import {
   DestroyRef,
   inject,
   signal,
+  ChangeDetectorRef,
 } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
@@ -59,6 +60,7 @@ export class PatientsListComponent implements OnInit, AfterViewInit {
   private readonly userStore = inject(UserStore);
   private readonly logger = inject(LoggerService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   readonly isLoading = signal(false);
 
@@ -80,19 +82,19 @@ export class PatientsListComponent implements OnInit, AfterViewInit {
     }
 
     this.isLoading.set(true);
-    this.patientsApi
+      this.patientsApi
       .getPatientsByNutritionist(userId)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => {
-          queueMicrotask(() => this.isLoading.set(false));
+          this.isLoading.set(false);
+          this.cdr.detectChanges();
         }),
       )
       .subscribe({
         next: (patients) => {
-          queueMicrotask(() => {
-            this.updateTableData(patients ?? []);
-          });
+          this.updateTableData(patients ?? []);
+          this.cdr.detectChanges();
         },
         error: (error) => {
           this.logger.error(
@@ -147,10 +149,9 @@ export class PatientsListComponent implements OnInit, AfterViewInit {
             return;
           }
 
-          queueMicrotask(() => {
-            row.avatarUrl = pictureUrl;
-            this.refreshRenderedRows();
-          });
+          row.avatarUrl = pictureUrl;
+          this.refreshRenderedRows();
+          this.cdr.detectChanges();
         });
     });
   }

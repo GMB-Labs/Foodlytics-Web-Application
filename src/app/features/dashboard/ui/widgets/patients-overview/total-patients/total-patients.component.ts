@@ -5,6 +5,7 @@ import {
   computed,
   inject,
   signal,
+  ChangeDetectorRef,
 } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
@@ -34,6 +35,7 @@ export class TotalPatientsComponent implements OnInit {
   private readonly userStore = inject(UserStore);
   private readonly logger = inject(LoggerService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   private readonly patientsSignal = signal<PatientWithAvatar[]>([]);
   private readonly loadingSignal = signal(false);
@@ -65,23 +67,23 @@ export class TotalPatientsComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (patients: Patient[]) => {
-          queueMicrotask(() => {
-            const patientsWithAvatars = (patients ?? []).map((p) => ({
-              ...p,
-              avatarUrl: null,
-              initials: this.buildInitials(p.first_name, p.last_name),
-            }));
-            this.patientsSignal.set(patientsWithAvatars);
-            this.loadProfilePictures(patientsWithAvatars.slice(0, 5));
-            this.loadingSignal.set(false);
-          });
+          const patientsWithAvatars = (patients ?? []).map((p) => ({
+            ...p,
+            avatarUrl: null,
+            initials: this.buildInitials(p.first_name, p.last_name),
+          }));
+          this.patientsSignal.set(patientsWithAvatars);
+          this.loadProfilePictures(patientsWithAvatars.slice(0, 5));
+          this.loadingSignal.set(false);
+          this.cdr.detectChanges();
         },
         error: (error: unknown) => {
           this.logger.error(
             "[TotalPatientsComponent] Error loading patients",
             error,
           );
-          queueMicrotask(() => this.loadingSignal.set(false));
+          this.loadingSignal.set(false);
+          this.cdr.detectChanges();
         },
       });
   }
@@ -106,13 +108,12 @@ export class TotalPatientsComponent implements OnInit {
   }
 
   private updatePatientAvatar(userId: string, avatarUrl: string): void {
-    queueMicrotask(() => {
-      this.patientsSignal.update((patients) =>
-        patients.map((p) =>
-          p.user_id === userId ? { ...p, avatarUrl } : p,
-        ),
-      );
-    });
+    this.patientsSignal.update((patients) =>
+      patients.map((p) =>
+        p.user_id === userId ? { ...p, avatarUrl } : p,
+      ),
+    );
+    this.cdr.detectChanges();
   }
 
   private buildInitials(

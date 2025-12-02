@@ -5,6 +5,7 @@ import {
   computed,
   inject,
   signal,
+  ChangeDetectorRef,
 } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
@@ -26,6 +27,7 @@ export class CompletedProfilesComponent implements OnInit {
   private readonly userStore = inject(UserStore);
   private readonly logger = inject(LoggerService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   private readonly patientsSignal = signal<Patient[]>([]);
   private readonly loadingSignal = signal(false);
@@ -67,17 +69,17 @@ export class CompletedProfilesComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (patients: Patient[]) => {
-          queueMicrotask(() => {
-            this.patientsSignal.set(patients ?? []);
-            this.loadingSignal.set(false);
-          });
+          this.patientsSignal.set(patients ?? []);
+          this.loadingSignal.set(false);
+          this.cdr.detectChanges();
         },
         error: (error: unknown) => {
           this.logger.error(
             "[CompletedProfilesComponent] Error loading patients",
             error,
           );
-          queueMicrotask(() => this.loadingSignal.set(false));
+          this.loadingSignal.set(false);
+          this.cdr.detectChanges();
         },
       });
   }
