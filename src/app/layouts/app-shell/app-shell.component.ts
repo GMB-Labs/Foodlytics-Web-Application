@@ -18,6 +18,7 @@ import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
 import { filter } from "rxjs";
 import { AuthService } from "@auth0/auth0-angular";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { AlertContainerComponent } from "../../shared/ui/components/alert-container/alert-container.component";
 
 @Component({
   selector: "app-app-shell",
@@ -55,6 +56,9 @@ import { MatProgressSpinner } from "@angular/material/progress-spinner";
 
         <!-- Customizer Settings -->
         <app-customizer-settings />
+
+        <!-- Global Alerts Container -->
+        <app-alert-container />
       </div>
     }
   `,
@@ -65,6 +69,7 @@ import { MatProgressSpinner } from "@angular/material/progress-spinner";
     RouterOutlet,
     FooterComponent,
     CustomizerSettingsComponent,
+    AlertContainerComponent,
     NgClass,
     MatProgressSpinner,
   ],

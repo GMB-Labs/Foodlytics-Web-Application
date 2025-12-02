@@ -19,6 +19,7 @@ import { catchError, finalize, of, switchMap, take } from "rxjs";
 import { CustomizerSettingsService } from "../../../../../core/customizer-settings/customizer-settings.service";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from "@angular/material/core";
+import { AlertService } from "../../../../../core/services/alert.service";
 
 @Component({
   selector: "app-account-settings",
@@ -46,6 +47,7 @@ export class AccountSettingsComponent {
   private readonly userSync = inject(UserSyncService);
   private readonly userStore = inject(UserStore);
   private readonly logger = inject(LoggerService);
+  private readonly alertService = inject(AlertService);
   private readonly injector = inject(Injector);
 
   readonly profileForm = this.fb.nonNullable.group({
@@ -128,6 +130,9 @@ export class AccountSettingsComponent {
     const selectedFile = this.photoControl.value.at(0) ?? null;
     if (selectedFile && selectedFile.size > 5 * 1024 * 1024) {
       this.logger.error("Profile picture exceeds 5MB limit");
+      this.alertService.error(
+        "La imagen de perfil no puede exceder 5MB. Por favor, selecciona una imagen más pequeña.",
+      );
       return;
     }
 
@@ -149,8 +154,18 @@ export class AccountSettingsComponent {
         finalize(() => this.isSubmitting.set(false)),
       )
       .subscribe({
+        next: () => {
+          this.alertService.success(
+            this.profileCompleted()
+              ? "Perfil actualizado correctamente"
+              : "Perfil completado correctamente",
+          );
+        },
         error: (error) => {
           this.logger.error("Failed to update profile", error);
+          this.alertService.error(
+            "No se pudo actualizar el perfil. Por favor, intenta nuevamente.",
+          );
         },
       });
   }
