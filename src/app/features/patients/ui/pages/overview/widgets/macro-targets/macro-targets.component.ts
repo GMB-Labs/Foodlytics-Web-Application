@@ -76,13 +76,16 @@ export class MacroTargetsComponent {
     };
   });
 
-  private readonly updateSeriesEffect = effect(
-    () => {
+  constructor() {
+    // Update chart series when macro overview changes
+    effect(() => {
       const overview = this.macroOverview();
-      this.mostLeadsService.setSeries(overview.chartSeries);
-    },
-    { allowSignalWrites: true },
-  );
+      // Use setTimeout to avoid signal writes during effect execution
+      setTimeout(() => {
+        this.mostLeadsService.setSeries(overview.chartSeries);
+      }, 0);
+    });
+  }
 
   private buildMacroDisplay(value: number | null): MacroDisplay {
     const placeholder = "—";

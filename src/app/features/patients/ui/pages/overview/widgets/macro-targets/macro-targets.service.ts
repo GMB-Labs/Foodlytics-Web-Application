@@ -10,6 +10,7 @@ export class MacroTargetsService {
 
   readonly options = computed<ApexOptions>(() => ({
     chart: { type: "pie", width: 305 },
+    series: this._series(), // Include series in options for initial render
     stroke: { width: 2, show: true },
     labels: this.labels as unknown as string[],
     legend: { show: false },

@@ -43,6 +43,8 @@ export class ApxChartDirective {
     });
 
     afterNextRender(() => {
+      if (!host.isConnected) return;
+
       const h = this.height();
       host.style.minHeight = typeof h === "number" ? `${h}px` : `${h}`;
 
@@ -50,6 +52,7 @@ export class ApxChartDirective {
       this.destroyRef.onDestroy(() => ctrl.abort());
 
       this.zone.runOutsideAngular(async () => {
+        if (!host.isConnected) return;
         const base = this.withHeight(this.options(), this.height());
         const initial: ApexOptions = {
           ...base,

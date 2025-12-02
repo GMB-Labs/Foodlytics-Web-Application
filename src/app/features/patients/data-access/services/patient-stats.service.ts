@@ -16,43 +16,89 @@ export class WelcomeService {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
-  async renderRadial(hostEl: Element, value: number): Promise<void> {
-    if (!this.isBrowser) return;
+  async loadChart(
+    container: HTMLElement | null,
+    bmi: number | null,
+  ): Promise<void> {
+    if (!this.isBrowser || !container || bmi === null) {
+      return;
+    }
 
-    this.destroy(hostEl);
+    // Validate element is connected before proceeding
+    if (!container.isConnected || !container.parentElement) {
+      return;
+    }
 
-    const ApexCharts = (await import("apexcharts"))
-      .default as unknown as ApexCtor;
+    this.destroy(container);
 
-    const options: ApexOptions = {
-      series: [value],
-      chart: { type: "radialBar", height: 220 },
-      plotOptions: {
-        radialBar: {
-          startAngle: -90,
-          endAngle: 90,
-          track: {
-            background: "#2FCCAC",
-            strokeWidth: "100%",
-            margin: 3,
-            dropShadow: { enabled: false },
-          },
-          dataLabels: {
-            name: { show: false },
-            value: {
-              offsetY: -2,
-              fontSize: "25px",
-              fontWeight: 500,
-              color: "#ffffff",
+    try {
+      const ApexCharts = (await import("apexcharts"))
+        .default as unknown as ApexCtor;
+
+      // Double-check element is still connected after async import
+      if (!container.isConnected || !container.parentElement) {
+        return;
+      }
+
+      // Normalize BMI to 0-100 for gauge (BMI range 15-40 maps to 0-100)
+      const normalized = Math.max(0, Math.min(100, ((bmi - 15) / 25) * 100));
+      const gaugeValue = Math.round(normalized);
+      const bmiDisplay = bmi.toFixed(1);
+
+      const options: ApexOptions = {
+        series: [gaugeValue],
+        chart: {
+          type: "radialBar",
+          height: 220,
+          offsetY: 0,
+        },
+        plotOptions: {
+          radialBar: {
+            startAngle: -90,
+            endAngle: 90,
+            hollow: {
+              size: "70%",
+              margin: 0,
+              background: "transparent",
+            },
+            track: {
+              background: "#2FCCAC",
+              strokeWidth: "100%",
+              margin: 3,
+              dropShadow: { enabled: false },
+            },
+            dataLabels: {
+              name: {
+                show: false,
+              },
+              value: {
+                show: true,
+                offsetY: 8,
+                fontSize: "28px",
+                fontWeight: 600,
+                color: "#ffffff",
+                formatter: () => String(bmiDisplay),
+              },
             },
           },
         },
-      },
-      colors: ["#00cae3"],
-    };
-    const chart = new ApexCharts(hostEl, options);
-    await chart.render();
-    this.instances.set(hostEl, chart);
+        colors: ["#00cae3"],
+      };
+      const chart = new ApexCharts(container, options);
+      await chart.render();
+
+      // Final check before storing instance
+      if (container.isConnected) {
+        this.instances.set(container, chart);
+      } else {
+        chart.destroy();
+      }
+    } catch (error) {
+      // Silently handle errors during SSR or when element is removed
+      if (this.isBrowser && container.isConnected) {
+        console.error("[WelcomeService] Error rendering radial chart:", error);
+      }
+    }
   }
   destroy(hostEl: Element): void {
     const current = this.instances.get(hostEl);

@@ -26,12 +26,30 @@
                                     position: absolute;
                                     transform: translateY(-50%);
                                 }
+                                .overview-icon {
+                                    color: var(--daxaColor) !important;
+                                    font-variation-settings: 
+                                        'FILL' 0,
+                                        'wght' 400,
+                                        'GRAD' 0,
+                                        'opsz' 48;
+                                }
+                            }
+                        }
+                        > span {
+                            min-width: 60px;
+                            text-align: right;
+                            &:last-child {
+                                margin-left: 12px;
                             }
                         }
                         &:nth-child(2) {
                             .title {
                                 .icon {
                                     color: var(--infoColor);
+                                    .overview-icon {
+                                        color: var(--daxaColor) !important;
+                                    }
                                 }
                             }
                         }
@@ -39,6 +57,9 @@
                             .title {
                                 .icon {
                                     color: var(--primaryColor);
+                                    .overview-icon {
+                                        color: var(--daxaColor) !important;
+                                    }
                                 }
                             }
                         }
@@ -46,6 +67,9 @@
                             .title {
                                 .icon {
                                     color: var(--warningColor);
+                                    .overview-icon {
+                                        color: var(--daxaColor) !important;
+                                    }
                                 }
                             }
                         }

@@ -1,12 +1,13 @@
 import {
-  afterNextRender,
   Component,
   DestroyRef,
   ElementRef,
   computed,
   inject,
   signal,
-  viewChild,
+  ViewChild,
+  AfterViewInit,
+  effect,
 } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
@@ -28,14 +29,16 @@ import { PatientDetailStore } from "../../../../../data-access/stores/patient-de
   styleUrl: "./patients-welcome.component.scss",
   providers: [DatePipe],
 })
-export class PatientsWelcomeComponent {
+export class PatientsWelcomeComponent implements AfterViewInit {
   currentDate = signal(new Date());
 
   public themeService = inject(CustomizerSettingsService);
   private welcomeService = inject(WelcomeService);
   private readonly patientDetailStore = inject(PatientDetailStore);
   private destroyRef = inject(DestroyRef);
-  protected chartEl = viewChild<ElementRef<HTMLDivElement>>("chartEl");
+
+  @ViewChild("mpWelcomeChart", { static: false })
+  chartRef!: ElementRef<HTMLDivElement>;
 
   protected readonly headerInfo = computed(() =>
     this.patientDetailStore.viewModel(),
@@ -44,14 +47,23 @@ export class PatientsWelcomeComponent {
   protected readonly photoInitials = computed(() =>
     this.buildInitials(this.headerInfo().fullName),
   );
+  protected readonly bmi = computed(() => this.patientDetailStore.bmi());
 
   constructor() {
-    afterNextRender(async () => {
-      const el = this.chartEl()?.nativeElement;
-      if (el) {
-        await this.welcomeService.renderRadial(el, 69);
+    // Update chart when BMI changes
+    effect(() => {
+      const bmiValue = this.bmi();
+      const chartEl = this.chartRef?.nativeElement;
+      if (chartEl && bmiValue !== null && typeof window !== "undefined") {
+        // Use setTimeout to avoid signal writes during effect execution
+        setTimeout(() => {
+          if (chartEl.isConnected) {
+            this.welcomeService.loadChart(chartEl, bmiValue);
+          }
+        }, 0);
       }
     });
+
     let id: number | undefined;
     if (typeof window !== "undefined") {
       id = window.setInterval(() => {
@@ -61,10 +73,18 @@ export class PatientsWelcomeComponent {
     this.destroyRef.onDestroy(() => {
       if (id) {
         clearInterval(id);
-        const el = this.chartEl()?.nativeElement;
-        if (el) this.welcomeService.destroy(el);
+        if (this.chartRef?.nativeElement) {
+          this.welcomeService.destroy(this.chartRef.nativeElement);
+        }
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    const bmiValue = this.bmi();
+    if (this.chartRef?.nativeElement && bmiValue !== null) {
+      this.welcomeService.loadChart(this.chartRef.nativeElement, bmiValue);
+    }
   }
 
   private buildInitials(fullName?: string): string {

@@ -94,16 +94,28 @@ export class ApexChartManager {
     await this.waitForStableSize(el, signal);
     if (signal?.aborted || !el.isConnected) return;
 
-    const ApexCharts = (await import("apexcharts"))
-      .default as unknown as ApexCtor;
-    const chart = new ApexCharts(el, options);
-    await chart.render();
-
-    if (signal?.aborted || !el.isConnected) {
-      chart.destroy();
+    // Double-check element is still connected before creating chart
+    if (!el.isConnected || !el.parentElement) {
       return;
     }
-    this.instances.set(el, chart);
+
+    try {
+      const ApexCharts = (await import("apexcharts"))
+        .default as unknown as ApexCtor;
+      const chart = new ApexCharts(el, options);
+      await chart.render();
+
+      if (signal?.aborted || !el.isConnected) {
+        chart.destroy();
+        return;
+      }
+      this.instances.set(el, chart);
+    } catch (error) {
+      // Silently handle errors during SSR or when element is removed
+      if (this.isBrowser && el.isConnected) {
+        console.error("[ApexChartManager] Error mounting chart:", error);
+      }
+    }
   }
 
   private waitForStableSize(
@@ -111,15 +123,22 @@ export class ApexChartManager {
     signal?: AbortSignal,
   ): Promise<void> {
     return new Promise((resolve) => {
-      if (signal?.aborted || !el.isConnected) return resolve();
+      if (signal?.aborted || !el.isConnected || !el.parentElement) {
+        return resolve();
+      }
 
-      const hasSize = () => el.clientWidth > 0 && el.clientHeight > 0;
+      const hasSize = () =>
+        el.isConnected && el.clientWidth > 0 && el.clientHeight > 0;
       const twoFrames = (cb: () => void) =>
         requestAnimationFrame(() => requestAnimationFrame(cb));
 
       if (hasSize()) return twoFrames(resolve);
 
       const ro = new ResizeObserver(() => {
+        if (!el.isConnected) {
+          ro.disconnect();
+          return resolve();
+        }
         if (hasSize()) {
           ro.disconnect();
           twoFrames(resolve);
@@ -128,7 +147,7 @@ export class ApexChartManager {
       ro.observe(el);
 
       const tick = () => {
-        if (signal?.aborted) {
+        if (signal?.aborted || !el.isConnected) {
           ro.disconnect();
           return resolve();
         }

@@ -19,7 +19,7 @@
                         left: auto;
                         right: auto;
                     };
-                    img {
+                    img, i.material-symbols-outlined {
                         transform: translateY(-50%);
                         position: absolute;
                         top: 50%;
@@ -30,6 +30,18 @@
                             left: auto;
                             right: auto;
                         };
+                    }
+                    i.material-symbols-outlined {
+                        font-size: 50px;
+                        line-height: 1;
+                    }
+                    .overview-icon {
+                        color: var(--daxaColor) !important;
+                        font-variation-settings: 
+                            'FILL' 0,
+                            'wght' 400,
+                            'GRAD' 0,
+                            'opsz' 48;
                     }
                 }
                 .info {
