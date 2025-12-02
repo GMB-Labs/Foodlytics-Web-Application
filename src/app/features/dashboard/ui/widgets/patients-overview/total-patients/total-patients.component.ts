@@ -7,6 +7,7 @@ import {
   signal,
 } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { CustomizerSettingsService } from "../../../../../../core/customizer-settings/customizer-settings.service";
 import { PatientsApiService } from "../../../../../patients/data-access/api/patients.api";
 import { PatientPictureApiService } from "../../../../../patients/data-access/api/patient-picture.api";
@@ -22,7 +23,7 @@ interface PatientWithAvatar extends Patient {
 
 @Component({
   selector: "app-total-patients",
-  imports: [MatCardModule],
+  imports: [MatCardModule, MatProgressSpinnerModule],
   templateUrl: "./total-patients.component.html",
   styleUrl: "./total-patients.component.scss",
 })
@@ -114,11 +115,14 @@ export class TotalPatientsComponent implements OnInit {
   }
 
   private updatePatientAvatar(userId: string, avatarUrl: string): void {
-    this.patientsSignal.update((patients) =>
-      patients.map((p) =>
-        p.user_id === userId ? { ...p, avatarUrl } : p,
-      ),
-    );
+    // Defer update to next cycle to avoid NG0100
+    setTimeout(() => {
+      this.patientsSignal.update((patients) =>
+        patients.map((p) =>
+          p.user_id === userId ? { ...p, avatarUrl } : p,
+        ),
+      );
+    }, 0);
   }
 
   private resolveAvatarUrl(userId?: string | null): string {

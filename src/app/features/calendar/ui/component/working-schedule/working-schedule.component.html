@@ -67,34 +67,42 @@
         </button>
       </div>
     } @else {
-      <div class="compact-events">
-        <h5>Upcoming Events</h5>
-        @if (upcomingEvents().length > 0) {
-          <ul class="mt-0 pl-0 list-unstyled mb-0">
-            @for (
-              event of upcomingEvents();
-              track trackByEventId($index, event)
-            ) {
-              <li class="position-relative d-flex align-items-start">
-                <span [class]="getEventDotClass(event)"></span>
-                <div class="event-body">
-                  <p>{{ event.event_name }}</p>
-                  <span class="d-block text-daxa">
-                    {{ getFormattedDate(event) }}
-                    @if (getFormattedTime(event); as time) {
-                      <span class="text-body">({{ time }})</span>
-                    }
-                  </span>
-                </div>
-              </li>
-            }
-          </ul>
-        } @else {
-          <p class="no-events text-body mb-0">
-            No upcoming events scheduled.
-          </p>
-        }
-      </div>
+      @if (isLoading()) {
+        <div class="loading-container">
+          <div class="spinner-wrapper">
+            <mat-spinner diameter="40"></mat-spinner>
+          </div>
+        </div>
+      } @else {
+        <div class="compact-events">
+          <h5>Upcoming Events</h5>
+          @if (upcomingEvents().length > 0) {
+            <ul class="mt-0 pl-0 list-unstyled mb-0">
+              @for (
+                event of upcomingEvents();
+                track trackByEventId($index, event)
+              ) {
+                <li class="position-relative d-flex align-items-start">
+                  <span [class]="getEventDotClass(event)"></span>
+                  <div class="event-body">
+                    <p>{{ event.event_name }}</p>
+                    <span class="d-block text-daxa">
+                      {{ getFormattedDate(event) }}
+                      @if (getFormattedTime(event); as time) {
+                        <span class="text-body">({{ time }})</span>
+                      }
+                    </span>
+                  </div>
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="no-events text-body mb-0">
+              No upcoming events scheduled.
+            </p>
+          }
+        </div>
+      }
     }
   </mat-card-content>
 </mat-card>

@@ -28,6 +28,7 @@ import { CalendarService } from "../../../data-access/services/calendar.service"
 import { CalendarEvent } from "../../../domain/models";
 import { take } from "rxjs/operators";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 @Component({
   selector: "app-working-schedule:not(p)",
@@ -40,6 +41,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
     MatInputModule,
     MatTooltipModule,
     ReactiveFormsModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: "./working-schedule.component.html",
   styleUrl: "./working-schedule.component.scss",
@@ -62,6 +64,7 @@ export class WorkingScheduleComponent implements OnInit {
   readonly events = this.calendarService.events;
   private readonly selectedDateSignal = signal<Date>(this.getToday());
   readonly selectedDate = computed(() => this.selectedDateSignal());
+  readonly isLoading = signal(false);
 
   readonly eventsForSelectedDate = computed(() => {
     if (!this.isFullMode()) {
@@ -104,11 +107,16 @@ export class WorkingScheduleComponent implements OnInit {
       return;
     }
 
+    this.isLoading.set(true);
     this.calendarService
       .loadEvents()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
+        next: () => {
+          this.isLoading.set(false);
+        },
         error: (error) => {
+          this.isLoading.set(false);
           this.logger.error(
             "[WorkingScheduleComponent] Error loading events",
             error,

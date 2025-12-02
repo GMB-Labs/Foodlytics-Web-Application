@@ -3,6 +3,20 @@
     &.daxa-card {
         &.working-schedule-card {
             .mat-mdc-card-content {
+                .loading-container {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-height: 300px;
+                    width: 100%;
+
+                    .spinner-wrapper {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                }
+
                 .events-content {
                     margin-bottom: 15px;
                     

@@ -7,6 +7,7 @@ import {
   signal,
 } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { CustomizerSettingsService } from "../../../../../../core/customizer-settings/customizer-settings.service";
 import { PatientsApiService } from "../../../../../patients/data-access/api/patients.api";
 import { Patient } from "../../../../../patients/domain/models";
@@ -16,7 +17,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: "app-completed-profiles",
-  imports: [MatCardModule],
+  imports: [MatCardModule, MatProgressSpinnerModule],
   templateUrl: "./completed-profiles.component.html",
   styleUrl: "./completed-profiles.component.scss",
 })

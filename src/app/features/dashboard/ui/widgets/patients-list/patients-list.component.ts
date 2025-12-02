@@ -5,6 +5,7 @@ import {
   OnInit,
   DestroyRef,
   inject,
+  signal,
 } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
@@ -20,6 +21,7 @@ import { LoggerService } from "../../../../../core/logger/logger.service";
 import { Patient } from "../../../../patients/domain/models";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { finalize, take } from "rxjs/operators";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 @Component({
   selector: "app-patients-list",
@@ -30,6 +32,7 @@ import { finalize, take } from "rxjs/operators";
     MatPaginatorModule,
     MatTooltipModule,
     RouterLink,
+    MatProgressSpinnerModule,
   ],
   templateUrl: "./patients-list.component.html",
   styleUrl: "./patients-list.component.scss",
@@ -57,7 +60,7 @@ export class PatientsListComponent implements OnInit, AfterViewInit {
   private readonly logger = inject(LoggerService);
   private readonly destroyRef = inject(DestroyRef);
 
-  isLoadingPatients = false;
+  readonly isLoading = signal(false);
 
   private readonly fallbackAvatars: string[] = [
     "assets/images/users/user1.webp",
@@ -80,13 +83,13 @@ export class PatientsListComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.isLoadingPatients = true;
+    this.isLoading.set(true);
     this.patientsApi
       .getPatientsByNutritionist(userId)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => {
-          this.isLoadingPatients = false;
+          this.isLoading.set(false);
         }),
       )
       .subscribe({
@@ -142,8 +145,11 @@ export class PatientsListComponent implements OnInit, AfterViewInit {
             return;
           }
 
-          row.avatarUrl = pictureUrl;
-          this.refreshRenderedRows();
+          // Defer update to next cycle to avoid NG0100
+          setTimeout(() => {
+            row.avatarUrl = pictureUrl;
+            this.refreshRenderedRows();
+          }, 0);
         });
     });
   }

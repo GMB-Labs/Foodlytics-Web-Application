@@ -9,8 +9,15 @@
   </mat-card-header>
   <mat-card-content>
     <div class="patients-list-table">
-      <div class="table-responsive">
-        <table mat-table [dataSource]="dataSource">
+      @if (isLoading()) {
+        <div class="loading-container">
+          <div class="spinner-wrapper">
+            <mat-spinner diameter="40"></mat-spinner>
+          </div>
+        </div>
+      } @else {
+        <div class="table-responsive">
+          <table mat-table [dataSource]="dataSource">
           <!-- Photo Column -->
           <ng-container matColumnDef="photo">
             <th mat-header-cell *matHeaderCellDef>Photo</th>
@@ -119,14 +126,15 @@
             </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-        </table>
-      </div>
-      <mat-paginator
-        [pageSizeOptions]="[5, 10, 20]"
-        showFirstLastButtons
-      ></mat-paginator>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </div>
+        <mat-paginator
+          [pageSizeOptions]="[5, 10, 20]"
+          showFirstLastButtons
+        ></mat-paginator>
+      }
     </div>
   </mat-card-content>
 </mat-card>
