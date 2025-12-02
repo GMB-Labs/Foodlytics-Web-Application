@@ -8,6 +8,22 @@
                     right: -20px;
                 };
                 .to-do-list-table {
+                    position: relative;
+
+                    .loading-container {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        min-height: 300px;
+                        width: 100%;
+
+                        .spinner-wrapper {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                        }
+                    }
+
                     .mat-mdc-table {
                         .mat-mdc-header-cell {
                             &:last-child {
@@ -64,9 +80,6 @@
                                 background: rgba(46, 212, 126, 0.10);
                             }
                         }
-                    }
-                    .loading-overlay {
-                        padding: 20px 0;
                     }
                 }
             }
