@@ -1,4 +1,5 @@
 import { Component, computed, inject } from "@angular/core";
+import { ChangeDetectionStrategy } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
 import { CustomizerSettingsService } from "../../../../../../../core/customizer-settings/customizer-settings.service";
 import { NgOptimizedImage } from "@angular/common";
@@ -9,6 +10,7 @@ import { PatientDetailStore } from "../../../../../data-access/stores/patient-de
   imports: [MatCardModule, NgOptimizedImage],
   templateUrl: "./height-card.component.html",
   styleUrl: "./height-card.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeightCardComponent {
   private readonly patientDetailStore = inject(PatientDetailStore);
@@ -16,5 +18,5 @@ export class HeightCardComponent {
     () => this.patientDetailStore.viewModel().heightDisplay,
   );
 
-  constructor(public themeService: CustomizerSettingsService) {}
+  readonly themeService = inject(CustomizerSettingsService);
 }

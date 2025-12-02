@@ -13,7 +13,6 @@ import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-invite-code-dialog",
-  standalone: true,
   imports: [
     CommonModule,
     MatDialogModule,

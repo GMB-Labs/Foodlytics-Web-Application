@@ -3,14 +3,12 @@ import {
   Component,
   ElementRef,
   EnvironmentInjector,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
   ViewChild,
   afterNextRender,
+  effect,
   inject,
+  input,
+  output,
   runInInjectionContext,
 } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
@@ -59,13 +57,13 @@ export interface AddTaskDialogFormValue {
   templateUrl: "./add-task-dialog.component.html",
   styleUrl: "./add-task-dialog.component.scss",
 })
-export class AddTaskDialogComponent implements OnChanges {
-  @Input() open = false;
-  @Input() status: KanbanTaskStatus = "backlog";
-  @Input() loading = false;
+export class AddTaskDialogComponent {
+  open = input(false);
+  status = input<KanbanTaskStatus>("backlog");
+  loading = input(false);
 
-  @Output() closed = new EventEmitter<void>();
-  @Output() create = new EventEmitter<AddTaskDialogFormValue>();
+  closed = output<void>();
+  create = output<AddTaskDialogFormValue>();
 
   readonly themeService = inject(CustomizerSettingsService);
   private readonly fb = inject(FormBuilder);
@@ -90,22 +88,28 @@ export class AddTaskDialogComponent implements OnChanges {
   private taskNameInputElement?: ElementRef<HTMLInputElement>;
 
   private previouslyFocusedElement: HTMLElement | null = null;
+  private wasOpen = false;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes["open"]) {
-      const opened = changes["open"].currentValue === true;
-      const wasOpen = changes["open"].previousValue === true;
-      if (opened && !wasOpen) {
-        this.form.reset();
-        this.onDialogOpened();
-      } else if (!opened && wasOpen) {
-        this.onDialogClosed();
-      }
-    }
+  constructor() {
+    // Watch for changes in the open() signal
+    effect(
+      () => {
+        const opened = this.open();
+        if (opened && !this.wasOpen) {
+          this.form.reset();
+          this.onDialogOpened();
+          this.wasOpen = true;
+        } else if (!opened && this.wasOpen) {
+          this.onDialogClosed();
+          this.wasOpen = false;
+        }
+      },
+      { injector: this.injector },
+    );
   }
 
   onCancel(): void {
-    if (this.loading) {
+    if (this.loading()) {
       return;
     }
     this.form.reset();
@@ -113,7 +117,7 @@ export class AddTaskDialogComponent implements OnChanges {
   }
 
   submit(): void {
-    if (this.form.invalid || this.loading) {
+    if (this.form.invalid || this.loading()) {
       this.form.markAllAsTouched();
       return;
     }
@@ -131,7 +135,7 @@ export class AddTaskDialogComponent implements OnChanges {
   }
 
   private focusFirstField(): void {
-    if (!this.open) {
+    if (!this.open()) {
       return;
     }
     const input = this.taskNameInputElement?.nativeElement;

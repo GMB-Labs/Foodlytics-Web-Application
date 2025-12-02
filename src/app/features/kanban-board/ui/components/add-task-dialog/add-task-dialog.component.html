@@ -1,14 +1,14 @@
 <div
   #dialogRoot
   class="add-another-task-popup"
-  [class.active]="open"
+  [class.active]="open()"
   [class.rtl-enabled]="themeService.isRTLEnabled()"
   role="dialog"
   aria-modal="true"
   aria-labelledby="addTaskDialogTitle"
   tabindex="-1"
-  [attr.aria-hidden]="open ? null : 'true'"
-  [attr.inert]="open ? null : ''"
+  [attr.aria-hidden]="open() ? null : 'true'"
+  [attr.inert]="open() ? null : ''"
 >
   <div class="popup-dialog">
     <mat-card
@@ -118,9 +118,9 @@
               mat-button
               color="primary"
               type="submit"
-              [disabled]="loading"
+              [disabled]="loading()"
             >
-              {{ loading ? "Creating..." : "Create" }}
+              {{ loading() ? "Creating..." : "Create" }}
             </button>
           </div>
         </form>

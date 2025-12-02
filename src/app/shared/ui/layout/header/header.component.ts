@@ -2,7 +2,6 @@ import { Location, NgClass, NgOptimizedImage } from "@angular/common";
 import { MatMenuModule } from "@angular/material/menu";
 import {
   Component,
-  HostListener,
   Injector,
   computed,
   effect,
@@ -29,6 +28,9 @@ import { take } from "rxjs";
   ],
   templateUrl: "./header.component.html",
   styleUrl: "./header.component.scss",
+  host: {
+    "(window:scroll)": "checkScroll()",
+  },
 })
 export class HeaderComponent {
   private readonly logger = inject(LoggerService);
@@ -121,7 +123,6 @@ export class HeaderComponent {
 
   // Navbar Sticky
   isSticky = false;
-  @HostListener("window:scroll")
   checkScroll() {
     const scrollPosition =
       window.scrollY ||
