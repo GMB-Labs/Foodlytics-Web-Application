@@ -1,12 +1,12 @@
 .mat-mdc-card {
     &.daxa-card {
-        &.all-projects-card {
+        &.patients-list-card {
             .mat-mdc-card-content {
                 margin: {
                     left: -20px;
                     right: -20px;
                 };
-                .all-projects-table {
+                .patients-list-table {
                     .mat-mdc-table {
                         .mat-mdc-header-cell {
                             padding: {
@@ -63,7 +63,7 @@
             }
             &.rtl-enabled {
                 .mat-mdc-card-content {
-                    .all-projects-table {
+                    .patients-list-table {
                         .mat-mdc-table {
                             .mat-mdc-header-cell {
                                 &:last-child {
@@ -91,9 +91,9 @@
 ::ng-deep {
     .mat-mdc-card {
         &.daxa-card {
-            &.all-projects-card {
+            &.patients-list-card {
                 .mat-mdc-card-content {
-                    .all-projects-table {
+                    .patients-list-table {
                         .mat-mdc-paginator {
                             padding: {
                                 top: 15px;
@@ -113,13 +113,13 @@
 
     .mat-mdc-card {
         &.daxa-card {
-            &.all-projects-card {
+            &.patients-list-card {
                 .mat-mdc-card-content {
                     margin: {
                         left: -15px;
                         right: -15px;
                     };
-                    .all-projects-table {
+                    .patients-list-table {
                         .mat-mdc-table {
                             .mat-mdc-cell {
                                 padding: {
@@ -136,7 +136,7 @@
     ::ng-deep {
         .mat-mdc-card {
             &.daxa-card {
-                &.all-projects-card {
+                &.patients-list-card {
                     .mat-mdc-card-header {
                         .mat-mdc-card-header-text {
                             display: block;
@@ -147,7 +147,7 @@
                         }
                     }
                     .mat-mdc-card-content {
-                        .all-projects-table {
+                        .patients-list-table {
                             .mat-mdc-paginator {
                                 padding: {
                                     top: 10px;
@@ -169,7 +169,7 @@
 
     .mat-mdc-card {
         &.daxa-card {
-            &.all-projects-card {
+            &.patients-list-card {
                 .mat-mdc-card-content {
                     margin: {
                         left: -20px;
@@ -182,9 +182,9 @@
     ::ng-deep {
         .mat-mdc-card {
             &.daxa-card {
-                &.all-projects-card {
+                &.patients-list-card {
                     .mat-mdc-card-content {
-                        .all-projects-table {
+                        .patients-list-table {
                             .mat-mdc-paginator {
                                 padding: {
                                     left: 20px;
@@ -208,9 +208,9 @@
 
     .mat-mdc-card {
         &.daxa-card {
-            &.all-projects-card {
+            &.patients-list-card {
                 .mat-mdc-card-content {
-                    .all-projects-table {
+                    .patients-list-table {
                         .mat-mdc-table {
                             .mat-mdc-header-cell {
                                 padding: {
@@ -238,9 +238,9 @@
 
     .mat-mdc-card {
         &.daxa-card {
-            &.all-projects-card {
+            &.patients-list-card {
                 .mat-mdc-card-content {
-                    .all-projects-table {
+                    .patients-list-table {
                         .mat-mdc-table {
                             .mat-mdc-header-cell {
                                 padding: {
@@ -268,9 +268,9 @@
 
     .mat-mdc-card {
         &.daxa-card {
-            &.all-projects-card {
+            &.patients-list-card {
                 .mat-mdc-card-content {
-                    .all-projects-table {
+                    .patients-list-table {
                         .mat-mdc-table {
                             .mat-mdc-header-cell {
                                 padding: {

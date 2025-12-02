@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
-import { ProjectsOverviewComponent } from "./widgets/projects-overview/projects-overview.component";
-import { AllProjectsComponent } from "./widgets/all-projects/all-projects.component";
+import { PatientsOverviewComponent } from "./widgets/patients-overview/patients-overview.component";
+import { PatientsListComponent } from "./widgets/patients-list/patients-list.component";
 import { WorkingScheduleComponent } from "../../calendar/ui/component/working-schedule/working-schedule.component";
 import { KanbanListComponent } from "./widgets/kanban/kanban-list.component";
 
@@ -9,18 +9,18 @@ import { KanbanListComponent } from "./widgets/kanban/kanban-list.component";
   template: `
       <div class="row">
           <div class="col-lg-12 col-xxxl-8">
-              <app-projects-overview />
-              <app-all-projects />
-              <app-kanban-list />
+              <app-patients-overview />
+              <app-patients-list />
           </div>
           <div class="col-lg-12 col-xxxl-4">
               <app-working-schedule mode="compact" />
+              <app-kanban-list />
           </div>
       </div>
   `,
   imports: [
-    ProjectsOverviewComponent,
-    AllProjectsComponent,
+    PatientsOverviewComponent,
+    PatientsListComponent,
     WorkingScheduleComponent,
     KanbanListComponent
   ],

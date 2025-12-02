@@ -15,12 +15,12 @@ import { LoggerService } from "../../../../../../core/logger/logger.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
-  selector: "app-completed-projects",
+  selector: "app-completed-profiles",
   imports: [MatCardModule],
-  templateUrl: "./completed-projects.component.html",
-  styleUrl: "./completed-projects.component.scss",
+  templateUrl: "./completed-profiles.component.html",
+  styleUrl: "./completed-profiles.component.scss",
 })
-export class CompletedProjectsComponent implements OnInit {
+export class CompletedProfilesComponent implements OnInit {
   private readonly patientsApi = inject(PatientsApiService);
   private readonly userStore = inject(UserStore);
   private readonly logger = inject(LoggerService);
@@ -55,7 +55,7 @@ export class CompletedProjectsComponent implements OnInit {
     const nutritionistId = this.userStore.userId();
     if (!nutritionistId) {
       this.logger.error(
-        "[CompletedProjectsComponent] Missing nutritionist user id when loading patients",
+        "[CompletedProfilesComponent] Missing nutritionist user id when loading patients",
       );
       return;
     }
@@ -71,7 +71,7 @@ export class CompletedProjectsComponent implements OnInit {
         },
         error: (error: unknown) => {
           this.logger.error(
-            "[CompletedProjectsComponent] Error loading patients",
+            "[CompletedProfilesComponent] Error loading patients",
             error,
           );
           this.loadingSignal.set(false);

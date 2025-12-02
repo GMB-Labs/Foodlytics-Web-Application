@@ -22,7 +22,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { finalize, take } from "rxjs/operators";
 
 @Component({
-  selector: "app-all-projects",
+  selector: "app-patients-list",
   imports: [
     MatCardModule,
     MatButtonModule,
@@ -31,10 +31,10 @@ import { finalize, take } from "rxjs/operators";
     MatTooltipModule,
     RouterLink,
   ],
-  templateUrl: "./all-projects.component.html",
-  styleUrl: "./all-projects.component.scss",
+  templateUrl: "./patients-list.component.html",
+  styleUrl: "./patients-list.component.scss",
 })
-export class AllProjectsComponent implements OnInit, AfterViewInit {
+export class PatientsListComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = [
     "photo",
     "fullName",
@@ -75,7 +75,7 @@ export class AllProjectsComponent implements OnInit, AfterViewInit {
     const userId = this.userStore.userId();
     if (!userId) {
       this.logger.error(
-        "[AllProjectsComponent] Missing nutritionist user id when loading patients",
+        "[PatientsListComponent] Missing nutritionist user id when loading patients",
       );
       return;
     }
@@ -95,7 +95,7 @@ export class AllProjectsComponent implements OnInit, AfterViewInit {
         },
         error: (error) => {
           this.logger.error(
-            "[AllProjectsComponent] Error loading patients",
+            "[PatientsListComponent] Error loading patients",
             error,
           );
         },
@@ -206,7 +206,7 @@ export class AllProjectsComponent implements OnInit, AfterViewInit {
 
   onDeletePatient(row: PatientTableItem): void {
     this.logger.log(
-      "[AllProjectsComponent] Delete patient requested",
+      "[PatientsListComponent] Delete patient requested",
       row.user_id,
     );
   }

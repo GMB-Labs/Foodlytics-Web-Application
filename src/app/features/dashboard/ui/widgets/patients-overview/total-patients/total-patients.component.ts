@@ -21,12 +21,12 @@ interface PatientWithAvatar extends Patient {
 }
 
 @Component({
-  selector: "app-total-members",
+  selector: "app-total-patients",
   imports: [MatCardModule],
-  templateUrl: "./total-members.component.html",
-  styleUrl: "./total-members.component.scss",
+  templateUrl: "./total-patients.component.html",
+  styleUrl: "./total-patients.component.scss",
 })
-export class TotalMembersComponent implements OnInit {
+export class TotalPatientsComponent implements OnInit {
   private readonly patientsApi = inject(PatientsApiService);
   private readonly patientPictureApi = inject(PatientPictureApiService);
   private readonly userStore = inject(UserStore);
@@ -65,7 +65,7 @@ export class TotalMembersComponent implements OnInit {
     const nutritionistId = this.userStore.userId();
     if (!nutritionistId) {
       this.logger.error(
-        "[TotalMembersComponent] Missing nutritionist user id when loading patients",
+        "[TotalPatientsComponent] Missing nutritionist user id when loading patients",
       );
       return;
     }
@@ -86,7 +86,7 @@ export class TotalMembersComponent implements OnInit {
         },
         error: (error: unknown) => {
           this.logger.error(
-            "[TotalMembersComponent] Error loading patients",
+            "[TotalPatientsComponent] Error loading patients",
             error,
           );
           this.loadingSignal.set(false);
