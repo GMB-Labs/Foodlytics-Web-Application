@@ -214,6 +214,18 @@
                         display: block;
                         flex-shrink: 0;
                     }
+                    .avatar-placeholder {
+                        width: 48px;
+                        height: 48px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background-color: #e6e8ec;
+                        color: var(--daxaColor);
+                        font-weight: 700;
+                        text-transform: uppercase;
+                    }
                     &::after {
                         top: 50%;
                         right: -3px;
@@ -773,6 +785,18 @@
                     object-fit: cover;
                     display: block;
                     flex-shrink: 0;
+                }
+                .avatar-placeholder {
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #e6e8ec;
+                    color: var(--daxaColor);
+                    font-weight: 700;
+                    text-transform: uppercase;
                 }
                 .title {
                     margin-left: 12px;

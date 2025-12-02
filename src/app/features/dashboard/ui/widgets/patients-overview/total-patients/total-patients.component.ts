@@ -18,7 +18,8 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { take } from "rxjs/operators";
 
 interface PatientWithAvatar extends Patient {
-  avatarUrl: string;
+  avatarUrl: string | null;
+  initials: string;
 }
 
 @Component({
@@ -43,19 +44,6 @@ export class TotalPatientsComponent implements OnInit {
     return this.patientsSignal().slice(0, 5);
   });
 
-  private readonly fallbackAvatars: string[] = [
-    "assets/images/users/user1.webp",
-    "assets/images/users/user2.webp",
-    "assets/images/users/user3.webp",
-    "assets/images/users/user4.webp",
-    "assets/images/users/user5.webp",
-    "assets/images/users/user12.webp",
-    "assets/images/users/user13.webp",
-    "assets/images/users/user14.webp",
-    "assets/images/users/user15.webp",
-    "assets/images/users/user16.webp",
-  ];
-
   constructor(public themeService: CustomizerSettingsService) {}
 
   ngOnInit(): void {
@@ -77,20 +65,23 @@ export class TotalPatientsComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (patients: Patient[]) => {
-          const patientsWithAvatars = (patients ?? []).map((p) => ({
-            ...p,
-            avatarUrl: this.resolveAvatarUrl(p.user_id),
-          }));
-          this.patientsSignal.set(patientsWithAvatars);
-          this.loadProfilePictures(patientsWithAvatars.slice(0, 5));
-          this.loadingSignal.set(false);
+          queueMicrotask(() => {
+            const patientsWithAvatars = (patients ?? []).map((p) => ({
+              ...p,
+              avatarUrl: null,
+              initials: this.buildInitials(p.first_name, p.last_name),
+            }));
+            this.patientsSignal.set(patientsWithAvatars);
+            this.loadProfilePictures(patientsWithAvatars.slice(0, 5));
+            this.loadingSignal.set(false);
+          });
         },
         error: (error: unknown) => {
           this.logger.error(
             "[TotalPatientsComponent] Error loading patients",
             error,
           );
-          this.loadingSignal.set(false);
+          queueMicrotask(() => this.loadingSignal.set(false));
         },
       });
   }
@@ -115,29 +106,26 @@ export class TotalPatientsComponent implements OnInit {
   }
 
   private updatePatientAvatar(userId: string, avatarUrl: string): void {
-    // Defer update to next cycle to avoid NG0100
-    setTimeout(() => {
+    queueMicrotask(() => {
       this.patientsSignal.update((patients) =>
         patients.map((p) =>
           p.user_id === userId ? { ...p, avatarUrl } : p,
         ),
       );
-    }, 0);
+    });
   }
 
-  private resolveAvatarUrl(userId?: string | null): string {
-    const fallbackIndex =
-      Math.abs(this.hashString(userId ?? "")) % this.fallbackAvatars.length;
-    return this.fallbackAvatars[fallbackIndex];
-  }
+  private buildInitials(
+    firstName?: string | null,
+    lastName?: string | null,
+  ): string {
+    const initials = [firstName, lastName]
+      .map((value) => (value ?? "").trim())
+      .filter(Boolean)
+      .map((value) => value[0]?.toUpperCase() ?? "")
+      .join("")
+      .slice(0, 2);
 
-  private hashString(value: string): number {
-    if (!value) return 0;
-    let hash = 0;
-    for (let i = 0; i < value.length; i += 1) {
-      hash = (hash << 5) - hash + value.charCodeAt(i);
-      hash |= 0;
-    }
-    return hash;
+    return initials || "P";
   }
 }

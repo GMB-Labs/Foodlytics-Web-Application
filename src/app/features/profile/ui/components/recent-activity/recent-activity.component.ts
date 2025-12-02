@@ -9,13 +9,15 @@ import {
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatMenuModule } from "@angular/material/menu";
-import { DatePipe, NgOptimizedImage } from "@angular/common";
+import { DatePipe } from "@angular/common";
 import { CustomizerSettingsService } from "../../../../../core/customizer-settings/customizer-settings.service";
 import { PatientsApiService } from "../../../../patients/data-access/api/patients.api";
+import { PatientPictureApiService } from "../../../../patients/data-access/api/patient-picture.api";
 import { Patient } from "../../../../patients/domain/models";
 import { UserStore } from "../../../../../core/user/user.store";
 import { LoggerService } from "../../../../../core/logger/logger.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { take } from "rxjs";
 
 @Component({
   selector: "app-recent-activity:not(p)",
@@ -23,7 +25,6 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
     MatCardModule,
     MatMenuModule,
     MatButtonModule,
-    NgOptimizedImage,
     DatePipe,
   ],
   templateUrl: "./recent-activity.component.html",
@@ -33,6 +34,7 @@ export class RecentActivityComponent implements OnInit {
   private static readonly MAX_ITEMS = 5;
 
   private readonly patientsApi = inject(PatientsApiService);
+  private readonly patientPictureApi = inject(PatientPictureApiService);
   private readonly userStore = inject(UserStore);
   private readonly logger = inject(LoggerService);
   private readonly destroyRef = inject(DestroyRef);
@@ -44,14 +46,6 @@ export class RecentActivityComponent implements OnInit {
   protected readonly activities = computed(() => this.activitiesSignal());
   protected readonly loading = computed(() => this.loadingSignal());
   protected readonly error = computed(() => this.errorSignal());
-
-  private readonly fallbackAvatars: string[] = [
-    "assets/images/users/user1.webp",
-    "assets/images/users/user2.webp",
-    "assets/images/users/user3.webp",
-    "assets/images/users/user4.webp",
-    "assets/images/users/user5.webp",
-  ];
 
   constructor(public themeService: CustomizerSettingsService) {}
 
@@ -75,7 +69,9 @@ export class RecentActivityComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (patients: Patient[]) => {
-          this.activitiesSignal.set(this.mapPatientsToActivity(patients ?? []));
+          const activities = this.mapPatientsToActivity(patients ?? []);
+          this.activitiesSignal.set(activities);
+          this.loadProfilePictures(activities);
           this.errorSignal.set(null);
           this.loadingSignal.set(false);
         },
@@ -100,9 +96,36 @@ export class RecentActivityComponent implements OnInit {
       .map((patient) => ({
         id: patient.user_id,
         fullName: this.buildFullName(patient.first_name, patient.last_name),
-        avatarUrl: this.resolveAvatarUrl(patient.user_id),
+        avatarUrl: null,
+        initials: this.buildInitials(patient.first_name, patient.last_name),
+        hasProfilePicture: patient.has_profile_picture,
         joinedAt: patient.created_at,
       }));
+  }
+
+  private loadProfilePictures(activities: RecentActivityListItem[]): void {
+    activities.forEach((activity) => {
+      if (!activity.hasProfilePicture) {
+        return;
+      }
+
+      this.patientPictureApi
+        .getProfilePicture(activity.id)
+        .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+        .subscribe((pictureUrl) => {
+          if (!pictureUrl) {
+            return;
+          }
+
+          queueMicrotask(() => {
+            this.activitiesSignal.update((items) =>
+              items.map((item) =>
+                item.id === activity.id ? { ...item, avatarUrl: pictureUrl } : item,
+              ),
+            );
+          });
+        });
+    });
   }
 
   private buildFullName(
@@ -115,20 +138,18 @@ export class RecentActivityComponent implements OnInit {
     return parts.length ? parts.join(" ") : "Paciente sin nombre";
   }
 
-  private resolveAvatarUrl(userId?: string | null): string {
-    const fallbackIndex =
-      Math.abs(this.hashString(userId ?? "")) % this.fallbackAvatars.length;
-    return this.fallbackAvatars[fallbackIndex];
-  }
+  private buildInitials(
+    firstName?: string | null,
+    lastName?: string | null,
+  ): string {
+    const initials = [firstName, lastName]
+      .map((value) => (value ?? "").trim())
+      .filter(Boolean)
+      .map((value) => value[0]?.toUpperCase() ?? "")
+      .join("")
+      .slice(0, 2);
 
-  private hashString(value: string): number {
-    if (!value) return 0;
-    let hash = 0;
-    for (let i = 0; i < value.length; i += 1) {
-      hash = (hash << 5) - hash + value.charCodeAt(i);
-      hash |= 0;
-    }
-    return hash;
+    return initials || "P";
   }
 
   private getDateValue(value?: string | null): number {
@@ -141,6 +162,8 @@ export class RecentActivityComponent implements OnInit {
 interface RecentActivityListItem {
   id: string;
   fullName: string;
-  avatarUrl: string;
+  avatarUrl: string | null;
+  initials: string;
+  hasProfilePicture: boolean;
   joinedAt: string | null | undefined;
 }

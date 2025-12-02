@@ -132,13 +132,19 @@
           [matMenuTriggerFor]="profileMenu"
           class="profile-menu-btn"
         >
-          <img
-            [ngSrc]="profileAvatar()"
-            alt="profile-image"
-            height="160"
-            width="160"
-            class="avatar-img"
-          />
+          @if (profileAvatar()) {
+            <img
+              [src]="profileAvatar()"
+              alt="profile-image"
+              height="48"
+              width="48"
+              class="avatar-img"
+            />
+          } @else {
+            <div class="avatar-placeholder avatar-img">
+              {{ profileInitials() }}
+            </div>
+          }
           <span
             class="status d-inline-block rounded-circle position-absolute"
           ></span>
@@ -154,13 +160,19 @@
             "
           >
             <div class="menu-header d-flex align-items-center">
-              <img
-                [ngSrc]="profileAvatar()"
-                alt="profile-image"
-                height="160"
-                width="160"
-                class="avatar-img"
-              />
+              @if (profileAvatar()) {
+                <img
+                  [src]="profileAvatar()"
+                  alt="profile-image"
+                  height="48"
+                  width="48"
+                  class="avatar-img"
+                />
+              } @else {
+                <div class="avatar-placeholder avatar-img">
+                  {{ profileInitials() }}
+                </div>
+              }
               <div class="title">
                 <a routerLink="/profile" class="d-inline-block fw-medium">
                   {{ profileName() || "Profile" }}

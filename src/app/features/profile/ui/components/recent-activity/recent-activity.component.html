@@ -17,13 +17,19 @@
       @for (activity of activities(); track activity.id) {
         <div class="item d-flex">
           <div class="image">
-            <img
-              [ngSrc]="activity.avatarUrl"
-              class="rounded-circle"
-              [alt]="activity.fullName"
-              height="200"
-              width="200"
-            />
+            @if (activity.avatarUrl) {
+              <img
+                [src]="activity.avatarUrl"
+                class="rounded-circle"
+                [alt]="activity.fullName"
+                height="50"
+                width="50"
+              />
+            } @else {
+              <div class="avatar-placeholder rounded-circle">
+                {{ activity.initials }}
+              </div>
+            }
           </div>
           <div class="content">
             <span class="title fw-medium"> {{ activity.fullName }} </span>

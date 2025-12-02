@@ -77,10 +77,6 @@ export class PatientsListComponent implements OnInit, AfterViewInit {
   isLoadingPatients = false;
   private currentFilterValue = "";
 
-  private readonly fallbackAvatars: string[] = [
-    "assets/images/users/user1.webp",
-  ];
-
   ngOnInit(): void {
     this.dataSource.filterPredicate = this.createFilterPredicate();
     this.loadPatients();
@@ -146,7 +142,11 @@ export class PatientsListComponent implements OnInit, AfterViewInit {
         patient.first_name,
         patient.last_name,
       ),
-      avatarUrl: this.resolveAvatarUrl(patient),
+      avatarUrl: null,
+      avatarInitials: this.buildInitials(
+        patient.first_name,
+        patient.last_name,
+      ),
       genderLabel: this.getGenderLabel(patient.gender),
       goalTypeLabel: this.getGoalTypeLabel(patient.goal_type),
       status: patient.user_profile_completed
@@ -173,8 +173,10 @@ export class PatientsListComponent implements OnInit, AfterViewInit {
             return;
           }
 
-          row.avatarUrl = pictureUrl;
-          this.refreshRenderedRows();
+          queueMicrotask(() => {
+            row.avatarUrl = pictureUrl;
+            this.refreshRenderedRows();
+          });
         });
     });
   }
@@ -193,21 +195,18 @@ export class PatientsListComponent implements OnInit, AfterViewInit {
     return parts.length ? parts.join(" ") : "Unnamed Patient";
   }
 
-  private resolveAvatarUrl(patient: Patient): string {
-    const fallbackIndex =
-      Math.abs(this.hashString(patient.user_id ?? "")) %
-      this.fallbackAvatars.length;
-    return this.fallbackAvatars[fallbackIndex];
-  }
+  private buildInitials(
+    firstName?: string | null,
+    lastName?: string | null,
+  ): string {
+    const initials = [firstName, lastName]
+      .map((value) => (value ?? "").trim())
+      .filter(Boolean)
+      .map((value) => value[0]?.toUpperCase() ?? "")
+      .join("")
+      .slice(0, 2);
 
-  private hashString(value: string): number {
-    if (!value) return 0;
-    let hash = 0;
-    for (let i = 0; i < value.length; i += 1) {
-      hash = (hash << 5) - hash + value.charCodeAt(i);
-      hash |= 0;
-    }
-    return hash;
+    return initials || "P";
   }
 
   private getGenderLabel(gender?: Patient["gender"] | null): string {
@@ -342,7 +341,8 @@ export class PatientsListComponent implements OnInit, AfterViewInit {
 
 interface PatientTableItem extends Patient {
   fullNameDisplay: string;
-  avatarUrl: string;
+  avatarUrl: string | null;
+  avatarInitials: string;
   genderLabel: string;
   goalTypeLabel: string;
   status: {

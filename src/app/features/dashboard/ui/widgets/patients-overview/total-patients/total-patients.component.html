@@ -17,15 +17,25 @@
         </div>
         <div class="users d-flex align-items-center">
           @for (patient of recentPatients(); track patient.user_id) {
-            <img
-              [src]="patient.avatarUrl"
-              [alt]="patient.first_name + ' ' + patient.last_name"
-              height="37"
-              width="37"
-            />
+            <div class="user-avatar">
+              @if (patient.avatarUrl) {
+                <img
+                  [src]="patient.avatarUrl"
+                  [alt]="patient.first_name + ' ' + patient.last_name"
+                  height="37"
+                  width="37"
+                />
+              } @else {
+                <div class="avatar-placeholder">
+                  {{ patient.initials }}
+                </div>
+              }
+            </div>
           }
           @if (totalPatients() > 5) {
-            <div class="fw-medium bg-primary fw-medium text-white rounded-circle">
+            <div
+              class="fw-medium bg-primary fw-medium text-white rounded-circle user-count"
+            >
               +{{ totalPatients() - 5 }}
             </div>
           }

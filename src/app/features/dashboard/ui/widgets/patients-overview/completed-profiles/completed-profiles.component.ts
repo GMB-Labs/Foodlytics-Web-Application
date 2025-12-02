@@ -67,15 +67,17 @@ export class CompletedProfilesComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (patients: Patient[]) => {
-          this.patientsSignal.set(patients ?? []);
-          this.loadingSignal.set(false);
+          queueMicrotask(() => {
+            this.patientsSignal.set(patients ?? []);
+            this.loadingSignal.set(false);
+          });
         },
         error: (error: unknown) => {
           this.logger.error(
             "[CompletedProfilesComponent] Error loading patients",
             error,
           );
-          this.loadingSignal.set(false);
+          queueMicrotask(() => this.loadingSignal.set(false));
         },
       });
   }

@@ -29,15 +29,39 @@
                     }
                 }
                 .users {
-                    img {
+                    .user-avatar {
                         width: 37px;
                         height: 37px;
                         border-radius: 50%;
                         margin-right: -15px;
                         border: 2px solid var(--whiteColor);
-                        object-fit: cover;
+                        overflow: hidden;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background-color: #e6e8ec;
+
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            border-radius: inherit;
+                            object-fit: cover;
+                            display: block;
+                        }
+                        .avatar-placeholder {
+                            width: 100%;
+                            height: 100%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            border-radius: inherit;
+                            color: var(--daxaColor);
+                            font-weight: 700;
+                            font-size: 14px;
+                            text-transform: uppercase;
+                        }
                     }
-                    div {
+                    .user-count {
                         width: 37px;
                         height: 37px;
                         font-size: 13px;
@@ -59,10 +83,10 @@
 
                 .mat-mdc-card-content {
                     .users {
-                        img {
+                        .user-avatar {
                             border-color: #1b232d;
                         }
-                        div {
+                        .user-count {
                             border-color: #1b232d;
                         }
                     }

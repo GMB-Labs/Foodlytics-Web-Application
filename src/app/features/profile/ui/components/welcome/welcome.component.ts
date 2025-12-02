@@ -50,10 +50,21 @@ export class WelcomeComponent implements OnInit {
 
   readonly photoUrl = computed(() => {
     return (
-      this.userStore.photoUrl() ||
-      this.authFacade.avatar() ||
-      "assets/images/welcome.webp"
+      this.userStore.photoUrl() || this.authFacade.avatar() || null
     );
+  });
+
+  readonly photoInitials = computed(() => {
+    const name = this.nutritionistName() || "N";
+    const parts = name
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+    const initials = parts
+      .slice(0, 2)
+      .map((part) => part[0]?.toUpperCase() ?? "")
+      .join("");
+    return initials || "N";
   });
 
   ngOnInit(): void {

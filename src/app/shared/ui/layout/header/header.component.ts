@@ -65,11 +65,20 @@ export class HeaderComponent {
   });
 
   readonly profileAvatar = computed(() => {
-    return (
-      this.userStore.photoUrl() ||
-      this.auth.avatar() ||
-      "assets/images/admin.webp"
-    );
+    return this.userStore.photoUrl() || this.auth.avatar() || null;
+  });
+
+  readonly profileInitials = computed(() => {
+    const name = this.profileName() || "User";
+    const parts = name
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+    const initials = parts
+      .slice(0, 2)
+      .map((value) => value[0]?.toUpperCase() ?? "")
+      .join("");
+    return initials || "U";
   });
 
   logout() {
@@ -137,4 +146,3 @@ export class HeaderComponent {
     }
   }
 }
-

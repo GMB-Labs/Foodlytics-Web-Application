@@ -30,12 +30,18 @@
       </div>
       <div class="col-lg-6">
         <div class="image">
-          <img
-            [src]="photoSrc()"
-            [alt]="headerInfo().fullName"
-            width="345"
-            height="235"
-          />
+          @if (photoSrc()) {
+            <img
+              [src]="photoSrc()"
+              [alt]="headerInfo().fullName"
+              width="345"
+              height="235"
+            />
+          } @else {
+            <div class="avatar-placeholder">
+              {{ photoInitials() }}
+            </div>
+          }
         </div>
       </div>
     </div>

@@ -31,7 +31,6 @@ import { PatientDetailStore } from "../../../../../data-access/stores/patient-de
 export class PatientsWelcomeComponent {
   currentDate = signal(new Date());
 
-  private readonly fallbackAvatar = "assets/images/users/user1.webp";
   public themeService = inject(CustomizerSettingsService);
   private welcomeService = inject(WelcomeService);
   private readonly patientDetailStore = inject(PatientDetailStore);
@@ -41,8 +40,9 @@ export class PatientsWelcomeComponent {
   protected readonly headerInfo = computed(() =>
     this.patientDetailStore.viewModel(),
   );
-  protected readonly photoSrc = computed(
-    () => this.patientDetailStore.photoUrl() ?? this.fallbackAvatar,
+  protected readonly photoSrc = computed(() => this.patientDetailStore.photoUrl());
+  protected readonly photoInitials = computed(() =>
+    this.buildInitials(this.headerInfo().fullName),
   );
 
   constructor() {
@@ -65,5 +65,18 @@ export class PatientsWelcomeComponent {
         if (el) this.welcomeService.destroy(el);
       }
     });
+  }
+
+  private buildInitials(fullName?: string): string {
+    const normalized = (fullName ?? "").trim();
+    if (!normalized) return "P";
+
+    const parts = normalized.split(/\s+/).filter(Boolean);
+    const initials = parts
+      .slice(0, 2)
+      .map((part) => part[0]?.toUpperCase() ?? "")
+      .join("");
+
+    return initials || "P";
   }
 }
