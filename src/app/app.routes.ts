@@ -53,11 +53,6 @@ export const routes: Routes = [
           import("./features/settings/routes").then((m) => m.SETTINGS_ROUTES),
       },
       {
-        path: "invoices",
-        loadChildren: () =>
-          import("./features/invoice/routes").then((m) => m.INVOICE_ROUTES),
-      },
-      {
         path: "profile",
         loadChildren: () =>
           import("./features/profile/routes").then((m) => m.PROFILE_ROUTES),
