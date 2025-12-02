@@ -40,8 +40,10 @@ export class WelcomeService {
         return;
       }
 
-      // Normalize BMI to 0-100 for gauge (BMI range 15-40 maps to 0-100)
-      const normalized = Math.max(0, Math.min(100, ((bmi - 15) / 25) * 100));
+      // Normalize BMI to 0-100 for gauge (BMI range 15-35 maps to 0-100)
+      // Clamp BMI between 15 and 35, then map to 0-100%
+      const clampedBmi = Math.max(15, Math.min(35, bmi));
+      const normalized = ((clampedBmi - 15) / (35 - 15)) * 100;
       const gaugeValue = Math.round(normalized);
       const bmiDisplay = bmi.toFixed(1);
 
