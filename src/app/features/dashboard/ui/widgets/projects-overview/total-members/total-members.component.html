@@ -5,53 +5,27 @@
   <mat-card-content>
     <div class="d-md-flex align-items-center justify-content-between">
       <div class="title">
-        <h5>Total Members</h5>
-        <div class="number fw-medium lh-1">75</div>
+        <h5>Total Patients</h5>
+        <div class="number fw-medium lh-1">{{ totalPatients() }}</div>
       </div>
       <div class="users d-flex align-items-center">
-        <img
-          ngSrc="../../../../../../../assets/images/users/user12.webp"
-          alt="user-image"
-          height="200"
-          width="200"
-        />
-        <img
-          ngSrc="../../../../../../../assets/images/users/user13.webp"
-          alt="user-image"
-          height="200"
-          width="200"
-        />
-        <img
-          ngSrc="../../../../../../../assets/images/users/user14.webp"
-          alt="user-image"
-          height="200"
-          width="200"
-        />
-        <img
-          ngSrc="../../../../../../../assets/images/users/user15.webp"
-          alt="user-image"
-          height="200"
-          width="200"
-        />
-        <img
-          ngSrc="../../../../../../../assets/images/users/user16.webp"
-          alt="user-image"
-          height="200"
-          width="200"
-        />
-        <div class="fw-medium bg-primary fw-medium text-white rounded-circle">
-          +50
-        </div>
+        @for (patient of recentPatients(); track patient.user_id) {
+          <img
+            [src]="patient.avatarUrl"
+            [alt]="patient.first_name + ' ' + patient.last_name"
+            height="37"
+            width="37"
+          />
+        }
+        @if (totalPatients() > 5) {
+          <div class="fw-medium bg-primary fw-medium text-white rounded-circle">
+            +{{ totalPatients() - 5 }}
+          </div>
+        }
       </div>
     </div>
     <div class="info d-flex align-items-center justify-content-between">
-      <span class="sub-title d-block text-body"> Projects engagement 50% </span>
-      <!-- <span class="daxa-up-down-badge position-relative">
-                <i class="material-symbols-outlined">
-                    trending_up
-                </i>
-                0.99%
-            </span> -->
+      <span class="sub-title d-block text-body"> Patients under your care </span>
     </div>
   </mat-card-content>
 </mat-card>

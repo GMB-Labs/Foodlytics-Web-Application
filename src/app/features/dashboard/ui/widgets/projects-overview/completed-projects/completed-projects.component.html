@@ -5,26 +5,23 @@
   <mat-card-content>
     <div class="d-flex justify-content-between">
       <div class="title">
-        <h5>Completed Projects</h5>
-        <div class="number fw-medium lh-1">178</div>
+        <h5>Completed Profiles</h5>
+        <div class="number fw-medium lh-1">{{ completedProfiles() }}</div>
       </div>
       <div
         class="icon text-center bg-info rounded-circle text-white position-relative"
       >
-        <img
-          ngSrc="../../../../../../../assets/images/icons/completed-projects.svg"
-          alt="completed-projects-icon"
-          height="36"
-          width="35"
-        />
+        <i class="material-symbols-outlined" style="font-size: 36px; transform: translateY(-50%); position: absolute; top: 50%; left: 0; right: 0; margin: 0 auto;"> assignment_turned_in </i>
       </div>
     </div>
     <div class="info d-flex align-items-center justify-content-between">
-      <span class="sub-title d-block text-body"> Projects this month </span>
-      <span class="daxa-up-down-badge position-relative">
-        <i class="material-symbols-outlined"> trending_up </i>
-        4.75%
-      </span>
+      <span class="sub-title d-block text-body"> Profiles completed </span>
+      @if (totalPatients() > 0) {
+        <span class="daxa-up-down-badge position-relative">
+          <i class="material-symbols-outlined"> trending_up </i>
+          {{ completionPercentage() }}%
+        </span>
+      }
     </div>
   </mat-card-content>
 </mat-card>

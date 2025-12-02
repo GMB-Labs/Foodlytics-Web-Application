@@ -30,17 +30,32 @@
                             color: var(--daxaColor);
                             background: rgba(15, 121, 243, 0.10);
 
-                            &.in-progress {
-                                color: var(--warningColor);
-                                background: rgba(241, 179, 28, 0.10);
-                            }
-                            &.pending {
+                            &.completed {
                                 color: var(--successColor);
                                 background: rgba(46, 212, 126, 0.10);
                             }
-                            &.not-started {
-                                color: var(--dangerColor);
-                                background: rgba(231, 76, 60, 0.10);
+                            &.incomplete {
+                                color: var(--warningColor);
+                                background: rgba(241, 179, 28, 0.10);
+                            }
+                        }
+                        .image {
+                            width: 40px;
+                            height: 40px;
+                            line-height: 0;
+                            margin-right: 12px;
+                            border-radius: 50%;
+                            overflow: hidden;
+                            display: inline-flex;
+                            align-items: center;
+                            justify-content: center;
+
+                            img {
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                                border-radius: inherit;
+                                display: block;
                             }
                         }
                     }
@@ -59,6 +74,12 @@
                                 &:last-child {
                                     text-align: left;
                                 }
+                            }
+                            .image {
+                                margin: {
+                                    right: 0;
+                                    left: 12px;
+                                };
                             }
                         }
                     }

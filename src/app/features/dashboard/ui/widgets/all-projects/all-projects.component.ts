@@ -1,236 +1,228 @@
-import { Component, ViewChild, AfterViewInit } from "@angular/core";
+import {
+  Component,
+  ViewChild,
+  AfterViewInit,
+  OnInit,
+  DestroyRef,
+  inject,
+} from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
-import { MatMenuModule } from "@angular/material/menu";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { RouterLink } from "@angular/router";
 import { CustomizerSettingsService } from "../../../../../core/customizer-settings/customizer-settings.service";
+import { PatientsApiService } from "../../../../patients/data-access/api/patients.api";
+import { PatientPictureApiService } from "../../../../patients/data-access/api/patient-picture.api";
+import { UserStore } from "../../../../../core/user/user.store";
+import { LoggerService } from "../../../../../core/logger/logger.service";
+import { Patient } from "../../../../patients/domain/models";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { finalize, take } from "rxjs/operators";
 
 @Component({
   selector: "app-all-projects",
   imports: [
     MatCardModule,
-    MatMenuModule,
     MatButtonModule,
     MatTableModule,
     MatPaginatorModule,
     MatTooltipModule,
+    RouterLink,
   ],
   templateUrl: "./all-projects.component.html",
   styleUrl: "./all-projects.component.scss",
 })
-export class AllProjectsComponent implements AfterViewInit {
+export class AllProjectsComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = [
-    "id",
-    "projectName",
-    "client",
-    "startDate",
-    "endDate",
-    "budget",
+    "photo",
+    "fullName",
+    "age",
+    "height",
+    "weight",
+    "gender",
+    "goal",
     "status",
     "action",
   ];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  dataSource = new MatTableDataSource<PatientTableItem>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  readonly themeService = inject(CustomizerSettingsService);
+  private readonly patientsApi = inject(PatientsApiService);
+  private readonly patientPictureApi = inject(PatientPictureApiService);
+  private readonly userStore = inject(UserStore);
+  private readonly logger = inject(LoggerService);
+  private readonly destroyRef = inject(DestroyRef);
+
+  isLoadingPatients = false;
+
+  private readonly fallbackAvatars: string[] = [
+    "assets/images/users/user1.webp",
+  ];
+
+  ngOnInit(): void {
+    this.loadPatients();
+  }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
 
-  constructor(public themeService: CustomizerSettingsService) {}
+  private loadPatients(): void {
+    const userId = this.userStore.userId();
+    if (!userId) {
+      this.logger.error(
+        "[AllProjectsComponent] Missing nutritionist user id when loading patients",
+      );
+      return;
+    }
+
+    this.isLoadingPatients = true;
+    this.patientsApi
+      .getPatientsByNutritionist(userId)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => {
+          this.isLoadingPatients = false;
+        }),
+      )
+      .subscribe({
+        next: (patients) => {
+          this.updateTableData(patients ?? []);
+        },
+        error: (error) => {
+          this.logger.error(
+            "[AllProjectsComponent] Error loading patients",
+            error,
+          );
+        },
+      });
+  }
+
+  private updateTableData(patients: Patient[]): void {
+    const mapped = patients.map((patient) => this.mapPatientToRow(patient));
+    this.dataSource.data = mapped;
+    this.loadProfilePictures(mapped);
+  }
+
+  private mapPatientToRow(patient: Patient): PatientTableItem {
+    return {
+      ...patient,
+      fullNameDisplay: this.buildFullName(
+        patient.first_name,
+        patient.last_name,
+      ),
+      avatarUrl: this.resolveAvatarUrl(patient),
+      genderLabel: this.getGenderLabel(patient.gender),
+      goalTypeLabel: this.getGoalTypeLabel(patient.goal_type),
+      status: patient.user_profile_completed
+        ? { completed: "Completed" }
+        : { incomplete: "Incomplete" },
+      action: {
+        view: "visibility",
+        delete: "delete",
+      },
+    };
+  }
+
+  private loadProfilePictures(rows: PatientTableItem[]): void {
+    rows.forEach((row) => {
+      if (!row.has_profile_picture) {
+        return;
+      }
+
+      this.patientPictureApi
+        .getProfilePicture(row.user_id)
+        .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+        .subscribe((pictureUrl) => {
+          if (!pictureUrl) {
+            return;
+          }
+
+          row.avatarUrl = pictureUrl;
+          this.refreshRenderedRows();
+        });
+    });
+  }
+
+  private refreshRenderedRows(): void {
+    this.dataSource.data = [...this.dataSource.data];
+  }
+
+  private buildFullName(
+    firstName?: string | null,
+    lastName?: string | null,
+  ): string {
+    const parts = [firstName, lastName]
+      .map((value) => (value ?? "").trim())
+      .filter((value) => !!value);
+    return parts.length ? parts.join(" ") : "Unnamed Patient";
+  }
+
+  private resolveAvatarUrl(patient: Patient): string {
+    const fallbackIndex =
+      Math.abs(this.hashString(patient.user_id ?? "")) %
+      this.fallbackAvatars.length;
+    return this.fallbackAvatars[fallbackIndex];
+  }
+
+  private hashString(value: string): number {
+    if (!value) return 0;
+    let hash = 0;
+    for (let i = 0; i < value.length; i += 1) {
+      hash = (hash << 5) - hash + value.charCodeAt(i);
+      hash |= 0;
+    }
+    return hash;
+  }
+
+  private getGenderLabel(gender?: Patient["gender"] | null): string {
+    switch (gender) {
+      case "male":
+        return "Male";
+      case "female":
+        return "Female";
+      case "other":
+      default:
+        return "Other";
+    }
+  }
+
+  private getGoalTypeLabel(goal?: Patient["goal_type"] | null): string | null {
+    switch (goal) {
+      case "definition":
+        return "Definition";
+      case "maintenance":
+        return "Maintenance";
+      case "bulking":
+        return "Bulking";
+      default:
+        return null;
+    }
+  }
+
+  onDeletePatient(row: PatientTableItem): void {
+    this.logger.log(
+      "[AllProjectsComponent] Delete patient requested",
+      row.user_id,
+    );
+  }
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    id: "#951",
-    projectName: "Hotel management system",
-    client: "Vaxo Corporation",
-    startDate: "15 Nov, 2024",
-    endDate: "15 Dec, 2024",
-    budget: "$5,250",
-    status: {
-      inProgress: "In Progress",
-      // pending: 'Pending',
-      // completed: 'Completed',
-      // notStarted: 'Not Started',
-    },
-    action: {
-      view: "visibility",
-      delete: "delete",
-    },
-  },
-  {
-    id: "#547",
-    projectName: "Product development",
-    client: "Beja Ltd",
-    startDate: "14 Nov, 2024",
-    endDate: "14 Dec, 2024",
-    budget: "$4,870",
-    status: {
-      // inProgress: 'In Progress',
-      pending: "Pending",
-      // completed: 'Completed',
-      // notStarted: 'Not Started',
-    },
-    action: {
-      view: "visibility",
-      delete: "delete",
-    },
-  },
-  {
-    id: "#658",
-    projectName: "Python upgrade",
-    client: "Aegis Industries",
-    startDate: "13 Nov, 2024",
-    endDate: "13 Dec, 2024",
-    budget: "$3,500",
-    status: {
-      // inProgress: 'In Progress',
-      // pending: 'Pending',
-      completed: "Completed",
-      // notStarted: 'Not Started',
-    },
-    action: {
-      view: "visibility",
-      delete: "delete",
-    },
-  },
-  {
-    id: "#367",
-    projectName: "Project monitoring",
-    client: "Affort Solutions",
-    startDate: "12 Nov, 2024",
-    endDate: "12 Dec, 2024",
-    budget: "$7,550",
-    status: {
-      // inProgress: 'In Progress',
-      // pending: 'Pending',
-      // completed: 'Completed',
-      notStarted: "Not Started",
-    },
-    action: {
-      view: "visibility",
-      delete: "delete",
-    },
-  },
-  {
-    id: "#469",
-    projectName: "Project alpho",
-    client: "Shawn Kennedy",
-    startDate: "11 Nov, 2024",
-    endDate: "11 Dec, 2024",
-    budget: "$2,500",
-    status: {
-      inProgress: "In Progress",
-      // pending: 'Pending',
-      // completed: 'Completed',
-      // notStarted: 'Not Started',
-    },
-    action: {
-      view: "visibility",
-      delete: "delete",
-    },
-  },
-  {
-    id: "#431",
-    projectName: "Multi-purpose landing",
-    client: "Addax Ltd",
-    startDate: "10 Nov, 2024",
-    endDate: "10 Dec, 2024",
-    budget: "$1,231",
-    status: {
-      // inProgress: 'In Progress',
-      pending: "Pending",
-      // completed: 'Completed',
-      // notStarted: 'Not Started',
-    },
-    action: {
-      view: "visibility",
-      delete: "delete",
-    },
-  },
-  {
-    id: "#542",
-    projectName: "Services & startup agency",
-    client: "Profun Solutions",
-    startDate: "09 Nov, 2024",
-    endDate: "09 Dec, 2024",
-    budget: "$2,412",
-    status: {
-      // inProgress: 'In Progress',
-      // pending: 'Pending',
-      completed: "Completed",
-      // notStarted: 'Not Started',
-    },
-    action: {
-      view: "visibility",
-      delete: "delete",
-    },
-  },
-  {
-    id: "#532",
-    projectName: "NFT marketplace",
-    client: "Futo Agency",
-    startDate: "08 Nov, 2024",
-    endDate: "08 Dec, 2024",
-    budget: "$5,412",
-    status: {
-      // inProgress: 'In Progress',
-      // pending: 'Pending',
-      // completed: 'Completed',
-      notStarted: "Not Started",
-    },
-    action: {
-      view: "visibility",
-      delete: "delete",
-    },
-  },
-  {
-    id: "#567",
-    projectName: "Money transfer",
-    client: "Alina Smith",
-    startDate: "07 Nov, 2024",
-    endDate: "07 Dec, 2024",
-    budget: "$6,421",
-    status: {
-      inProgress: "In Progress",
-      // pending: 'Pending',
-      // completed: 'Completed',
-      // notStarted: 'Not Started',
-    },
-    action: {
-      view: "visibility",
-      delete: "delete",
-    },
-  },
-  {
-    id: "#341",
-    projectName: "Project launchpad",
-    client: "Mave Metaverse",
-    startDate: "06 Nov, 2024",
-    endDate: "06 Dec, 2024",
-    budget: "$10,242",
-    status: {
-      // inProgress: 'In Progress',
-      // pending: 'Pending',
-      completed: "Completed",
-      // notStarted: 'Not Started',
-    },
-    action: {
-      view: "visibility",
-      delete: "delete",
-    },
-  },
-];
-export interface PeriodicElement {
-  id: string;
-  projectName: string;
-  client: string;
-  startDate: string;
-  endDate: string;
-  budget: string;
-  status: any;
-  action: any;
+interface PatientTableItem extends Patient {
+  fullNameDisplay: string;
+  avatarUrl: string;
+  genderLabel: string;
+  goalTypeLabel: string | null;
+  status: {
+    completed?: string;
+    incomplete?: string;
+  };
+  action: {
+    view: string;
+    delete: string;
+  };
 }

@@ -23,15 +23,6 @@ export const SETTINGS_ROUTES: Routes = [
               ).then((m) => m.AccountSettingsComponent),
           },
           {
-            path: "change-password",
-            title: "Change Password",
-            data: { breadcrumb: "Cambiar Contraseña" },
-            loadComponent: () =>
-              import(
-                "./ui/components/change-password/change-password.component"
-              ).then((m) => m.ChangePasswordComponent),
-          },
-          {
             path: "privacy-policy",
             title: "Privacy Policy",
             data: { breadcrumb: "Políticas de Privacidad" },
