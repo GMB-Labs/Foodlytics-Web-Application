@@ -1,4 +1,4 @@
-import { Location, NgClass, NgOptimizedImage } from "@angular/common";
+import { Location, NgOptimizedImage } from "@angular/common";
 import { MatMenuModule } from "@angular/material/menu";
 import {
   Component,
@@ -20,7 +20,6 @@ import { take } from "rxjs";
 @Component({
   selector: "app-header",
   imports: [
-    NgClass,
     MatMenuModule,
     MatButtonModule,
     RouterLink,
@@ -87,16 +86,13 @@ export class HeaderComponent {
     this.auth.logout();
   }
 
-  // isSidebarToggled
-  isSidebarToggled = false;
+  private readonly toggleService = inject(ToggleService);
+  readonly isSidebarToggled = this.toggleService.isSidebarToggled;
 
   // isToggled
   isToggled = false;
 
-  constructor(private toggleService: ToggleService) {
-    this.toggleService.isSidebarToggled$.subscribe((isSidebarToggled) => {
-      this.isSidebarToggled = isSidebarToggled;
-    });
+  constructor() {
     this.themeService.isToggled$.subscribe((isToggled) => {
       this.isToggled = isToggled;
     });

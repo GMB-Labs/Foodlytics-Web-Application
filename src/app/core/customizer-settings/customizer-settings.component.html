@@ -1,6 +1,6 @@
 <!-- Sidebar -->
 <div
-  [ngClass]="{ active: isToggled }"
+  [class.active]="isToggled"
   class="settings-sidebar bg-white box-shadow"
   [class.component-dark-theme]="themeService.isDark()"
   [class.component-rtl-enabled]="themeService.isRTLEnabled()"
@@ -103,7 +103,7 @@
   mat-fab
   (click)="toggle()"
   class="daxa settings-btn rounded-circle"
-  [ngClass]="{ active: isToggled }"
+  [class.active]="isToggled"
   [class.component-rtl-enabled]="themeService.isRTLEnabled()"
 >
   <mat-icon>settings</mat-icon>

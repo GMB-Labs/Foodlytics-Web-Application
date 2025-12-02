@@ -1,6 +1,7 @@
 <header
   class="header-area bg-white border-radius transition"
-  [ngClass]="{ active: isSidebarToggled, sticky: isSticky }"
+  [class.active]="isSidebarToggled()"
+  [class.sticky]="isSticky"
   [class.component-dark-theme]="themeService.isDark()"
   [class.right-sidebar]="themeService.isRightSidebar()"
   [class.hide-sidebar]="themeService.isHideSidebar()"
@@ -12,7 +13,7 @@
     <div class="header-left-side d-flex align-items-center">
       <div
         class="burger-menu cursor-pointer transition d-xl-none"
-        [ngClass]="{ active: isSidebarToggled }"
+        [class.active]="isSidebarToggled()"
         (click)="toggle()"
       >
         <span class="top-bar d-block bg-black transition"></span>

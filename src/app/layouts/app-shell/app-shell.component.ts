@@ -12,10 +12,11 @@ import { Event, NavigationEnd, Router, RouterOutlet } from "@angular/router";
 import { FooterComponent } from "../../shared/ui/layout/footer/footer.component";
 import { CustomizerSettingsComponent } from "../../core/customizer-settings/customizer-settings.component";
 import { ToggleService } from "../../core/services/toggle.service";
-import { isPlatformBrowser, NgClass, ViewportScroller } from "@angular/common";
+import { isPlatformBrowser, ViewportScroller } from "@angular/common";
 import { CustomizerSettingsService } from "../../core/customizer-settings/customizer-settings.service";
-import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
+import { toSignal } from "@angular/core/rxjs-interop";
 import { filter } from "rxjs";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { AuthService } from "@auth0/auth0-angular";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 
@@ -43,7 +44,7 @@ import { MatProgressSpinner } from "@angular/material/progress-spinner";
         <!-- Main Content -->
         <div
           class="main-content transition d-flex flex-column"
-          [ngClass]="{ active: isSidebarToggled }"
+          [class.active]="isSidebarToggled()"
           [class.right-sidebar]="themeService.isRightSidebar()"
           [class.hide-sidebar]="themeService.isHideSidebar()"
         >
@@ -65,7 +66,6 @@ import { MatProgressSpinner } from "@angular/material/progress-spinner";
     RouterOutlet,
     FooterComponent,
     CustomizerSettingsComponent,
-    NgClass,
     MatProgressSpinner,
   ],
   host: { class: "block" },
@@ -73,12 +73,12 @@ import { MatProgressSpinner } from "@angular/material/progress-spinner";
 export class AppShellComponent {
   protected readonly title = signal("Foodlytics - Web Application");
   readonly themeService = inject(CustomizerSettingsService);
+  private readonly toggleService = inject(ToggleService);
 
-  isSidebarToggled = false;
+  readonly isSidebarToggled = this.toggleService.isSidebarToggled;
 
   private readonly router = inject(Router);
   private readonly viewport = inject(ViewportScroller);
-  private readonly toggleService = inject(ToggleService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
@@ -95,10 +95,6 @@ export class AppShellComponent {
   readonly loadingApp = computed(() => this.authLoadingSig());
 
   constructor() {
-    this.toggleService.isSidebarToggled$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((v) => (this.isSidebarToggled = v));
-
     this.router.events
       .pipe(
         takeUntilDestroyed(this.destroyRef),

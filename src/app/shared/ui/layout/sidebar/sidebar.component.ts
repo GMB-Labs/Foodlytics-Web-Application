@@ -3,7 +3,7 @@ import { NgScrollbarModule } from "ngx-scrollbar";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { RouterLink, RouterLinkActive, RouterModule } from "@angular/router";
 import { ToggleService } from "../../../../core/services/toggle.service";
-import { NgClass, NgOptimizedImage } from "@angular/common";
+import { NgOptimizedImage } from "@angular/common";
 import { CustomizerSettingsService } from "../../../../core/customizer-settings/customizer-settings.service";
 import { AuthFacade } from "../../../../core/auth/auth.facade";
 
@@ -15,7 +15,6 @@ import { AuthFacade } from "../../../../core/auth/auth.facade";
     RouterLinkActive,
     RouterModule,
     RouterLink,
-    NgClass,
     NgOptimizedImage,
   ],
   templateUrl: "./sidebar.component.html",
@@ -24,24 +23,21 @@ import { AuthFacade } from "../../../../core/auth/auth.facade";
 export class SidebarComponent {
   public themeService = inject(CustomizerSettingsService);
   private auth = inject(AuthFacade);
+  private readonly toggleService = inject(ToggleService);
 
-  logout() {
-    this.auth.logout();
-  }
-
-  // isSidebarToggled
-  isSidebarToggled = false;
+  readonly isSidebarToggled = this.toggleService.isSidebarToggled;
 
   // isToggled
   isToggled = false;
 
-  constructor(private toggleService: ToggleService) {
-    this.toggleService.isSidebarToggled$.subscribe((isSidebarToggled) => {
-      this.isSidebarToggled = isSidebarToggled;
-    });
+  constructor() {
     this.themeService.isToggled$.subscribe((isToggled) => {
       this.isToggled = isToggled;
     });
+  }
+
+  logout() {
+    this.auth.logout();
   }
 
   // Burger Menu Toggle

@@ -1,15 +1,14 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { Injectable, signal } from "@angular/core";
 
 @Injectable({
   providedIn: "root",
 })
 export class ToggleService {
-  private isSidebarToggled = new BehaviorSubject<boolean>(false);
-  get isSidebarToggled$() {
-    return this.isSidebarToggled.asObservable();
-  }
-  toggle() {
-    this.isSidebarToggled.next(!this.isSidebarToggled.value);
+  private readonly isSidebarToggledSig = signal<boolean>(false);
+  
+  readonly isSidebarToggled = this.isSidebarToggledSig.asReadonly();
+  
+  toggle(): void {
+    this.isSidebarToggledSig.update((v) => !v);
   }
 }
